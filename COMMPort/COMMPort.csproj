@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D0CCF96A-1633-46E8-B57D-F2A4E75DF1A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Harry.LabCOMMPort</RootNamespace>
+    <AssemblyName>COMMPort</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="COMMBasePort\COMMBasePort.cs" />
+    <Compile Include="COMMBasePort\COMMBasePortPlus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="COMMBasePort\COMMBasePortPlus.Designer.cs">
+      <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="COMMBasePort\COMMWatcherPort.cs" />
+    <Compile Include="COMMPortForm\COMMBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="COMMPortForm\COMMBaseForm.Designer.cs">
+      <DependentUpon>COMMBaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="COMMPortForm\COMMSerialPortParamForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="COMMPortForm\COMMSerialPortParamForm.Designer.cs">
+      <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="COMMSerialPort\COMMSerialPort.cs" />
+    <Compile Include="COMMSerialPort\COMMSerialPortPlus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="COMMSerialPort\COMMSerialPortPlus.Designer.cs">
+      <DependentUpon>COMMSerialPortPlus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="COMMSerialPort\COMMSerialPortPlusFull.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="COMMSerialPort\COMMSerialPortPlusFull.Designer.cs">
+      <DependentUpon>COMMSerialPortPlusFull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="COMMUSBPort\COMMUSBPort.cs" />
+    <Compile Include="COMMUSBPort\COMMUSBPortPlus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="COMMUSBPort\COMMUSBPortPlus.Designer.cs">
+      <DependentUpon>COMMUSBPortPlus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserControlPlus\UserControlPlus.csproj">
+      <Project>{E54A51A6-A054-4F21-AC22-A827B5EF4D36}</Project>
+      <Name>UserControlPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserGenFunc\UserGenFunc.csproj">
+      <Project>{C64AEEA0-7A08-4786-9F1E-BD66608E190E}</Project>
+      <Name>UserGenFunc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="COMMBasePort\COMMBasePortPlus.en.resx">
+      <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMBasePort\COMMBasePortPlus.ja.resx">
+      <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMBasePort\COMMBasePortPlus.resx">
+      <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMBasePort\COMMBasePortPlus.zh.resx">
+      <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMPortForm\COMMSerialPortParamForm.resx">
+      <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMSerialPort\COMMSerialPortPlus.resx">
+      <DependentUpon>COMMSerialPortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMSerialPort\COMMSerialPortPlusFull.resx">
+      <DependentUpon>COMMSerialPortPlusFull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COMMBasePort\Resources\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COMMBasePort\Resources\lost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COMMBasePort\Resources\open.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
