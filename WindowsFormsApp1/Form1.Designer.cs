@@ -47,7 +47,7 @@
 			this.commSerialPortPlus1.m_COMMForm = null;
 			this.commSerialPortPlus1.m_COMMPort = null;
 			this.commSerialPortPlus1.m_COMMRichTextBox = null;
-			this.commSerialPortPlus1.m_COMMSerialPortParam = null;
+			this.commSerialPortPlus1.m_COMMPortParam = null;
 			this.commSerialPortPlus1.Margin = new System.Windows.Forms.Padding(4);
 			this.commSerialPortPlus1.Name = "commSerialPortPlus1";
 			this.commSerialPortPlus1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);

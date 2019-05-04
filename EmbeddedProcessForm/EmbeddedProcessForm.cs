@@ -42,6 +42,22 @@ namespace Harry.LabEmbeddedProcessForm
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="exeName">嵌入程序的名称</param>
+		public EmbeddedProcessForm(string exeName)
+		{
+			InitializeComponent();
+
+			this.Load += new EventHandler(this.EmbeddedForm_FormLoad);
+
+			this.Text = exeName;
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="exePatch">嵌入程序的路径</param>
+		/// <param name="exeName">嵌入程序的名称</param>
 		public EmbeddedProcessForm(string exePatch,string exeName)
 		{
 			InitializeComponent();
@@ -53,31 +69,17 @@ namespace Harry.LabEmbeddedProcessForm
 
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public EmbeddedProcessForm(string exeName)
-		{
-			InitializeComponent();
-
-			this.Load += new EventHandler(this.EmbeddedForm_FormLoad);
-
-			this.Text = exeName;
-
-		}
-
 		#endregion
 
 		#region 初始化
 
 		/// <summary>
-		/// 船体初始化函数
+		/// 窗体初始化函数
 		/// </summary>
-		private void MdiForm_Init()
+		private void EmbeddedForm_Init()
 		{
 			//---事件注册
 			this.FormClosing += new FormClosingEventHandler(this.EmbeddedForm_FormClosing);
-
 		}
 		
 		#endregion
@@ -92,11 +94,11 @@ namespace Harry.LabEmbeddedProcessForm
 
 		private void EmbeddedForm_FormLoad(object sender, System.EventArgs e)
 		{
-			this.MdiForm_Init();
+			this.EmbeddedForm_Init();
 		}
 
 		/// <summary>
-		/// 
+		/// 窗体关闭事件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>

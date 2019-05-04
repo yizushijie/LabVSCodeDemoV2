@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace Harry.LabCOMMPort
 {
+	#region CRC校验方式
 	/// <summary>
 	/// CRC校验方式
 	/// </summary>
@@ -16,8 +17,10 @@ namespace Harry.LabCOMMPort
         CRC_CRC16 = 3,          //---CRC16校验
         CRC_CRC32 = 4,          //---CRC32校验
     };
+	#endregion
 
-    /// <summary>
+	#region 通信状态
+	/// <summary>
 	/// 通信状态
 	/// </summary>
 	public enum USE_STATE : byte
@@ -28,11 +31,12 @@ namespace Harry.LabCOMMPort
         EVENT_READ=3,           //---事件读取状态
         ERROR = 4,              //---错误状态
     };
+	#endregion
 
 	#region 通讯数据格式
 
 	/// <summary>
-	/// 数据通讯结构
+	/// 数据通讯类型
 	/// </summary>
 	public class COMMDataType
 	{
@@ -179,11 +183,11 @@ namespace Harry.LabCOMMPort
 				}
 
 				//---数据缓存区
-				if (this.commByte==null)
+				if ((this.commByte==null)||(this.commByte.Count > 0))
 				{
 					this.commByte = new List<byte>();
 				}
-
+				
 				//---数据拷贝
 				for ( _return = 0; _return < this.commLength; _return++)
 				{
@@ -300,21 +304,18 @@ namespace Harry.LabCOMMPort
 
 	#endregion
 
-
-	#region 串口端口的配置参数
+	#region 通信端口的参数配置
 
 	/// <summary>
-	/// 通讯串口的参数
+	/// 通讯端口的配置
 	/// </summary>
-	public class COMMSerialPortParam
+	public class COMMPortParam
 	{
 		#region 变量定义
 
-		public string name = null;
-		public string baudRate = "115200";
-		public string parity = "NONE";
-		public string dataBits = "8";
-		public string stopBits = "1";
+		#endregion
+
+		#region 属性定义
 
 		#endregion
 
@@ -323,152 +324,18 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		public COMMSerialPortParam()
+		public COMMPortParam()
 		{
-			this.name = null;
-			this.baudRate = "115200";
-			this.parity = "NONE";
-			this.dataBits = "8";
-			this.stopBits = "1";
-		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		public COMMSerialPortParam(string name)
-		{
-			this.name = name;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		public COMMSerialPortParam(string name, string baudRate)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		public COMMSerialPortParam(string name, string baudRate, string parity)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		/// <param name="dataBits"></param>
-		public COMMSerialPortParam(string name, string baudRate, string parity, string dataBits)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-			this.dataBits = dataBits;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		/// <param name="dataBits"></param>
-		/// <param name="stopBits"></param>
-		public COMMSerialPortParam(string name, string baudRate, string parity, string dataBits, string stopBits)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-			this.dataBits = dataBits;
-			this.stopBits = stopBits;
 		}
 
 		#endregion
 
 		#region 函数定义
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		public void Init(string name)
-		{
-			this.name = name;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		public void Init(string name, string baudRate)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		public void Init(string name, string baudRate, string parity)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		/// <param name="dataBits"></param>
-		public void Init(string name, string baudRate, string parity, string dataBits)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-			this.dataBits = dataBits;
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="baudRate"></param>
-		/// <param name="parity"></param>
-		/// <param name="dataBits"></param>
-		/// <param name="stopBits"></param>
-		public void Init(string name, string baudRate, string parity, string dataBits, string stopBits)
-		{
-			this.name = name;
-			this.baudRate = baudRate;
-			this.parity = parity;
-			this.dataBits = dataBits;
-			this.stopBits = stopBits;
-		}
 		#endregion
 
-	};
-
+	}
 	#endregion
 
 	#region 通讯端口的基类
@@ -570,7 +437,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 串口使用的参数
 		/// </summary>
-		private COMMSerialPortParam commSerialPortParam = new COMMSerialPortParam();
+		public COMMPortParam commPortParam = new COMMPortParam();
 
 		#endregion
 
@@ -858,25 +725,6 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual COMMSerialPortParam m_COMMSerialPortParam
-		{
-			get
-			{
-				return this.commSerialPortParam;
-			}
-			set
-			{
-				if (this.commSerialPortParam == null)
-				{
-					this.commSerialPortParam = new COMMSerialPortParam();
-				}
-				this.commSerialPortParam = value;
-			}
-		}
-
 		#endregion
 
 		#region 构造函数
@@ -935,7 +783,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="bandRate"></param>
 		/// <param name="msg"></param>
-		public COMMBasePort(COMMSerialPortParam commSerialPortParam, RichTextBox msg)
+		public COMMBasePort(COMMPortParam commPortParam, RichTextBox msg)
 		{
 
 		}
@@ -945,7 +793,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="commSerialPortParam"></param>
 		/// <param name="msg"></param>
-		public COMMBasePort(Form argForm, COMMSerialPortParam commSerialPortParam, RichTextBox msg)
+		public COMMBasePort(Form argForm, COMMPortParam commSerialPortParam, RichTextBox msg)
 		{
 
 		}
@@ -1061,7 +909,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="commSerialPortParam"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
-		public virtual int Init(COMMSerialPortParam commSerialPortParam, RichTextBox msg = null)
+		public virtual int Init(COMMPortParam commSerialPortParam, RichTextBox msg = null)
 		{
 			return 1;
 		}
@@ -1473,7 +1321,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argName"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
-		public virtual int OpenDevice(COMMSerialPortParam commSerialPortParam, RichTextBox msg = null)
+		public virtual int OpenDevice(COMMPortParam commSerialPortParam, RichTextBox msg = null)
 		{
 			return 1;
 		}

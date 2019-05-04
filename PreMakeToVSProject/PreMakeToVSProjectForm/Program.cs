@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Harry.LabUserControlPlus;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +20,13 @@ namespace Harry.LabPreMakeToVSProject
 			Application.SetCompatibleTextRenderingDefault(false);
 			if (arg.Count()>0)
 			{
-				Application.Run(new PreMakeToVSProjectForm(arg[0]));
+                string str = null;
+                for (int i = 0; i < arg.Length; i++)
+                {
+                    str += arg[i].ToString();
+                }
+                //MessageBox.Show(str);
+                Application.Run(new PreMakeToVSProjectForm(str));
 			}
 			else
 			{

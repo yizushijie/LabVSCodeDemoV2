@@ -46,9 +46,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UserGenFunc">
-      <HintPath>..\UserGenFunc\bin\Debug\UserGenFunc.dll</HintPath>
-    </Reference>
     <Reference Include="WinAPI">
       <HintPath>..\WinAPI\bin\Debug\WinAPI.dll</HintPath>
     </Reference>

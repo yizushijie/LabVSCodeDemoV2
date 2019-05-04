@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam1 = new Harry.LabCOMMPort.COMMSerialPortParam();
 			this.commSerialPortPlusFullParam = new Harry.LabCOMMPort.COMMSerialPortPlusFull();
 			this.SuspendLayout();
 			// 
@@ -38,7 +37,6 @@
 			this.commSerialPortPlusFullParam.m_COMMForm = null;
 			this.commSerialPortPlusFullParam.m_COMMPort = null;
 			this.commSerialPortPlusFullParam.m_COMMRichTextBox = null;
-			this.commSerialPortPlusFullParam.m_COMMSerialPortParam = commSerialPortParam1;
 			this.commSerialPortPlusFullParam.Margin = new System.Windows.Forms.Padding(5);
 			this.commSerialPortPlusFullParam.Name = "commSerialPortPlusFullParam";
 			this.commSerialPortPlusFullParam.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);

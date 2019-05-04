@@ -40,24 +40,25 @@
 			this.checkBox_OpenVSProject = new System.Windows.Forms.CheckBox();
 			this.groupBox_DesProject = new System.Windows.Forms.GroupBox();
 			this.groupBox_SrcProject = new System.Windows.Forms.GroupBox();
+			this.groupBox_Note = new System.Windows.Forms.GroupBox();
+			this.label_Note1 = new System.Windows.Forms.Label();
 			this.groupBox_DesProject.SuspendLayout();
 			this.groupBox_SrcProject.SuspendLayout();
+			this.groupBox_Note.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TextBox_SrcProjectPath
 			// 
-			this.TextBox_SrcProjectPath.Location = new System.Drawing.Point(87, 25);
-			this.TextBox_SrcProjectPath.Margin = new System.Windows.Forms.Padding(4);
+			this.TextBox_SrcProjectPath.Location = new System.Drawing.Point(65, 20);
 			this.TextBox_SrcProjectPath.Name = "TextBox_SrcProjectPath";
-			this.TextBox_SrcProjectPath.Size = new System.Drawing.Size(393, 25);
+			this.TextBox_SrcProjectPath.Size = new System.Drawing.Size(296, 21);
 			this.TextBox_SrcProjectPath.TabIndex = 2;
 			// 
 			// button_SelectSrcProject
 			// 
-			this.button_SelectSrcProject.Location = new System.Drawing.Point(494, 21);
-			this.button_SelectSrcProject.Margin = new System.Windows.Forms.Padding(4);
+			this.button_SelectSrcProject.Location = new System.Drawing.Point(370, 17);
 			this.button_SelectSrcProject.Name = "button_SelectSrcProject";
-			this.button_SelectSrcProject.Size = new System.Drawing.Size(100, 29);
+			this.button_SelectSrcProject.Size = new System.Drawing.Size(75, 23);
 			this.button_SelectSrcProject.TabIndex = 3;
 			this.button_SelectSrcProject.Text = "选择项目";
 			this.button_SelectSrcProject.UseVisualStyleBackColor = true;
@@ -65,20 +66,18 @@
 			// label_SrcProjectName
 			// 
 			this.label_SrcProjectName.AutoSize = true;
-			this.label_SrcProjectName.Location = new System.Drawing.Point(12, 28);
-			this.label_SrcProjectName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label_SrcProjectName.Location = new System.Drawing.Point(9, 22);
 			this.label_SrcProjectName.Name = "label_SrcProjectName";
-			this.label_SrcProjectName.Size = new System.Drawing.Size(67, 15);
+			this.label_SrcProjectName.Size = new System.Drawing.Size(53, 12);
 			this.label_SrcProjectName.TabIndex = 4;
 			this.label_SrcProjectName.Text = "项目名称";
 			// 
 			// label_SrcProjectVersion
 			// 
 			this.label_SrcProjectVersion.AutoSize = true;
-			this.label_SrcProjectVersion.Location = new System.Drawing.Point(16, 32);
-			this.label_SrcProjectVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label_SrcProjectVersion.Location = new System.Drawing.Point(12, 26);
 			this.label_SrcProjectVersion.Name = "label_SrcProjectVersion";
-			this.label_SrcProjectVersion.Size = new System.Drawing.Size(91, 15);
+			this.label_SrcProjectVersion.Size = new System.Drawing.Size(71, 12);
 			this.label_SrcProjectVersion.TabIndex = 5;
 			this.label_SrcProjectVersion.Text = "项目工程IDE";
 			// 
@@ -89,19 +88,17 @@
 			this.comboBox_SrcProjectVersion.Items.AddRange(new object[] {
             "Keil",
             "IAR"});
-			this.comboBox_SrcProjectVersion.Location = new System.Drawing.Point(15, 51);
-			this.comboBox_SrcProjectVersion.Margin = new System.Windows.Forms.Padding(4);
+			this.comboBox_SrcProjectVersion.Location = new System.Drawing.Point(11, 41);
 			this.comboBox_SrcProjectVersion.Name = "comboBox_SrcProjectVersion";
-			this.comboBox_SrcProjectVersion.Size = new System.Drawing.Size(92, 23);
+			this.comboBox_SrcProjectVersion.Size = new System.Drawing.Size(70, 20);
 			this.comboBox_SrcProjectVersion.TabIndex = 6;
 			// 
 			// label_VisualStudioProjectVersion
 			// 
 			this.label_VisualStudioProjectVersion.AutoSize = true;
-			this.label_VisualStudioProjectVersion.Location = new System.Drawing.Point(130, 32);
-			this.label_VisualStudioProjectVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label_VisualStudioProjectVersion.Location = new System.Drawing.Point(98, 26);
 			this.label_VisualStudioProjectVersion.Name = "label_VisualStudioProjectVersion";
-			this.label_VisualStudioProjectVersion.Size = new System.Drawing.Size(103, 15);
+			this.label_VisualStudioProjectVersion.Size = new System.Drawing.Size(77, 12);
 			this.label_VisualStudioProjectVersion.TabIndex = 7;
 			this.label_VisualStudioProjectVersion.Text = "VisualStudio";
 			// 
@@ -118,18 +115,16 @@
             "vs2010",
             "vs2008",
             "vs2005"});
-			this.comboBox_VisualStudioVersion.Location = new System.Drawing.Point(133, 51);
-			this.comboBox_VisualStudioVersion.Margin = new System.Windows.Forms.Padding(4);
+			this.comboBox_VisualStudioVersion.Location = new System.Drawing.Point(100, 41);
 			this.comboBox_VisualStudioVersion.Name = "comboBox_VisualStudioVersion";
-			this.comboBox_VisualStudioVersion.Size = new System.Drawing.Size(100, 23);
+			this.comboBox_VisualStudioVersion.Size = new System.Drawing.Size(76, 20);
 			this.comboBox_VisualStudioVersion.TabIndex = 8;
 			// 
 			// button_ToVisualProject
 			// 
-			this.button_ToVisualProject.Location = new System.Drawing.Point(494, 28);
-			this.button_ToVisualProject.Margin = new System.Windows.Forms.Padding(4);
+			this.button_ToVisualProject.Location = new System.Drawing.Point(370, 22);
 			this.button_ToVisualProject.Name = "button_ToVisualProject";
-			this.button_ToVisualProject.Size = new System.Drawing.Size(100, 29);
+			this.button_ToVisualProject.Size = new System.Drawing.Size(75, 23);
 			this.button_ToVisualProject.TabIndex = 9;
 			this.button_ToVisualProject.Text = "工程转换";
 			this.button_ToVisualProject.UseVisualStyleBackColor = true;
@@ -139,10 +134,9 @@
 			this.checkBox_CloseApplication.AutoSize = true;
 			this.checkBox_CloseApplication.Checked = true;
 			this.checkBox_CloseApplication.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox_CloseApplication.Location = new System.Drawing.Point(256, 28);
-			this.checkBox_CloseApplication.Margin = new System.Windows.Forms.Padding(4);
+			this.checkBox_CloseApplication.Location = new System.Drawing.Point(192, 22);
 			this.checkBox_CloseApplication.Name = "checkBox_CloseApplication";
-			this.checkBox_CloseApplication.Size = new System.Drawing.Size(119, 19);
+			this.checkBox_CloseApplication.Size = new System.Drawing.Size(96, 16);
 			this.checkBox_CloseApplication.TabIndex = 10;
 			this.checkBox_CloseApplication.Text = "自动关闭应用";
 			this.checkBox_CloseApplication.UseVisualStyleBackColor = true;
@@ -150,10 +144,9 @@
 			// checkBox_OpenVSProject
 			// 
 			this.checkBox_OpenVSProject.AutoSize = true;
-			this.checkBox_OpenVSProject.Location = new System.Drawing.Point(256, 55);
-			this.checkBox_OpenVSProject.Margin = new System.Windows.Forms.Padding(4);
+			this.checkBox_OpenVSProject.Location = new System.Drawing.Point(192, 44);
 			this.checkBox_OpenVSProject.Name = "checkBox_OpenVSProject";
-			this.checkBox_OpenVSProject.Size = new System.Drawing.Size(105, 19);
+			this.checkBox_OpenVSProject.Size = new System.Drawing.Size(84, 16);
 			this.checkBox_OpenVSProject.TabIndex = 11;
 			this.checkBox_OpenVSProject.Text = "打开VS工程";
 			this.checkBox_OpenVSProject.UseVisualStyleBackColor = true;
@@ -168,9 +161,11 @@
 			this.groupBox_DesProject.Controls.Add(this.checkBox_OpenVSProject);
 			this.groupBox_DesProject.Controls.Add(this.checkBox_CloseApplication);
 			this.groupBox_DesProject.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox_DesProject.Location = new System.Drawing.Point(0, 75);
+			this.groupBox_DesProject.Location = new System.Drawing.Point(0, 60);
+			this.groupBox_DesProject.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.groupBox_DesProject.Name = "groupBox_DesProject";
-			this.groupBox_DesProject.Size = new System.Drawing.Size(601, 86);
+			this.groupBox_DesProject.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox_DesProject.Size = new System.Drawing.Size(451, 69);
 			this.groupBox_DesProject.TabIndex = 15;
 			this.groupBox_DesProject.TabStop = false;
 			this.groupBox_DesProject.Text = "工程转换";
@@ -181,29 +176,57 @@
 			this.groupBox_SrcProject.Controls.Add(this.TextBox_SrcProjectPath);
 			this.groupBox_SrcProject.Controls.Add(this.button_SelectSrcProject);
 			this.groupBox_SrcProject.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox_SrcProject.Location = new System.Drawing.Point(0, 8);
+			this.groupBox_SrcProject.Location = new System.Drawing.Point(0, 6);
+			this.groupBox_SrcProject.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.groupBox_SrcProject.Name = "groupBox_SrcProject";
-			this.groupBox_SrcProject.Size = new System.Drawing.Size(601, 67);
+			this.groupBox_SrcProject.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox_SrcProject.Size = new System.Drawing.Size(451, 54);
 			this.groupBox_SrcProject.TabIndex = 14;
 			this.groupBox_SrcProject.TabStop = false;
 			this.groupBox_SrcProject.Text = "项目工程";
 			// 
+			// groupBox_Note
+			// 
+			this.groupBox_Note.Controls.Add(this.label_Note1);
+			this.groupBox_Note.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox_Note.Location = new System.Drawing.Point(0, 129);
+			this.groupBox_Note.Margin = new System.Windows.Forms.Padding(2);
+			this.groupBox_Note.Name = "groupBox_Note";
+			this.groupBox_Note.Padding = new System.Windows.Forms.Padding(2);
+			this.groupBox_Note.Size = new System.Drawing.Size(451, 69);
+			this.groupBox_Note.TabIndex = 16;
+			this.groupBox_Note.TabStop = false;
+			this.groupBox_Note.Text = "注意事项";
+			// 
+			// label_Note1
+			// 
+			this.label_Note1.AutoSize = true;
+			this.label_Note1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.label_Note1.ForeColor = System.Drawing.Color.Red;
+			this.label_Note1.Location = new System.Drawing.Point(42, 16);
+			this.label_Note1.Name = "label_Note1";
+			this.label_Note1.Size = new System.Drawing.Size(260, 12);
+			this.label_Note1.TabIndex = 0;
+			this.label_Note1.Text = "1. 本工具不支持中文路径和路径中含有空格";
+			// 
 			// PreMakeToVSProjectForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(601, 168);
+			this.ClientSize = new System.Drawing.Size(451, 167);
+			this.Controls.Add(this.groupBox_Note);
 			this.Controls.Add(this.groupBox_DesProject);
 			this.Controls.Add(this.groupBox_SrcProject);
-			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "PreMakeToVSProjectForm";
-			this.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "创建VisualStudio工程";
 			this.groupBox_DesProject.ResumeLayout(false);
 			this.groupBox_DesProject.PerformLayout();
 			this.groupBox_SrcProject.ResumeLayout(false);
 			this.groupBox_SrcProject.PerformLayout();
+			this.groupBox_Note.ResumeLayout(false);
+			this.groupBox_Note.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -222,6 +245,8 @@
 		private System.Windows.Forms.CheckBox checkBox_OpenVSProject;
 		private System.Windows.Forms.GroupBox groupBox_DesProject;
 		private System.Windows.Forms.GroupBox groupBox_SrcProject;
+		private System.Windows.Forms.GroupBox groupBox_Note;
+		private System.Windows.Forms.Label label_Note1;
 	}
 }
 

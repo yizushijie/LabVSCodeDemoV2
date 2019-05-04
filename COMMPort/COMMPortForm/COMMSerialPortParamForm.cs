@@ -24,11 +24,11 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置参数
 		/// </summary>
-		public virtual COMMSerialPortParam m_COMMSerialPortParam
+		public virtual COMMSerialPortParam m_COMMPortParam
 		{
 			get
 			{
-				return this.commSerialPortPlusFullParam.m_COMMSerialPortParam;
+				return this.commSerialPortPlusFullParam.m_COMMPortParam;
 			}
 		}
 

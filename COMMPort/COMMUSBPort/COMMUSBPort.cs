@@ -4,6 +4,38 @@ using System.Windows.Forms;
 
 namespace Harry.LabCOMMPort
 {
+
+	#region USB端口参数
+
+	public class COMMUSBPortParam : COMMPortParam
+	{
+		#region 变量定义
+
+		#endregion
+
+		#region 属性定义
+
+		#endregion
+
+		#region 构造函数
+
+		public COMMUSBPortParam() : base()
+		{
+			
+		}
+
+		#endregion
+
+		#region 函数定义
+
+		#endregion
+
+	}
+
+	#endregion
+
+	#region USB通信
+
 	public class COMMUSBPort:COMMBasePort
     {
 		
@@ -29,4 +61,5 @@ namespace Harry.LabCOMMPort
 		}
 		#endregion
 	}
+	#endregion
 }

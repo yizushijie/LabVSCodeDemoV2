@@ -36,8 +36,8 @@ namespace Harry.LabPreMakeToVSProject
 		public PreMakeToVSProjectForm(string path)
 		{
 			InitializeComponent();
-			this.Init();
 			this.TextBox_SrcProjectPath.Text = path;
+			this.Init();
 		}
 
 		#region 公共函数
@@ -106,6 +106,27 @@ namespace Harry.LabPreMakeToVSProject
 			{
 				return false;
 			}
+			//vsPath = "\"" + "--File=\"" +  vsPath  + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text + "\"";
+
+			//string[] arg = vsPath.Split(' ');
+			//string tempPath = null;
+			//if (arg.Length > 1)
+			//{
+			//	vsPath = string.Empty;
+			//	for (int i = 0; i < arg.Length; i++)
+			//	{
+			//		tempPath = arg[i];
+			//		if (i != (arg.Length - 1))
+			//		{
+			//			vsPath += (tempPath + "\""+" "+"\"");
+			//		}
+			//		else
+			//		{
+			//			vsPath +=tempPath;
+			//		}
+			//	}
+			//	//vsPath += "\"";
+			//}
 
 			//---启动进程
 			Process proc = new Process
@@ -113,11 +134,15 @@ namespace Harry.LabPreMakeToVSProject
 				StartInfo = new ProcessStartInfo
 				{
 					FileName = @"Resources\premake5.exe",
+					//FileName = @"premake5.exe",
 
-					//Arguments = "--File=\"" + Path.GetDirectoryName(this.TextBox_SrcPath.Text) + "\\premake5.lua\" " + this.comboBox_VSVersion.Text,
+					//Arguments = "--File=\"" + Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text) + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text,
+					//Arguments = "--File="+ vsPath + "\\premake5.lua" + this.comboBox_VisualStudioVersion.Text,
 					Arguments = "--File=\"" + vsPath + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text,
 					UseShellExecute = false,
 					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					RedirectStandardInput = true,
 					CreateNoWindow = true
 				}
 			};
@@ -171,6 +196,28 @@ namespace Harry.LabPreMakeToVSProject
 			this.comboBox_VisualStudioVersion.SelectedIndex = 0;
 			this.button_SelectSrcProject.Click += new System.EventHandler(this.button_Click);
 			this.button_ToVisualProject.Click += new System.EventHandler(this.button_Click);
+
+			//---通过加载文件的不同自适应当前文档
+			if (this.TextBox_SrcProjectPath.Text != string.Empty)
+			{
+				if (this.TextBox_SrcProjectPath.Text.Contains("uvprojx") || this.TextBox_SrcProjectPath.Text.Contains("uvproj"))
+				{
+					if (this.comboBox_SrcProjectVersion.Text != "Keil")
+					{
+						this.comboBox_SrcProjectVersion.Text = "Keil";
+						this.comboBox_SrcProjectVersion.SelectedIndex = this.comboBox_SrcProjectVersion.Items.IndexOf("Keil");
+					}
+				}
+				else if (this.TextBox_SrcProjectPath.Text.Contains("ewp"))
+				{
+					if (this.comboBox_SrcProjectVersion.Text != "IAR")
+					{
+						this.comboBox_SrcProjectVersion.Text = "IAR";
+						this.comboBox_SrcProjectVersion.SelectedIndex = this.comboBox_SrcProjectVersion.Items.IndexOf("IAR");
+					}
+				}
+			}
+
 		}
 
 		#endregion

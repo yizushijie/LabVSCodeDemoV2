@@ -25,13 +25,12 @@ namespace Harry.LabCOMMPort
 		private COMMBasePort commPort = null;
 
 		/// <summary>
-		/// 串口的配置参数
+		/// 端口的配置参数
 		/// </summary>
-		private COMMSerialPortParam commSerialPortParam = null;
+		public COMMPortParam commPortParam = new COMMPortParam();
 
 
 		#endregion
-
 
 		#region 属性定义
 
@@ -152,27 +151,7 @@ namespace Harry.LabCOMMPort
 
 			}
 		}
-
-		/// <summary>
-		/// 端口的配置参数
-		/// </summary>
-		public virtual COMMSerialPortParam m_COMMSerialPortParam
-		{
-			get
-			{
-				return this.commSerialPortParam;
-			}
-			set
-			{
-				if (this.commSerialPortParam==null)
-				{
-					this.commSerialPortParam = new COMMSerialPortParam();
-				}
-
-				this.commSerialPortParam = value;
-			}
-		}
-
+		
 		#endregion
 
 		#region 构造函数
@@ -183,7 +162,6 @@ namespace Harry.LabCOMMPort
 		{
 			InitializeComponent();
 			this.Init();
-
 			this.AddEventHandler();
 		}
 		/// <summary>
@@ -192,9 +170,7 @@ namespace Harry.LabCOMMPort
 		public COMMBasePortPlus(Form argForm)
 		{
 			InitializeComponent();
-
 			this.Init(argForm);
-
 			this.AddEventHandler();
 		}
 		/// <summary>
@@ -203,18 +179,14 @@ namespace Harry.LabCOMMPort
 		public COMMBasePortPlus(RichTextBox argRichTextBox)
 		{
 			InitializeComponent();
-
 			this.Init(argRichTextBox);
-
 			this.AddEventHandler();
 		}
 
 		public COMMBasePortPlus(Form argForm, RichTextBox argRichTextBox)
 		{
 			InitializeComponent();
-
 			this.Init(argForm, argRichTextBox);
-
 			this.AddEventHandler();
 		}
 
@@ -225,7 +197,6 @@ namespace Harry.LabCOMMPort
 		{
 			InitializeComponent();
 			this.Init(argForm, argCOMM, argRichTextBox);
-
 			this.AddEventHandler();
 		}
 
@@ -249,7 +220,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argForm"></param>
 		public virtual void Init(Form argForm)
 		{
-			this.m_COMMForm = argForm;
+			this.commForm = argForm;
 		}
 		/// <summary>
 		/// 
@@ -258,7 +229,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		public virtual void Init(RichTextBox argRichTextBox)
 		{
-			this.m_COMMRichTextBox = argRichTextBox;
+			this.commRichTextBox = argRichTextBox;
 		}
 
 		/// <summary>
@@ -269,8 +240,8 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		public virtual void Init(Form argForm,RichTextBox argRichTextBox)
 		{
-			this.m_COMMForm = argForm;
-			this.m_COMMRichTextBox = argRichTextBox;
+			this.commForm = argForm;
+			this.commRichTextBox = argRichTextBox;
 		}
 
 		/// <summary>
@@ -282,8 +253,9 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		public virtual void Init(Form argForm, COMMBasePort argCOMM,RichTextBox argRichTextBox)
 		{
-			this.m_COMMForm = argForm;
-			this.m_COMMRichTextBox = argRichTextBox;
+			this.commForm = argForm;
+			this.commPort = argCOMM;
+			this.commRichTextBox = argRichTextBox;
 		}
 
 		/// <summary>
@@ -294,8 +266,9 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice)
 		{
-			this.m_COMMForm = argForm;
-			this.m_COMMRichTextBox = argRichTextBox;
+			this.commForm = argForm;
+			this.commPort = argCOMM;
+			this.commRichTextBox = argRichTextBox;
 		}
 
 		/// <summary>
@@ -309,6 +282,7 @@ namespace Harry.LabCOMMPort
 		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice,bool isAddWatcherPort)
 		{
 			this.m_COMMForm = argForm;
+			this.commPort = argCOMM;
 			this.m_COMMRichTextBox = argRichTextBox;
 		}
 
@@ -317,15 +291,15 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public virtual void AddWatcherPort()
 		{
-			if (this.m_COMMPort!=null)
+			if (this.commPort != null)
 			{
-				if (this.m_COMMForm!=null)
+				if (this.commForm!=null)
 				{
-					this.m_COMMPort.AddWatcherPort(this.comboBox_COMMName, this.m_COMMRichTextBox);
+					this.commPort.AddWatcherPort(this.comboBox_COMMName, this.commRichTextBox);
 				}
 				else
 				{
-					this.m_COMMPort.AddWatcherPort(this.m_COMMForm,this.comboBox_COMMName, this.m_COMMRichTextBox);
+					this.commPort.AddWatcherPort(this.commForm,this.comboBox_COMMName, this.commRichTextBox);
 				}
 			}
 		}
@@ -338,39 +312,39 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		public virtual void AddWatcherPortRemove(object sender, System.EventArgs e)
 		{
-			if ((this.m_COMMPort.IsAttached() == false) && (this.button_COMMInit.Text == "关闭设备"))
+			if ((this.commPort.IsAttached() == false) && (this.button_COMMInit.Text == "关闭设备"))
 			{
-				if (this.m_ButtonCOMMInit.InvokeRequired)
+				if (this.button_COMMInit.InvokeRequired)
 				{
-					this.m_ButtonCOMMInit.BeginInvoke((EventHandler)
+					this.button_COMMInit.BeginInvoke((EventHandler)
 						//this.m_Button_COMMInit.Invoke((EventHandler)
 						(delegate
 						{
-							this.m_ButtonCOMMInit.Text = "打开设备";
+							this.button_COMMInit.Text = "打开设备";
 						}));
 				}
 				else
 				{
-					this.m_ButtonCOMMInit.Text = "打开设备";
+					this.button_COMMInit.Text = "打开设备";
 				}
 				//---执行端口关闭
-				this.m_COMMPort.CloseDevice();
+				this.commPort.CloseDevice();
 				//---刷新端口的只是ICO图标
-				if (this.m_PictureBoxCOMMState.InvokeRequired)
+				if (this.pictureBox_COMMState.InvokeRequired)
 				{
-					this.m_PictureBoxCOMMState.BeginInvoke((EventHandler)
+					this.pictureBox_COMMState.BeginInvoke((EventHandler)
 						//this.m_PictureBox_COMMState.Invoke((EventHandler)
 						(delegate
 						{
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.lost;
+							this.pictureBox_COMMState.Image = Properties.Resources.lost;
 						}));
 				}
 				else
 				{
-					this.m_PictureBoxCOMMState.Image = Properties.Resources.lost;
+					this.pictureBox_COMMState.Image = Properties.Resources.lost;
 				}
 
-				this.RefreshComboBox(this.m_COMMComboBox);
+				this.RefreshComboBox(this.comboBox_COMMName);
 			}
 		}
 
@@ -379,9 +353,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public virtual void AddWatcherPortRemoveEvent()
 		{
-			if (this.m_COMMPort != null)
+			if (this.commPort != null)
 			{
-				this.m_COMMPort.m_OnRemoveDeviceEvent = AddWatcherPortRemove;
+				this.commPort.m_OnRemoveDeviceEvent = AddWatcherPortRemove;
 			}
 		}
 		
@@ -392,76 +366,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		public virtual void Button_Click(object sender, System.EventArgs e)
 		{
-			Button btn = (Button)sender;
-			btn.Enabled = false;
-			switch (btn.Name)
-			{
-				case "button_COMMInit":
-					if (btn.Text == "打开设备")
-					{
-						//if ((this.commPort != null) &&(this.commPort.OpenDevice(this.comboBox_COMMName.Text, this.commRichTextBox) == 0))
-						if ((this.commPort != null) && (this.commPort.OpenDevice(this.m_COMMSerialPortParam, this.commRichTextBox) == 0))
-						{
-							btn.Text = "关闭设备";
-							this.pictureBox_COMMState.Image = Properties.Resources.open;
-
-							//---消息显示
-							if (this.commRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.commRichTextBox, "设备打开成功!\r\n",
-									Color.Black, false);
-							}
-
-							this.COMMControl(false);
-
-							//---加载设备移除处理
-							if (this.commPort.m_OnRemoveDeviceEvent == null)
-							{
-								this.commPort.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
-							}
-						}
-						else
-						{
-							this.pictureBox_COMMState.Image = Properties.Resources.error;
-							if (this.commRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.commRichTextBox, "设备打开失败!\r\n",
-									Color.Red, false);
-							}
-						}
-					}
-					else if (btn.Text == "关闭设备")
-					{
-						if (this.commPort != null)
-						{
-							this.commPort.CloseDevice();
-							btn.Text = "打开设备";
-							this.pictureBox_COMMState.Image = Properties.Resources.lost;
-
-							//---消息显示
-							if (this.commRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.commRichTextBox, "设备关闭成功!\r\n",
-									Color.Black, false);
-							}
-
-							this.COMMControl(true);
-						}
-					}
-					else if (btn.Text == "配置设备")
-					{
-						//---更新设备配置参数
-					}
-					else
-					{
-						MessageBoxPlus.Show(this.commForm, "设备操作异常！错误操作：" + btn.Text, "错误提示");
-					}
-					break;
-
-				default:
-					break;
-			}
-			btn.Enabled = true;
+			
 		}
 
 		/// <summary>
@@ -476,7 +381,7 @@ namespace Harry.LabCOMMPort
 			switch (ptb.Name)
 			{
 				case "pictureBox_COMMState":
-					if (button_COMMInit.Text == "打开设备")
+					if (this.button_COMMInit.Text == "打开设备")
 					{
 						if (this.commPort!=null)
 						{
@@ -497,7 +402,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="isEnable"></param>
 		public virtual void COMMControl(bool isEnable)
 		{
-			this.m_COMMComboBox.Enabled = isEnable;
+			this.comboBox_COMMName.Enabled = isEnable;
 		}
 
 		/// <summary>
