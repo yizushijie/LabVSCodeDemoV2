@@ -16,6 +16,13 @@ namespace Harry.LabPreMakeToVSProject
 {
     public partial class PreMakeToVSProjectForm : Form
     {
+		#region 变量定义
+
+		#endregion
+
+		#region 属性定义
+
+		#endregion
 
 		#region 构造函数
 
@@ -27,8 +34,7 @@ namespace Harry.LabPreMakeToVSProject
 			InitializeComponent();
 			this.Init();
 		}
-		#endregion
-
+		
 		/// <summary>
 		/// 
 		/// </summary>
@@ -39,6 +45,8 @@ namespace Harry.LabPreMakeToVSProject
 			this.TextBox_SrcProjectPath.Text = path;
 			this.Init();
 		}
+
+		#endregion
 
 		#region 公共函数
 
@@ -89,16 +97,24 @@ namespace Harry.LabPreMakeToVSProject
 		/// <returns></returns>
 		private bool UsePreMakeToVsProject()
 		{
+			//---要装换为vs工程的文件
+			string toVSPath = null;
+			//---vs项目的文件
+			string vsSlnPath = null;
+			//---获取文件工程
 			string vsPath = null;
+			//---文件名称
+			string fileName = null;
+
 			if (this.comboBox_SrcProjectVersion.Text == "IAR")
 			{
-				vsPath = Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text);
+				toVSPath = Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text);
 
 				//vsPath = Directory.GetParent(Path.GetDirectoryName(this.TextBox_SrcPath.Text)).FullName;
 			}
 			else if (this.comboBox_SrcProjectVersion.Text == "Keil")
 			{
-				vsPath = Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text);
+				toVSPath = Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text);
 
 				//vsPath = Directory.GetParent(Path.GetDirectoryName(this.TextBox_SrcPath.Text)).FullName;
 			}
@@ -106,8 +122,15 @@ namespace Harry.LabPreMakeToVSProject
 			{
 				return false;
 			}
-			//vsPath = "\"" + "--File=\"" +  vsPath  + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text + "\"";
-
+			//---解决方案路径
+			vsSlnPath = Path.GetDirectoryName(toVSPath);
+			//---工程路径
+			vsPath = toVSPath.Split('\\')[vsSlnPath.Split('\\').Length];
+			//---文件名称
+			fileName = Path.ChangeExtension(this.TextBox_SrcProjectPath.Text, "vcxproj").Split('\\')[Path.ChangeExtension(this.TextBox_SrcProjectPath.Text, "vcxproj").Split('\\').Length-1];
+			////vsPath = "\"" + "--File=\"" + vsPath + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text + "\"";
+			//---解决方法路劲
+			vsSlnPath =this.TextBox_SrcProjectPath.Text.Replace("\\" + vsPath, "");
 			//string[] arg = vsPath.Split(' ');
 			//string tempPath = null;
 			//if (arg.Length > 1)
@@ -118,11 +141,11 @@ namespace Harry.LabPreMakeToVSProject
 			//		tempPath = arg[i];
 			//		if (i != (arg.Length - 1))
 			//		{
-			//			vsPath += (tempPath + "\""+" "+"\"");
+			//			vsPath += (tempPath + " " + "\"");
 			//		}
 			//		else
 			//		{
-			//			vsPath +=tempPath;
+			//			vsPath += tempPath;
 			//		}
 			//	}
 			//	//vsPath += "\"";
@@ -138,7 +161,7 @@ namespace Harry.LabPreMakeToVSProject
 
 					//Arguments = "--File=\"" + Path.GetDirectoryName(this.TextBox_SrcProjectPath.Text) + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text,
 					//Arguments = "--File="+ vsPath + "\\premake5.lua" + this.comboBox_VisualStudioVersion.Text,
-					Arguments = "--File=\"" + vsPath + "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text,
+					Arguments = "--File=\"" + toVSPath+ "\\premake5.lua\" " + this.comboBox_VisualStudioVersion.Text,
 					UseShellExecute = false,
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
@@ -159,13 +182,31 @@ namespace Harry.LabPreMakeToVSProject
 				//---创建VS工程
 				if (this.comboBox_VisualStudioVersion.Text.Contains("vs"))
 				{
+					//---移动vssln文件
+					//---读取sln文件
+					string str = Path.ChangeExtension(this.TextBox_SrcProjectPath.Text, "sln");
+					//---读取数据
+					StreamReader sr  = new StreamReader(str, Encoding.UTF8);
+					//---读取的内容
+					string content = sr.ReadToEnd();
+					sr.Close();
+					content = content.Replace(fileName, vsPath + "\\" + fileName);
+
+					//---修改正路径
+					str = str.Replace("\\" + vsPath, "");
+					//---写入文件
+					StreamWriter sw = new StreamWriter(str, false, Encoding.UTF8);
+					sw.Write(content);
+					sw.Close();
+
+					//---是否需要启动VS
 					if (this.checkBox_OpenVSProject.Checked)
 					{
-						DialogResult dialogResult = MessageBox.Show(@"Open Project ?", Text, MessageBoxButtons.YesNo);
+						DialogResult dialogResult = MessageBox.Show("\tOpen "+ this.comboBox_VisualStudioVersion.Text + " Project ?", this.Text, MessageBoxButtons.YesNo);
 						if (dialogResult == DialogResult.Yes)
 						{
-							ProcessStartInfo psi = new ProcessStartInfo(Path.ChangeExtension(this.TextBox_SrcProjectPath.Text, "sln"));
-
+							//ProcessStartInfo psi = new ProcessStartInfo(Path.ChangeExtension(this.TextBox_SrcProjectPath.Text, "sln"));
+							ProcessStartInfo psi = new ProcessStartInfo(Path.ChangeExtension(vsSlnPath, "sln"));
 							//ProcessStartInfo psi = new ProcessStartInfo(Path.ChangeExtension(vsPath, "sln"));
 							//{
 							//	UseShellExecute = true
