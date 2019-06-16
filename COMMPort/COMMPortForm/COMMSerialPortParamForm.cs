@@ -79,6 +79,23 @@ namespace Harry.LabCOMMPort
 
 		}
 
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="commSerialPortParam"></param>
+		public COMMSerialPortParamForm(ComboBox argName, COMMSerialPortParam commSerialPortParam)
+		{
+			InitializeComponent();
+			//---限定最小尺寸
+			this.MinimumSize = this.Size;
+			this.MaximumSize = this.Size;
+			//---刷新设备
+			this.Init(argName, commSerialPortParam);
+
+		}
+
 		#endregion
 
 		#region 函数定义
@@ -94,12 +111,36 @@ namespace Harry.LabCOMMPort
 			this.commSerialPortPlusFullParam.m_COMMComboBox.Items.Clear();
 			this.commSerialPortPlusFullParam.m_COMMComboBox.Items.Add(argName);
 			this.commSerialPortPlusFullParam.m_COMMComboBox.SelectedIndex = 0;
+
 			//---设置图片
 			this.commSerialPortPlusFullParam.m_PictureBoxCOMMState.Image = Properties.Resources.error;
 
 			//---通信端口的名称不可更改
-			this.commSerialPortPlusFullParam.RefreshComboBox(this.commSerialPortPlusFullParam.m_COMMComboBox, false);
+			this.commSerialPortPlusFullParam.RefreshComboBox(this.commSerialPortPlusFullParam.m_COMMComboBox, true/*false*/);
 
+			//---注册事件
+			this.commSerialPortPlusFullParam.m_ButtonCOMMInit.Click += new EventHandler(this.Button_Click);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		public virtual void Init(ComboBox argName)
+		{
+			int i = 0;
+			//---刷新设备存在的通信端口
+			this.commSerialPortPlusFullParam.m_COMMComboBox.Items.Clear();
+			for (i = 0; i < argName.Items.Count; i++)
+			{
+				this.commSerialPortPlusFullParam.m_COMMComboBox.Items.Add(argName.Items[i]);
+			}
+			this.commSerialPortPlusFullParam.m_COMMComboBox.SelectedIndex = argName.SelectedIndex;
+
+			//---设置图片
+			this.commSerialPortPlusFullParam.m_PictureBoxCOMMState.Image = Properties.Resources.error;
+			//---通信端口的名称不可更改
+			this.commSerialPortPlusFullParam.RefreshComboBox(this.commSerialPortPlusFullParam.m_COMMComboBox, true/*false*/);
 			//---注册事件
 			this.commSerialPortPlusFullParam.m_ButtonCOMMInit.Click += new EventHandler(this.Button_Click);
 
@@ -159,14 +200,69 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		public virtual void Init(ComboBox argName, COMMSerialPortParam commSerialPortParam)
+		{
+			this.Init(argName);
+			if (commSerialPortParam == null)
+			{
+				return;
+			}
+			//---波特率
+			int index = this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortBaudRate.Items.IndexOf(commSerialPortParam.baudRate);
+			if (index < 0)
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortBaudRate.Items.Add(commSerialPortParam.baudRate);
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortBaudRate.SelectedIndex = this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortBaudRate.Items.Count - 1;
+			}
+			else
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortBaudRate.SelectedIndex = index;
+			}
+			//---数据位
+			index = this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortDataBits.Items.IndexOf(commSerialPortParam.dataBits);
+			if (index < 0)
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortDataBits.SelectedIndex = 0;
+			}
+			else
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortDataBits.SelectedIndex = index;
+			}
+			//---停止位
+			index = this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortStopBits.Items.IndexOf(commSerialPortParam.stopBits);
+			if (index < 0)
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortStopBits.SelectedIndex = 0;
+			}
+			else
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortStopBits.SelectedIndex = index;
+			}
+			//---校验位
+			index = this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortParity.Items.IndexOf(commSerialPortParam.parity);
+			if (index < 0)
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortParity.SelectedIndex = 0;
+			}
+			else
+			{
+				this.commSerialPortPlusFullParam.m_ComboBoxCOMMPortParity.SelectedIndex = index;
+			}
+		}
+
 
 		/// <summary>
-		/// 按键点击时间
+		/// 按键点击事件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		public void Button_Click(object sender, System.EventArgs e)
 		{
+			this.commSerialPortPlusFullParam.m_COMMPortParam.name = this.commSerialPortPlusFullParam.comboBox_COMMName.Text;
 			this.DialogResult = System.Windows.Forms.DialogResult.OK;
 		}
 		

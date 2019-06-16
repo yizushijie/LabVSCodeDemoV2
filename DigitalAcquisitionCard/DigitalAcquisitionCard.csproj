@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2100A2AA-C22C-49FC-9C53-57656A8091F8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Harry.LabDigitalAcquisitionCard</RootNamespace>
+    <AssemblyName>DigitalAcquisitionCard</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DigitalAcquisitionCardForm\DigitalAcquisitionCardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DigitalAcquisitionCardForm\DigitalAcquisitionCardForm.Designer.cs">
+      <DependentUpon>DigitalAcquisitionCardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DigitalAcquisitionCardForm\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DigitalAcquisitionCardForm\DigitalAcquisitionCardForm.resx">
+      <DependentUpon>DigitalAcquisitionCardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COMMPort\COMMPort.csproj">
+      <Project>{d0ccf96a-1633-46e8-b57d-f2a4e75df1a9}</Project>
+      <Name>COMMPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmbeddedProcess\EmbeddedProcess.csproj">
+      <Project>{309eb5fa-fe3b-4994-9206-4d730046e702}</Project>
+      <Name>EmbeddedProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NPlot\NPlot.csproj">
+      <Project>{e4b99177-77a3-4c92-b881-a6cb57e3bf89}</Project>
+      <Name>NPlot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserControlPlus\UserControlPlus.csproj">
+      <Project>{e54a51a6-a054-4f21-ac22-a827b5ef4d36}</Project>
+      <Name>UserControlPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserGenFunc\UserGenFunc.csproj">
+      <Project>{c64aeea0-7a08-4786-9f1e-bd66608e190e}</Project>
+      <Name>UserGenFunc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinAPI\WinAPI.csproj">
+      <Project>{b928595d-a068-47d0-9d31-89d592258d32}</Project>
+      <Name>WinAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZedGraph\ZedGraph.csproj">
+      <Project>{b99650ee-af46-47b4-a4a9-212ade7809b7}</Project>
+      <Name>ZedGraph</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

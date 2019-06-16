@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurveChart\CurveChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CurveChart\CurveChart.Designer.cs">
+      <DependentUpon>CurveChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="PanelPlus\PanelPlus.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -69,6 +75,15 @@
       <Project>{b928595d-a068-47d0-9d31-89d592258d32}</Project>
       <Name>WinAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZedGraph\ZedGraph.csproj">
+      <Project>{B99650EE-AF46-47B4-A4A9-212ADE7809B7}</Project>
+      <Name>ZedGraph</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CurveChart\CurveChart.resx">
+      <DependentUpon>CurveChart.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

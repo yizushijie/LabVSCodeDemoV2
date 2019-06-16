@@ -36,71 +36,48 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="NPlot\AdapterUtils.cs" />
-    <Compile Include="NPlot\ArrowItem.cs" />
-    <Compile Include="NPlot\AssemblyInfo.cs" />
-    <Compile Include="NPlot\AxesConstraint.cs" />
-    <Compile Include="NPlot\Axis.cs" />
-    <Compile Include="NPlot\BarPlot.cs" />
-    <Compile Include="NPlot\BasePlot.cs" />
-    <Compile Include="NPlot\BaseSequencePlot.cs" />
-    <Compile Include="NPlot\Bitmap.PlotSurface2D.cs" />
-    <Compile Include="NPlot\CandlePlot.cs" />
-    <Compile Include="NPlot\DateTimeAxis.cs" />
-    <Compile Include="NPlot\FilledRegion.cs" />
-    <Compile Include="NPlot\FontScaler.cs" />
-    <Compile Include="NPlot\Grid.cs" />
-    <Compile Include="NPlot\HistogramPlot.cs" />
-    <Compile Include="NPlot\HorizontalLine.cs" />
-    <Compile Include="NPlot\IDrawable.cs" />
-    <Compile Include="NPlot\IGradient.cs" />
-    <Compile Include="NPlot\IPlot.cs" />
-    <Compile Include="NPlot\IPlotSurface2D.cs" />
-    <Compile Include="NPlot\ISequencePlot.cs" />
-    <Compile Include="NPlot\ITransform2D.cs" />
-    <Compile Include="NPlot\ImagePlot.cs" />
-    <Compile Include="NPlot\LabelAxis.cs" />
-    <Compile Include="NPlot\LabelPointPlot.cs" />
-    <Compile Include="NPlot\Legend.cs" />
-    <Compile Include="NPlot\LegendBase.cs" />
-    <Compile Include="NPlot\LinePlot.cs" />
-    <Compile Include="NPlot\LinearAxis.cs" />
-    <Compile Include="NPlot\LinearGradient.cs" />
-    <Compile Include="NPlot\LogAxis.cs" />
-    <Compile Include="NPlot\Marker.cs" />
-    <Compile Include="NPlot\MarkerItem.cs" />
-    <Compile Include="NPlot\NPlotException.cs" />
-    <Compile Include="NPlot\PageAlignedPhysicalAxis.cs" />
-    <Compile Include="NPlot\PhysicalAxis.cs" />
-    <Compile Include="NPlot\PiAxis.cs" />
-    <Compile Include="NPlot\PiePlot.cs" />
-    <Compile Include="NPlot\PlotSurface2D.cs" />
-    <Compile Include="NPlot\PointD.cs" />
-    <Compile Include="NPlot\PointPlot.cs" />
-    <Compile Include="NPlot\RectangleBrushes.cs" />
-    <Compile Include="NPlot\RectangleD.cs" />
-    <Compile Include="NPlot\SequenceAdapter.cs" />
-    <Compile Include="NPlot\StartStep.cs" />
-    <Compile Include="NPlot\StepGradient.cs" />
-    <Compile Include="NPlot\StepPlot.cs" />
-    <Compile Include="NPlot\TextItem.cs" />
-    <Compile Include="NPlot\TradingDateTimeAxis.cs" />
-    <Compile Include="NPlot\Transform2D.cs" />
-    <Compile Include="NPlot\Utils.cs" />
-    <Compile Include="NPlot\VerticalLine.cs" />
-    <Compile Include="NPlot\CursorType.cs" />
-    <Compile Include="NPlot\Modifier.cs" />
-    <Compile Include="Interactions\KeyActions.cs" />
-    <Compile Include="Interactions\PlotDrag.cs" />
-    <Compile Include="Interactions\AxisDrag.cs" />
-    <Compile Include="Interactions\PlotZoom.cs" />
-    <Compile Include="Interactions\PlotSelection.cs" />
-    <Compile Include="Interactions\Interaction.cs" />
-    <Compile Include="Interactions\InteractivePlotSurface2D.cs" />
-    <Compile Include="Interactions\VerticalGuideline.cs" />
-    <Compile Include="Interactions\HorizontalGuideline.cs" />
-    <Compile Include="NPlot\AxisPosition.cs" />
-    <Compile Include="Interactions\Measure.cs" />
+    <Compile Include="AdapterUtils.cs" />
+    <Compile Include="ArrowItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AxesConstraint.cs" />
+    <Compile Include="Axis.cs" />
+    <Compile Include="BarPlot.cs" />
+    <Compile Include="BasePlot.cs" />
+    <Compile Include="BaseSequencePlot.cs" />
+    <Compile Include="Bitmap.PlotSurface2D.cs" />
+    <Compile Include="CandlePlot.cs" />
+    <Compile Include="DateTimeAxis.cs" />
+    <Compile Include="FilledRegion.cs" />
+    <Compile Include="FontScaler.cs" />
+    <Compile Include="Grid.cs" />
+    <Compile Include="HistogramPlot.cs" />
+    <Compile Include="HorizontalLine.cs" />
+    <Compile Include="IDrawable.cs" />
+    <Compile Include="IGradient.cs" />
+    <Compile Include="ImagePlot.cs" />
+    <Compile Include="IPlot.cs" />
+    <Compile Include="IPlotSurface2D.cs" />
+    <Compile Include="ISequencePlot.cs" />
+    <Compile Include="ISurface.cs" />
+    <Compile Include="ITransform2D.cs" />
+    <Compile Include="LabelAxis.cs" />
+    <Compile Include="LabelPointPlot.cs" />
+    <Compile Include="Legend.cs" />
+    <Compile Include="LegendBase.cs" />
+    <Compile Include="LinearAxis.cs" />
+    <Compile Include="LinearGradient.cs" />
+    <Compile Include="LinePlot.cs" />
+    <Compile Include="LogAxis.cs" />
+    <Compile Include="Marker.cs" />
+    <Compile Include="MarkerItem.cs" />
+    <Compile Include="NPlotException.cs" />
+    <Compile Include="PageAlignedPhysicalAxis.cs" />
+    <Compile Include="PhysicalAxis.cs" />
+    <Compile Include="PiAxis.cs" />
+    <Compile Include="PiePlot.cs" />
+    <Compile Include="PlotSurface2D.cs" />
+    <Compile Include="PointD.cs" />
+    <Compile Include="PointPlot.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +87,20 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RectangleBrushes.cs" />
+    <Compile Include="RectangleD.cs" />
+    <Compile Include="SequenceAdapter.cs" />
+    <Compile Include="StartStep.cs" />
+    <Compile Include="StepGradient.cs" />
+    <Compile Include="StepPlot.cs" />
+    <Compile Include="TextItem.cs" />
+    <Compile Include="TradingDateTimeAxis.cs" />
+    <Compile Include="Transform2D.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="VerticalLine.cs" />
+    <Compile Include="NPlot.cs">
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

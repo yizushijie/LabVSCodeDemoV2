@@ -87,9 +87,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EmbeddedProcessForm\EmbeddedProcessForm.csproj">
+    <ProjectReference Include="..\EmbeddedProcess\EmbeddedProcess.csproj">
       <Project>{309EB5FA-FE3B-4994-9206-4D730046E702}</Project>
-      <Name>EmbeddedProcessForm</Name>
+      <Name>EmbeddedProcess</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserControlPlus\UserControlPlus.csproj">
       <Project>{E54A51A6-A054-4F21-AC22-A827B5EF4D36}</Project>

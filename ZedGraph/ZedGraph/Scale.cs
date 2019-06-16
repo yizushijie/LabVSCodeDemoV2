@@ -2507,7 +2507,10 @@ namespace ZedGraph
 
 				// Do not let the grace value extend the axis above zero when all the values were negative
 				if (numType&&(_max>0||maxVal+_maxGrace*range<=0.0))
-					_max=maxVal+_maxGrace*range;
+				{
+					//_max = maxVal + _maxGrace * range;
+					_max = maxVal;// + _maxGrace * range;
+				}
 			}
 
 			if (_max==_min&&_maxAuto&&_minAuto)
@@ -2667,8 +2670,8 @@ namespace ZedGraph
 			double magPow = Math.Pow((double)10.0, mag);
 
 			// Calculate most significant digit of the new step size
-			double magMsd = ((int)(tempStep/magPow+.5));
-
+			//double magMsd = ((int)(tempStep/magPow+.5));
+			double magMsd = ((int)(tempStep / magPow ));
 			// promote the MSD to either 1, 2, or 5
 			if (magMsd>5.0)
 				magMsd=10.0;

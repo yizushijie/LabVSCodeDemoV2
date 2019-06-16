@@ -22,10 +22,29 @@ namespace Harry.LabCOMMPort
 	{
 		#region 变量定义
 
+		/// <summary>
+		/// 端口名称
+		/// </summary>
 		public string name = null;
+		
+		/// <summary>
+		/// 通讯波特率
+		/// </summary>
 		public string baudRate = "115200";
+
+		/// <summary>
+		/// 校验位
+		/// </summary>
 		public string parity = "NONE";
+
+		/// <summary>
+		/// 数据位
+		/// </summary>
 		public string dataBits = "8";
+
+		/// <summary>
+		/// 停止位
+		/// </summary>
 		public string stopBits = "1";
 
 		#endregion
@@ -2684,7 +2703,8 @@ namespace Harry.LabCOMMPort
 		public override int OpenDevice(COMMPortParam commSerialPortParam, RichTextBox msg = null)
 		{
 			int _return = 0;
-			if (!Regex.IsMatch(((COMMSerialPortParam)commSerialPortParam).baudRate, @"^\d+$" )||!Regex.IsMatch(((COMMSerialPortParam)commSerialPortParam).dataBits, @"^\d+$"))
+			if (!Regex.IsMatch(((COMMSerialPortParam)commSerialPortParam).baudRate, @"^\d+$" )||!Regex.IsMatch(((COMMSerialPortParam)commSerialPortParam).dataBits, @"^\d+$")
+				||(((COMMSerialPortParam)commSerialPortParam).name==null)|| (((COMMSerialPortParam)commSerialPortParam).name == ""))
 			{
 				_return=1;
 				this.m_COMMErrMsg = "端口参数错误!\r\n";

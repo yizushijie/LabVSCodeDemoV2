@@ -395,6 +395,7 @@ namespace Harry.LabCOMMPort
 		private void ComboBoxMouseDown_Click(object sender, MouseEventArgs e)
 		{
 			ComboBox cbb = (ComboBox)sender;
+			int index = 0;
 			switch (cbb.Name)
 			{
 				case "comboBox_COMMName":
@@ -403,6 +404,20 @@ namespace Harry.LabCOMMPort
 					{
 						//---鼠标右键配置通信端口的参数
 						this.SetCOMMSerialPortParam();
+						//---判断是否端口发生了变化
+						if (((this.comboBox_COMMName.Text!=string.Empty)||this.comboBox_COMMName.Text!="")&&((this.m_COMMPortParam.name != string.Empty)||(this.m_COMMPortParam.name!=""))&&(this.m_COMMPortParam.name!=this.comboBox_COMMName.Text))
+						{
+							//---数据位
+							index = this.comboBox_COMMName.Items.IndexOf(this.m_COMMPortParam.name);
+							if (index < 0)
+							{
+								this.comboBox_COMMName.SelectedIndex = 0;
+							}
+							else
+							{
+								this.comboBox_COMMName.SelectedIndex = index;
+							}
+						}
 					}
 					break;
 				default:
@@ -431,7 +446,7 @@ namespace Harry.LabCOMMPort
 		{
 			if ((this.m_COMMComboBox.Text != null) && (this.m_COMMComboBox.Items.Count > 0))
 			{
-				COMMSerialPortParamForm p = new COMMSerialPortParamForm(this.m_COMMComboBox.Text,this.m_COMMPortParam);
+				COMMSerialPortParamForm p =new COMMSerialPortParamForm(this.m_COMMComboBox,this.m_COMMPortParam);// new COMMSerialPortParamForm(this.m_COMMComboBox.Text,this.m_COMMPortParam);
 
 				if (p.ShowDialog(this.m_COMMComboBox) != System.Windows.Forms.DialogResult.OK)
 				{

@@ -1,5 +1,5 @@
 ﻿
-using Harry.LabEmbeddedProcessForm;
+using Harry.LabEmbeddedProcess;
 using Harry.LabUserControlPlus;
 using Harry.LabUserGenFunc;
 using System;
@@ -64,12 +64,6 @@ namespace Harry.LabMdiForm
 			//---调用并嵌套记事本应用
 			this.ToolStripMenuItem_TXT.Click += new EventHandler(this.ToolStripMenuItem_Click);
 
-			//---打印
-			this.ToolStripMenuItem_Print.Click += new EventHandler(this.ToolStripMenuItem_Click);
-			//---打印页面设置
-			this.ToolStripMenuItem_PageSet.Click += new EventHandler(this.ToolStripMenuItem_Click);
-			//---打印预览
-			this.ToolStripMenuItem_PrintView.Click += new EventHandler(this.ToolStripMenuItem_Click);
 		}
 
         #endregion
@@ -196,29 +190,6 @@ namespace Harry.LabMdiForm
 					txtForm.Show();
 					txtForm.Focus();
 					//txtForm.StartProcess(@"C:\Windows\system32\notepad.exe");
-					break;
-				//---打印设置
-				case "ToolStripMenuItem_Print":
-					PrintDialog printDialog = new PrintDialog();
-					printDialog.Document = printDocument_MdiFormPrint;
-					//---获取打印界面的选择结果
-					if(printDialog.ShowDialog()==DialogResult.OK)
-					{
-						//---打印设局文档
-						printDocument_MdiFormPrint.Print();
-					}
-					break;
-				//---页面设置
-				case "ToolStripMenuItem_PageSet":
-					PageSetupDialog pageSetupDialog = new PageSetupDialog();
-					pageSetupDialog.Document = printDocument_MdiFormPrint;
-					pageSetupDialog.ShowDialog();
-					break;
-				//---打印预览
-				case "ToolStripMenuItem_PrintView":
-					PrintPreviewDialog printPreviewDialog = new PrintPreviewDialog();
-					printPreviewDialog.Document = printDocument_MdiFormPrint;
-					printPreviewDialog.ShowDialog();
 					break;
 				default:
                     break;
