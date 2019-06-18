@@ -27,7 +27,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 端口的配置参数
 		/// </summary>
-		public COMMPortParam commPortParam = new COMMPortParam();
+		private COMMPortParam commPortParam = new COMMPortParam();
 
 
 		#endregion
@@ -151,7 +151,26 @@ namespace Harry.LabCOMMPort
 
 			}
 		}
-		
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual COMMPortParam m_COMMPortParam
+		{
+			get
+			{
+				return this.commPortParam;
+			}
+			set
+			{
+				if (this.commPortParam == null)
+				{
+					this.commPortParam = new COMMPortParam();
+				}
+				this.commPortParam = value;
+			}
+		}
+
 		#endregion
 
 		#region 构造函数

@@ -30,12 +30,10 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam1 = new Harry.LabCOMMPort.COMMSerialPortParam();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.commSerialPortPlus1 = new Harry.LabCOMMPort.COMMSerialPortPlus();
 			this.richTextBoxEx1 = new Harry.LabUserControlPlus.RichTextBoxEx();
 			this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
-			this.axCWButton21 = new AxCWUIControlsLib.AxCWButton2();
-			((System.ComponentModel.ISupportInitialize)(this.axCWButton21)).BeginInit();
+			this.curveChart1 = new Harry.LabUserControlPlus.CurveChart();
 			this.SuspendLayout();
 			// 
 			// commSerialPortPlus1
@@ -45,7 +43,7 @@
 			this.commSerialPortPlus1.m_COMMPort = null;
 			this.commSerialPortPlus1.m_COMMPortParam = commSerialPortParam1;
 			this.commSerialPortPlus1.m_COMMRichTextBox = null;
-			this.commSerialPortPlus1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+			this.commSerialPortPlus1.Margin = new System.Windows.Forms.Padding(5);
 			this.commSerialPortPlus1.Name = "commSerialPortPlus1";
 			this.commSerialPortPlus1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
 			this.commSerialPortPlus1.Size = new System.Drawing.Size(356, 76);
@@ -56,13 +54,14 @@
 			this.richTextBoxEx1.Location = new System.Drawing.Point(39, 166);
 			this.richTextBoxEx1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.richTextBoxEx1.Name = "richTextBoxEx1";
-			this.richTextBoxEx1.Size = new System.Drawing.Size(647, 72);
+			this.richTextBoxEx1.Size = new System.Drawing.Size(437, 72);
 			this.richTextBoxEx1.TabIndex = 0;
 			this.richTextBoxEx1.Text = "";
 			// 
 			// zedGraphControl1
 			// 
-			this.zedGraphControl1.Location = new System.Drawing.Point(39, 270);
+			this.zedGraphControl1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.zedGraphControl1.Location = new System.Drawing.Point(39, 304);
 			this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.zedGraphControl1.Name = "zedGraphControl1";
 			this.zedGraphControl1.ScrollGrace = 0D;
@@ -72,23 +71,37 @@
 			this.zedGraphControl1.ScrollMinX = 0D;
 			this.zedGraphControl1.ScrollMinY = 0D;
 			this.zedGraphControl1.ScrollMinY2 = 0D;
-			this.zedGraphControl1.Size = new System.Drawing.Size(437, 310);
+			this.zedGraphControl1.Size = new System.Drawing.Size(437, 250);
 			this.zedGraphControl1.TabIndex = 2;
 			// 
-			// axCWButton21
+			// curveChart1
 			// 
-			this.axCWButton21.Location = new System.Drawing.Point(484, 270);
-			this.axCWButton21.Name = "axCWButton21";
-			this.axCWButton21.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axCWButton21.OcxState")));
-			this.axCWButton21.Size = new System.Drawing.Size(201, 70);
-			this.axCWButton21.TabIndex = 4;
+			this.curveChart1.Location = new System.Drawing.Point(484, 77);
+			this.curveChart1.m_Title = "Title";
+			this.curveChart1.m_TitleFontSize = 16F;
+			this.curveChart1.m_XAxisScaleFontSize = 14F;
+			this.curveChart1.m_XAxisScaleMajorStep = 0.1D;
+			this.curveChart1.m_XAxisScaleMax = 1.0000000000000002D;
+			this.curveChart1.m_XAxisScaleMin = 0D;
+			this.curveChart1.m_XAxisTitle = "X Axis";
+			this.curveChart1.m_XAxisTitleFontSize = 14F;
+			this.curveChart1.m_YAxisScaleFontSize = 14F;
+			this.curveChart1.m_YAxisScaleMajorStep = 0.1D;
+			this.curveChart1.m_YAxisScaleMax = 1.0000000000000002D;
+			this.curveChart1.m_YAxisScaleMin = 0D;
+			this.curveChart1.m_YAxisTitle = "Y Axis";
+			this.curveChart1.m_YAxisTitleFontSize = 14F;
+			this.curveChart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.curveChart1.Name = "curveChart1";
+			this.curveChart1.Size = new System.Drawing.Size(732, 546);
+			this.curveChart1.TabIndex = 3;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(792, 748);
-			this.Controls.Add(this.axCWButton21);
+			this.ClientSize = new System.Drawing.Size(1228, 748);
+			this.Controls.Add(this.curveChart1);
 			this.Controls.Add(this.zedGraphControl1);
 			this.Controls.Add(this.commSerialPortPlus1);
 			this.Controls.Add(this.richTextBoxEx1);
@@ -97,7 +110,6 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
-			((System.ComponentModel.ISupportInitialize)(this.axCWButton21)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -107,7 +119,7 @@
 		private Harry.LabUserControlPlus.RichTextBoxEx richTextBoxEx1;
 		private Harry.LabCOMMPort.COMMSerialPortPlus commSerialPortPlus1;
 		private ZedGraph.ZedGraphControl zedGraphControl1;
-		private AxCWUIControlsLib.AxCWButton2 axCWButton21;
+		private Harry.LabUserControlPlus.CurveChart curveChart1;
 	}
 }
 

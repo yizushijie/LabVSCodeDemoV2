@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2005  John Champion
+//Copyright © 2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,13 +18,18 @@
 //=============================================================================
 
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Collections;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace ZedGraph
 {
 	/// <summary>
 	/// Simple struct that stores X and Y coordinates as doubles.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.1 $ $Date: 2006-06-24 20:26:44 $ </version>
 	[Serializable]
@@ -34,7 +39,6 @@ namespace ZedGraph
 		/// The X coordinate
 		/// </summary>
 		public double X;
-
 		/// <summary>
 		/// The Y coordinate
 		/// </summary>
@@ -45,10 +49,11 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="x">The X coordinate</param>
 		/// <param name="y">The Y coordinate</param>
-		public PointD(double x, double y)
+		public PointD( double x, double y )
 		{
-			X=x;
-			Y=y;
+			X = x;
+			Y = y;
 		}
 	}
 }
+

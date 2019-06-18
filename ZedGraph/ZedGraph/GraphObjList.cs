@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2004  John Champion
+//Copyright © 2004  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,8 +18,8 @@
 //=============================================================================
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace ZedGraph
 {
@@ -27,14 +27,13 @@ namespace ZedGraph
 	/// A collection class containing a list of <see cref="TextObj"/> objects
 	/// to be displayed on the graph.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.1 $ $Date: 2006-06-24 20:26:44 $ </version>
 	[Serializable]
 	public class GraphObjList : List<GraphObj>, ICloneable
 	{
-		#region Constructors
-
+	#region Constructors
 		/// <summary>
 		/// Default constructor for the <see cref="GraphObjList"/> collection class
 		/// </summary>
@@ -46,10 +45,10 @@ namespace ZedGraph
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="GraphObjList"/> object from which to copy</param>
-		public GraphObjList(GraphObjList rhs)
+		public GraphObjList( GraphObjList rhs )
 		{
-			foreach (GraphObj item in rhs)
-				this.Add((GraphObj)((ICloneable)item).Clone());
+			foreach ( GraphObj item in rhs )
+				this.Add( (GraphObj) ((ICloneable)item).Clone() );
 		}
 
 		/// <summary>
@@ -68,29 +67,27 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public GraphObjList Clone()
 		{
-			return new GraphObjList(this);
+			return new GraphObjList( this );
 		}
 
-		#endregion Constructors
+		
+	#endregion
 
-		#region Methods
-
-		/*
-
-				/// <summary>
-				/// Indexer to access the specified <see cref="GraphObj"/> object by its ordinal
-				/// position in the list.
-				/// </summary>
-				/// <param name="index">The ordinal position (zero-based) of the
-				/// <see cref="GraphObj"/> object to be accessed.</param>
-				/// <value>A <see cref="GraphObj"/> object reference.</value>
-				public GraphObj this[ int index ]
-				{
-					get { return( (GraphObj) List[index] ); }
-					set { List[index] = value; }
-				}
-		*/
-
+	#region Methods
+/*
+		/// <summary>
+		/// Indexer to access the specified <see cref="GraphObj"/> object by its ordinal
+		/// position in the list.
+		/// </summary>
+		/// <param name="index">The ordinal position (zero-based) of the
+		/// <see cref="GraphObj"/> object to be accessed.</param>
+		/// <value>A <see cref="GraphObj"/> object reference.</value>
+		public GraphObj this[ int index ]  
+		{
+			get { return( (GraphObj) List[index] ); }
+			set { List[index] = value; }
+		}
+*/
 		/// <summary>
 		/// Indexer to access the specified <see cref="GraphObj"/> object by its <see cref="GraphObj.Tag"/>.
 		/// Note that the <see cref="GraphObj.Tag"/> must be a <see cref="String"/> type for this method
@@ -99,46 +96,44 @@ namespace ZedGraph
 		/// <param name="tag">The <see cref="String"/> type tag to search for.</param>
 		/// <value>A <see cref="GraphObj"/> object reference.</value>
 		/// <seealso cref="IndexOfTag"/>
-		public GraphObj this[string tag]
+		public GraphObj this[string tag]  
 		{
 			get
 			{
-				int index = IndexOfTag(tag);
-				if (index>=0)
-					return (this[index]);
+				int index = IndexOfTag( tag );
+				if ( index >= 0 )
+					return( this[index]  );
 				else
 					return null;
 			}
 		}
+/*
+		/// <summary>
+		/// Add a <see cref="GraphObj"/> object to the <see cref="GraphObjList"/>
+		/// collection at the end of the list.
+		/// </summary>
+		/// <param name="item">A reference to the <see cref="GraphObj"/> object to
+		/// be added</param>
+		/// <seealso cref="IList.Add"/>
+		public GraphObj Add( GraphObj item )
+		{
+			List.Add( item );
+			return item;
+		}
 
-		/*
-
-				/// <summary>
-				/// Add a <see cref="GraphObj"/> object to the <see cref="GraphObjList"/>
-				/// collection at the end of the list.
-				/// </summary>
-				/// <param name="item">A reference to the <see cref="GraphObj"/> object to
-				/// be added</param>
-				/// <seealso cref="IList.Add"/>
-				public GraphObj Add( GraphObj item )
-				{
-					List.Add( item );
-					return item;
-				}
-
-				/// <summary>
-				/// Insert a <see cref="GraphObj"/> object into the collection
-				/// at the specified zero-based index location.
-				/// </summary>
-				/// <param name="index">The zero-based index location for insertion.</param>
-				/// <param name="item">The <see cref="GraphObj"/> object that is to be
-				/// inserted.</param>
-				/// <seealso cref="IList.Insert"/>
-				public void Insert( int index, GraphObj item )
-				{
-					List.Insert( index, item );
-				}
-		*/
+		/// <summary>
+		/// Insert a <see cref="GraphObj"/> object into the collection
+		/// at the specified zero-based index location.
+		/// </summary>
+		/// <param name="index">The zero-based index location for insertion.</param>
+		/// <param name="item">The <see cref="GraphObj"/> object that is to be
+		/// inserted.</param>
+		/// <seealso cref="IList.Insert"/>
+		public void Insert( int index, GraphObj item )
+		{
+			List.Insert( index, item );
+		}
+*/
 
 		/// <summary>
 		/// Return the zero-based position index of the
@@ -151,13 +146,13 @@ namespace ZedGraph
 		/// </param>
 		/// <returns>The zero-based index of the specified <see cref="GraphObj"/>,
 		/// or -1 if the <see cref="GraphObj"/> is not in the list</returns>
-		public int IndexOfTag(string tag)
+		public int IndexOfTag( string tag )
 		{
 			int index = 0;
-			foreach (GraphObj p in this)
+			foreach ( GraphObj p in this )
 			{
-				if (p.Tag is string&&
-							String.Compare((string)p.Tag, tag, true)==0)
+				if ( p.Tag is string &&
+							String.Compare( (string) p.Tag, tag, true ) == 0 )
 					return index;
 				index++;
 			}
@@ -182,27 +177,27 @@ namespace ZedGraph
 		/// </param>
 		/// <returns>The new position for the object, or -1 if the object
 		/// was not found.</returns>
-		public int Move(int index, int relativePos)
+		public int Move( int index, int relativePos )
 		{
-			if (index<0||index>=Count)
+			if ( index < 0 || index >= Count )
 				return -1;
 
 			GraphObj graphObj = this[index];
-			this.RemoveAt(index);
+			this.RemoveAt( index );
 
-			index+=relativePos;
-			if (index<0)
-				index=0;
-			if (index>Count)
-				index=Count;
+			index += relativePos;
+			if ( index < 0 )
+				index = 0;
+			if ( index > Count )
+				index = Count;
 
-			Insert(index, graphObj);
+			Insert( index, graphObj );
 			return index;
 		}
 
-		#endregion Methods
+	#endregion
 
-		#region Render Methods
+	#region Render Methods
 
 		/// <summary>
 		/// Render text to the specified <see cref="Graphics"/> device
@@ -231,34 +226,34 @@ namespace ZedGraph
 		/// graphic objects.  The order of <see cref="GraphObj"/>'s with the
 		/// same <see cref="ZOrder"/> value is control by their order in
 		/// this <see cref="GraphObjList"/>.</param>
-		public void Draw(Graphics g, PaneBase pane, float scaleFactor,
-							ZOrder zOrder)
+		public void Draw( Graphics g, PaneBase pane, float scaleFactor,
+							ZOrder zOrder )
 		{
 			// Draw the items in reverse order, so the last items in the
 			// list appear behind the first items (consistent with
 			// CurveList)
-			for (int i = this.Count-1 ; i>=0 ; i--)
+			for ( int i=this.Count-1; i>=0; i-- )
 			{
 				GraphObj item = this[i];
-				if (item.ZOrder==zOrder&&item.IsVisible)
+				if ( item.ZOrder == zOrder && item.IsVisible )
 				{
 					Region region = null;
-					if (item.IsClippedToChartRect&&pane is GraphPane)
+					if ( item.IsClippedToChartRect && pane is GraphPane )
 					{
-						region=g.Clip.Clone();
-						g.SetClip(((GraphPane)pane).Chart._rect);
+						region = g.Clip.Clone();
+						g.SetClip( ((GraphPane)pane).Chart._rect );
 					}
 
-					item.Draw(g, pane, scaleFactor);
+					item.Draw( g, pane, scaleFactor );
 
-					if (item.IsClippedToChartRect&&pane is GraphPane)
-						g.Clip=region;
+					if ( item.IsClippedToChartRect && pane is GraphPane )
+						g.Clip = region;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Determine if a mouse point is within any <see cref="GraphObj"/>, and if so,
+		/// Determine if a mouse point is within any <see cref="GraphObj"/>, and if so, 
 		/// return the index number of the the <see cref="GraphObj"/>.
 		/// </summary>
 		/// <param name="mousePt">The screen point, in pixel coordinates.</param>
@@ -283,26 +278,27 @@ namespace ZedGraph
 		/// <returns>true if the mouse point is within a <see cref="GraphObj"/> bounding
 		/// box, false otherwise.</returns>
 		/// <seealso cref="GraphPane.FindNearestObject"/>
-		public bool FindPoint(PointF mousePt, PaneBase pane, Graphics g, float scaleFactor, out int index)
+		public bool FindPoint( PointF mousePt, PaneBase pane, Graphics g, float scaleFactor, out int index )
 		{
-			index=-1;
-
+			index = -1;
+			
 			// Search in reverse direction to honor the Z-order
-			for (int i = Count-1 ; i>=0 ; i--)
+			for ( int i=Count-1; i>=0; i-- )
 			{
-				if (this[i].PointInBox(mousePt, pane, g, scaleFactor))
+				if ( this[i].PointInBox( mousePt, pane, g, scaleFactor ) )
 				{
-					if ((index>=0&&this[i].ZOrder>this[index].ZOrder)||index<0)
-						index=i;
+					if ( ( index >= 0 && this[i].ZOrder > this[index].ZOrder ) || index < 0 )
+						index = i;
 				}
 			}
 
-			if (index>=0)
+			if ( index >= 0 )
 				return true;
 			else
 				return false;
 		}
+		
 
-		#endregion Render Methods
+	#endregion
 	}
 }

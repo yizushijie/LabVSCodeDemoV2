@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2005  John Champion
+//Copyright © 2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,8 @@
 //=============================================================================
 
 using System;
+using System.Collections;
+using System.Text;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -33,21 +35,22 @@ namespace ZedGraph
 	/// <see cref="Math.Log(double)" />
 	/// function.
 	/// </remarks>
-	///
+	/// 
 	/// <author> John Champion  </author>
 	/// <version> $Revision: 1.12 $ $Date: 2007-04-16 00:03:02 $ </version>
 	[Serializable]
-	internal class LogScale : Scale, ISerializable //, ICloneable
+	class LogScale : Scale, ISerializable //, ICloneable
 	{
-		#region constructors
+
+	#region constructors
 
 		/// <summary>
 		/// Default constructor that defines the owner <see cref="Axis" />
 		/// (containing object) for this new object.
 		/// </summary>
 		/// <param name="owner">The owner, or containing object, of this instance</param>
-		public LogScale(Axis owner)
-			: base(owner)
+		public LogScale( Axis owner )
+			: base( owner )
 		{
 		}
 
@@ -57,8 +60,8 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="LogScale" /> object from which to copy</param>
 		/// <param name="owner">The <see cref="Axis" /> object that will own the
 		/// new instance of <see cref="LogScale" /></param>
-		public LogScale(Scale rhs, Axis owner)
-			: base(rhs, owner)
+		public LogScale( Scale rhs, Axis owner )
+			: base( rhs, owner )
 		{
 		}
 
@@ -68,14 +71,14 @@ namespace ZedGraph
 		/// <param name="owner">The new <see cref="Axis" /> instance that will be
 		/// the owner of the new Scale</param>
 		/// <returns>A new <see cref="Scale" /> clone.</returns>
-		public override Scale Clone(Axis owner)
+		public override Scale Clone( Axis owner )
 		{
-			return new LogScale(this, owner);
+			return new LogScale( this, owner );
 		}
 
-		#endregion constructors
+	#endregion
 
-		#region properties
+	#region properties
 
 		/// <summary>
 		/// Return the <see cref="AxisType" /> for this <see cref="Scale" />, which is
@@ -96,7 +99,7 @@ namespace ZedGraph
 		public override double Min
 		{
 			get { return _min; }
-			set { if (value>0) _min=value; }
+			set { if ( value > 0 ) _min = value; }
 		}
 
 		/// <summary>
@@ -110,12 +113,12 @@ namespace ZedGraph
 		public override double Max
 		{
 			get { return _max; }
-			set { if (value>0) _max=value; }
+			set { if ( value > 0 ) _max = value; }
 		}
 
-		#endregion properties
+	#endregion
 
-		#region methods
+	#region methods
 
 		/// <summary>
 		/// Setup some temporary transform values in preparation for rendering the <see cref="Axis"/>.
@@ -134,12 +137,12 @@ namespace ZedGraph
 		/// <param name="axis">
 		/// The parent <see cref="Axis" /> for this <see cref="Scale" />
 		/// </param>
-		override public void SetupScaleData(GraphPane pane, Axis axis)
+		override public void SetupScaleData( GraphPane pane, Axis axis )
 		{
-			base.SetupScaleData(pane, axis);
+			base.SetupScaleData( pane, axis );
 
-			_minLinTemp=Linearize(_min);
-			_maxLinTemp=Linearize(_max);
+			_minLinTemp = Linearize( _min );
+			_maxLinTemp = Linearize( _max );
 		}
 
 		/// <summary>
@@ -151,9 +154,9 @@ namespace ZedGraph
 		/// it returns the log or power equivalent.
 		/// </remarks>
 		/// <param name="val">The value to be converted</param>
-		override public double Linearize(double val)
+		override public double Linearize( double val )
 		{
-			return SafeLog(val);
+			return SafeLog( val );
 		}
 
 		/// <summary>
@@ -166,9 +169,9 @@ namespace ZedGraph
 		/// it returns the anti-log or inverse-power equivalent.
 		/// </remarks>
 		/// <param name="val">The value to be converted</param>
-		override public double DeLinearize(double val)
+		override public double DeLinearize( double val )
 		{
-			return Math.Pow(10.0, val);
+			return Math.Pow( 10.0, val );
 		}
 
 		/// <summary>
@@ -187,12 +190,12 @@ namespace ZedGraph
 		/// <returns>
 		/// The specified major tic value (floating point double).
 		/// </returns>
-		override internal double CalcMajorTicValue(double baseVal, double tic)
+		override internal double CalcMajorTicValue( double baseVal, double tic )
 		{
-			return baseVal+(double)tic*CyclesPerStep;
+			return baseVal + (double)tic * CyclesPerStep;
 
-			//	double val = baseVal + (double)tic * CyclesPerStep;
-			//	double frac = val - Math.Floor( val );
+		//	double val = baseVal + (double)tic * CyclesPerStep;
+		//	double frac = val - Math.Floor( val );
 		}
 
 		/// <summary>
@@ -212,13 +215,13 @@ namespace ZedGraph
 		/// <returns>
 		/// The specified minor tic value (floating point double).
 		/// </returns>
-		override internal double CalcMinorTicValue(double baseVal, int iTic)
+		override internal double CalcMinorTicValue( double baseVal, int iTic )
 		{
 			double[] dLogVal = { 0, 0.301029995663981, 0.477121254719662, 0.602059991327962,
 									0.698970004336019, 0.778151250383644, 0.845098040014257,
 									0.903089986991944, 0.954242509439325, 1 };
 
-			return baseVal+Math.Floor((double)iTic/9.0)+dLogVal[(iTic+9)%9];
+			return baseVal + Math.Floor( (double) iTic / 9.0 ) + dLogVal[( iTic + 9 ) % 9];
 		}
 
 		/// <summary>
@@ -232,7 +235,7 @@ namespace ZedGraph
 		/// This value can be negative (e.g., -3 means the first minor tic is 3 minor step
 		/// increments before the first major tic.
 		/// </returns>
-		override internal int CalcMinorStart(double baseVal)
+		override internal int CalcMinorStart( double baseVal )
 		{
 			return -9;
 		}
@@ -251,15 +254,16 @@ namespace ZedGraph
 		/// </returns>
 		override internal double CalcBaseTic()
 		{
-			if (_baseTic!=PointPair.Missing)
+			if ( _baseTic != PointPair.Missing )
 				return _baseTic;
 			else
 			{
 				// go to the nearest even multiple of the step size
-				return Math.Ceiling(Scale.SafeLog(_min)-0.00000001);
+				return Math.Ceiling( Scale.SafeLog( _min ) - 0.00000001 );
 			}
-		}
 
+		}
+		
 		/// <summary>
 		/// Internal routine to determine the ordinals of the first and last major axis label.
 		/// </summary>
@@ -275,12 +279,12 @@ namespace ZedGraph
 
 			//nTics = (int)( ( Math.Floor( Scale.SafeLog( _max ) + 1.0e-12 ) ) -
 			//		( Math.Ceiling( Scale.SafeLog( _min ) - 1.0e-12 ) ) + 1 ) / CyclesPerStep;
-			nTics=(int)((Scale.SafeLog(_max)-Scale.SafeLog(_min))/CyclesPerStep)+1;
+			nTics = (int)( ( Scale.SafeLog( _max ) - Scale.SafeLog( _min ) ) / CyclesPerStep ) + 1;
 
-			if (nTics<1)
-				nTics=1;
-			else if (nTics>1000)
-				nTics=1000;
+			if ( nTics < 1 )
+				nTics = 1;
+			else if ( nTics > 1000 )
+				nTics = 1000;
 
 			return nTics;
 		}
@@ -327,50 +331,50 @@ namespace ZedGraph
 		/// </param>
 		/// <seealso cref="PickScale"/>
 		/// <seealso cref="AxisType.Log"/>
-		override public void PickScale(GraphPane pane, Graphics g, float scaleFactor)
+		override public void PickScale( GraphPane pane, Graphics g, float scaleFactor )
 		{
 			// call the base class first
-			base.PickScale(pane, g, scaleFactor);
+			base.PickScale( pane, g, scaleFactor );
 
 			// Majorstep is always 1 for log scales
-			if (_majorStepAuto)
-				_majorStep=1.0;
+			if ( _majorStepAuto )
+				_majorStep = 1.0;
 
-			_mag=0;     // Never use a magnitude shift for log scales
-
+			_mag = 0;		// Never use a magnitude shift for log scales
 			//this.numDec = 0;		// The number of decimal places to display is not used
 
 			// Check for bad data range
-			if (_min<=0.0&&_max<=0.0)
+			if ( _min <= 0.0 && _max <= 0.0 )
 			{
-				_min=1.0;
-				_max=10.0;
+				_min = 1.0;
+				_max = 10.0;
 			}
-			else if (_min<=0.0)
+			else if ( _min <= 0.0 )
 			{
-				_min=_max/10.0;
+				_min = _max / 10.0;
 			}
-			else if (_max<=0.0)
+			else if ( _max <= 0.0 )
 			{
-				_max=_min*10.0;
+				_max = _min * 10.0;
 			}
 
 			// Test for trivial condition of range = 0 and pick a suitable default
-			if (_max-_min<1.0e-20)
+			if ( _max - _min < 1.0e-20 )
 			{
-				if (_maxAuto)
-					_max=_max*2.0;
-				if (_minAuto)
-					_min=_min/2.0;
+				if ( _maxAuto )
+					_max = _max * 2.0;
+				if ( _minAuto )
+					_min = _min / 2.0;
 			}
 
 			// Get the nearest power of 10 (no partial log cycles allowed)
-			if (_minAuto)
-				_min=Math.Pow((double)10.0,
-					Math.Floor(Math.Log10(_min)));
-			if (_maxAuto)
-				_max=Math.Pow((double)10.0,
-					Math.Ceiling(Math.Log10(_max)));
+			if ( _minAuto )
+				_min = Math.Pow( (double) 10.0,
+					Math.Floor( Math.Log10( _min ) ) );
+			if ( _maxAuto )
+				_max = Math.Pow( (double) 10.0,
+					Math.Ceiling( Math.Log10( _max ) ) );
+
 		}
 
 		/// <summary>
@@ -389,21 +393,20 @@ namespace ZedGraph
 		/// and text (<see cref="Scale.IsText"/>) type axes.
 		/// </param>
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
-		override internal string MakeLabel(GraphPane pane, int index, double dVal)
+		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if (_format==null)
-				_format=Scale.Default.Format;
+			if ( _format == null )
+				_format = Scale.Default.Format;
 
-			if (_isUseTenPower)
-				return string.Format("{0:F0}", dVal);
+			if ( _isUseTenPower )
+				return string.Format( "{0:F0}", dVal );
 			else
-				return Math.Pow(10.0, dVal).ToString(_format);
+				return Math.Pow( 10.0, dVal ).ToString( _format );
 		}
 
-		#endregion methods
+	#endregion
 
-		#region Serialization
-
+	#region Serialization
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
 		/// </summary>
@@ -416,25 +419,25 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected LogScale(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected LogScale( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema2");
-		}
+			int sch = info.GetInt32( "schema2" );
 
+		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema2", schema2);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema2", schema2 );
 		}
+	#endregion
 
-		#endregion Serialization
 	}
 }

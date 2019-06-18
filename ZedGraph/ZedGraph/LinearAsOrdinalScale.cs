@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2005  John Champion
+//Copyright © 2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,8 @@
 //=============================================================================
 
 using System;
+using System.Collections;
+using System.Text;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -36,21 +38,22 @@ namespace ZedGraph
 	/// are 1, 5, and 100, then the tic labels will show 1, 5, and 100, but they will be equal
 	/// distance from each other.
 	/// </remarks>
-	///
+	/// 
 	/// <author> John Champion  </author>
 	/// <version> $Revision: 1.10 $ $Date: 2007-04-16 00:03:02 $ </version>
 	[Serializable]
-	internal class LinearAsOrdinalScale : Scale, ISerializable //, ICloneable
+	class LinearAsOrdinalScale : Scale, ISerializable //, ICloneable
 	{
-		#region constructors
+
+	#region constructors
 
 		/// <summary>
 		/// Default constructor that defines the owner <see cref="Axis" />
 		/// (containing object) for this new object.
 		/// </summary>
 		/// <param name="owner">The owner, or containing object, of this instance</param>
-		public LinearAsOrdinalScale(Axis owner)
-			: base(owner)
+		public LinearAsOrdinalScale( Axis owner )
+			: base( owner )
 		{
 		}
 
@@ -60,10 +63,11 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="LinearAsOrdinalScale" /> object from which to copy</param>
 		/// <param name="owner">The <see cref="Axis" /> object that will own the
 		/// new instance of <see cref="LinearAsOrdinalScale" /></param>
-		public LinearAsOrdinalScale(Scale rhs, Axis owner)
-			: base(rhs, owner)
+		public LinearAsOrdinalScale( Scale rhs, Axis owner )
+			: base( rhs, owner )
 		{
 		}
+
 
 		/// <summary>
 		/// Create a new clone of the current item, with a new owner assignment
@@ -71,14 +75,13 @@ namespace ZedGraph
 		/// <param name="owner">The new <see cref="Axis" /> instance that will be
 		/// the owner of the new Scale</param>
 		/// <returns>A new <see cref="Scale" /> clone.</returns>
-		public override Scale Clone(Axis owner)
+		public override Scale Clone( Axis owner )
 		{
-			return new LinearAsOrdinalScale(this, owner);
+			return new LinearAsOrdinalScale( this, owner );
 		}
+	#endregion
 
-		#endregion constructors
-
-		#region properties
+	#region properties
 
 		/// <summary>
 		/// Return the <see cref="AxisType" /> for this <see cref="Scale" />, which is
@@ -89,9 +92,9 @@ namespace ZedGraph
 			get { return AxisType.LinearAsOrdinal; }
 		}
 
-		#endregion properties
+	#endregion
 
-		#region methods
+	#region methods
 
 		/// <summary>
 		/// Select a reasonable ordinal axis scale given a range of data values, with the expectation that
@@ -124,10 +127,10 @@ namespace ZedGraph
 		/// </param>
 		/// <seealso cref="PickScale"/>
 		/// <seealso cref="AxisType.Ordinal"/>
-		override public void PickScale(GraphPane pane, Graphics g, float scaleFactor)
+		override public void PickScale( GraphPane pane, Graphics g, float scaleFactor )
 		{
 			// call the base class first
-			base.PickScale(pane, g, scaleFactor);
+			base.PickScale( pane, g, scaleFactor );
 
 			// First, get the date ranges from the first curve in the list
 			double xMin; // = Double.MaxValue;
@@ -137,34 +140,34 @@ namespace ZedGraph
 			double tMin = 0;
 			double tMax = 1;
 
-			foreach (CurveItem curve in pane.CurveList)
+			foreach ( CurveItem curve in pane.CurveList )
 			{
-				if ((_ownerAxis is Y2Axis&&curve.IsY2Axis)||
-						(_ownerAxis is YAxis&&!curve.IsY2Axis)||
-						(_ownerAxis is X2Axis&&curve.IsX2Axis)||
-						(_ownerAxis is XAxis&&!curve.IsX2Axis))
+				if ( ( _ownerAxis is Y2Axis && curve.IsY2Axis ) ||
+						( _ownerAxis is YAxis && !curve.IsY2Axis ) ||
+						( _ownerAxis is X2Axis && curve.IsX2Axis ) ||
+						( _ownerAxis is XAxis && !curve.IsX2Axis ) )
 				{
-					curve.GetRange(out xMin, out xMax, out yMin, out yMax, false, false, pane);
-					if (_ownerAxis is XAxis||_ownerAxis is X2Axis)
+					curve.GetRange( out xMin, out xMax, out yMin, out yMax, false, false, pane );
+					if ( _ownerAxis is XAxis || _ownerAxis is X2Axis )
 					{
-						tMin=xMin;
-						tMax=xMax;
+						tMin = xMin;
+						tMax = xMax;
 					}
 					else
 					{
-						tMin=yMin;
-						tMax=yMax;
+						tMin = yMin;
+						tMax = yMax;
 					}
 				}
 			}
 
-			double range = Math.Abs(tMax-tMin);
+			double range = Math.Abs( tMax - tMin );
 
 			// Now, set the axis range based on a ordinal scale
-			base.PickScale(pane, g, scaleFactor);
-			OrdinalScale.PickScale(pane, g, scaleFactor, this);
+			base.PickScale( pane, g, scaleFactor );
+			OrdinalScale.PickScale( pane, g, scaleFactor, this );
 
-			SetScaleMag(tMin, tMax, range/Default.TargetXSteps);
+			SetScaleMag( tMin, tMax, range / Default.TargetXSteps );
 		}
 
 		/// <summary>
@@ -183,29 +186,28 @@ namespace ZedGraph
 		/// and text (<see cref="Scale.IsText"/>) type axes.
 		/// </param>
 		/// <returns>The resulting value label as a <see cref="string" /></returns>
-		override internal string MakeLabel(GraphPane pane, int index, double dVal)
+		override internal string MakeLabel( GraphPane pane, int index, double dVal )
 		{
-			if (_format==null)
-				_format=Scale.Default.Format;
+			if ( _format == null )
+				_format = Scale.Default.Format;
 
 			double val;
 
-			int tmpIndex = (int)dVal-1;
+			int tmpIndex = (int) dVal - 1;
 
-			if (pane.CurveList.Count>0&&pane.CurveList[0].Points.Count>tmpIndex)
+			if ( pane.CurveList.Count > 0 && pane.CurveList[0].Points.Count > tmpIndex )
 			{
-				val=pane.CurveList[0].Points[tmpIndex].X;
-				double scaleMult = Math.Pow((double)10.0, _mag);
-				return (val/scaleMult).ToString(_format);
+				val = pane.CurveList[0].Points[tmpIndex].X;
+				double scaleMult = Math.Pow( (double) 10.0, _mag );
+				return ( val / scaleMult ).ToString( _format );
 			}
 			else
 				return string.Empty;
 		}
 
-		#endregion methods
+	#endregion
 
-		#region Serialization
-
+	#region Serialization
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
 		/// </summary>
@@ -218,25 +220,25 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected LinearAsOrdinalScale(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected LinearAsOrdinalScale( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema2");
-		}
+			int sch = info.GetInt32( "schema2" );
 
+		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema2", schema2);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema2", schema2 );
 		}
+	#endregion
 
-		#endregion Serialization
 	}
 }

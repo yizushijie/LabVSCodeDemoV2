@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2006  John Champion
+//Copyright © 2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,7 @@
 
 using System;
 using System.Drawing;
+using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -29,7 +30,7 @@ namespace ZedGraph
 	/// actually drawn), which is bounded by the <see cref="XAxis" />, <see cref="YAxis"/>,
 	/// and <see cref="Y2Axis" />.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.1 $ $Date: 2006-06-24 20:26:44 $ </version>
 	[Serializable]
@@ -59,28 +60,28 @@ namespace ZedGraph
 		/// this value. </summary>
 		internal bool _isRectAuto;
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Default constructor.
 		/// </summary>
 		public Chart()
 		{
-			_isRectAuto=true;
-			_border=new Border(Default.IsBorderVisible, Default.BorderColor, Default.BorderPenWidth);
-			_fill=new Fill(Default.FillColor, Default.FillBrush, Default.FillType);
+			_isRectAuto = true;
+			_border = new Border( Default.IsBorderVisible, Default.BorderColor, Default.BorderPenWidth );
+			_fill = new Fill( Default.FillColor, Default.FillBrush, Default.FillType );
 		}
 
 		/// <summary>
 		/// Copy constructor
 		/// </summary>
 		/// <param name="rhs">The source <see cref="Chart" /> to be copied.</param>
-		public Chart(Chart rhs)
+		public Chart( Chart rhs )
 		{
-			_border=rhs._border.Clone();
-			_fill=rhs._fill.Clone();
-			_rect=rhs._rect;
-			_isRectAuto=rhs._isRectAuto;
+			_border = rhs._border.Clone();
+			_fill = rhs._fill.Clone();
+			_rect = rhs._rect;
+			_isRectAuto = rhs._isRectAuto;
 		}
 
 		/// <summary>
@@ -99,12 +100,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public Chart Clone()
 		{
-			return new Chart(this);
+			return new Chart( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Gets or sets the rectangle that contains the area bounded by the axes
@@ -116,7 +117,7 @@ namespace ZedGraph
 		public RectangleF Rect
 		{
 			get { return _rect; }
-			set { _rect=value; _isRectAuto=false; }
+			set { _rect = value; _isRectAuto = false; }
 		}
 
 		/// <summary>
@@ -126,7 +127,7 @@ namespace ZedGraph
 		public Fill Fill
 		{
 			get { return _fill; }
-			set { _fill=value; }
+			set { _fill = value; }
 		}
 
 		/// <summary>
@@ -138,11 +139,11 @@ namespace ZedGraph
 		public Border Border
 		{
 			get { return _border; }
-			set { _border=value; }
+			set { _border = value; }
 		}
 
 		/// <summary>
-		/// Gets or sets a boolean value that determines whether or not the
+		/// Gets or sets a boolean value that determines whether or not the 
 		/// <see cref="Rect"/> will be calculated automatically (almost always true).
 		/// </summary>
 		/// <remarks>
@@ -158,12 +159,12 @@ namespace ZedGraph
 		public bool IsRectAuto
 		{
 			get { return _isRectAuto; }
-			set { _isRectAuto=value; }
+			set { _isRectAuto = value; }
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -177,36 +178,35 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected Chart(SerializationInfo info, StreamingContext context)
+		protected Chart( SerializationInfo info, StreamingContext context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema");
+			int sch = info.GetInt32( "schema" );
 
-			_rect=(RectangleF)info.GetValue("rect", typeof(RectangleF));
-			_fill=(Fill)info.GetValue("fill", typeof(Fill));
-			_border=(Border)info.GetValue("border", typeof(Border));
-			_isRectAuto=info.GetBoolean("isRectAuto");
+			_rect = (RectangleF)info.GetValue( "rect", typeof( RectangleF ) );
+			_fill = (Fill)info.GetValue( "fill", typeof( Fill ) );
+			_border = (Border)info.GetValue( "border", typeof( Border ) );
+			_isRectAuto = info.GetBoolean( "isRectAuto" );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			info.AddValue("schema", schema);
-			info.AddValue("rect", _rect);
-			info.AddValue("fill", _fill);
-			info.AddValue("border", _border);
-			info.AddValue("isRectAuto", _isRectAuto);
+			info.AddValue( "schema", schema );
+			info.AddValue( "rect", _rect );
+			info.AddValue( "fill", _fill );
+			info.AddValue( "border", _border );
+			info.AddValue( "isRectAuto", _isRectAuto );
 		}
 
-		#endregion Serialization
+	#endregion
 
-		#region Defaults
+	#region Defaults
 
 		/// <summary>
 		/// A simple struct that defines the
@@ -216,44 +216,41 @@ namespace ZedGraph
 		{
 			/// <summary>
 			/// The default color for the <see cref="Chart"/> border.
-			/// (<see cref="Chart.Border"/> property).
+			/// (<see cref="Chart.Border"/> property). 
 			/// </summary>
 			public static Color BorderColor = Color.Black;
-
 			/// <summary>
 			/// The default color for the <see cref="Chart"/> background.
-			/// (<see cref="Chart.Fill"/> property).
+			/// (<see cref="Chart.Fill"/> property). 
 			/// </summary>
 			public static Color FillColor = Color.White;
-
 			/// <summary>
 			/// The default brush for the <see cref="GraphPane.Chart"/> background.
-			/// (<see cref="ZedGraph.Fill.Brush"/> property of <see cref="Chart.Fill"/>).
+			/// (<see cref="ZedGraph.Fill.Brush"/> property of <see cref="Chart.Fill"/>). 
 			/// </summary>
 			public static Brush FillBrush = null;
-
 			/// <summary>
 			/// The default <see cref="FillType"/> for the <see cref="GraphPane.Chart"/> background.
-			/// (<see cref="ZedGraph.Fill.Type"/> property of <see cref="Chart.Fill"/>).
+			/// (<see cref="ZedGraph.Fill.Type"/> property of <see cref="Chart.Fill"/>). 
 			/// </summary>
 			public static FillType FillType = FillType.Brush;
-
 			/// <summary>
-			/// The default pen width for drawing the
+			/// The default pen width for drawing the 
 			/// <see cref="GraphPane.Chart"/> border
 			/// (<see cref="Chart.Border"/> property).
 			/// Units are in points (1/72 inch).
 			/// </summary>
 			public static float BorderPenWidth = 1F;
-
 			/// <summary>
 			/// The default display mode for the <see cref="Chart"/> border
 			/// (<see cref="Chart.Border"/> property). true
 			/// to show the border border, false to omit the border
 			/// </summary>
 			public static bool IsBorderVisible = true;
+
 		}
 
-		#endregion Defaults
+	#endregion
+
 	}
 }

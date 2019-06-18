@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2006  John Champion
+//Copyright © 2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,8 @@
 //=============================================================================
 
 using System;
+using System.Drawing;
+using System.Collections;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -26,17 +28,18 @@ namespace ZedGraph
 	/// <summary>
 	/// A class that maintains hyperlink information for a clickable object on the graph.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.6 $ $Date: 2007-04-16 00:03:02 $ </version>
 	// /// <seealso cref="ZedGraph.Web.IsImageMap"/>
 	[Serializable]
 	public class Link : ISerializable, ICloneable
 	{
-		#region Fields
+
+	#region Fields
 
 		/// <summary>
-		/// Internal field that stores the title string for this link.
+		/// Internal field that stores the title string for this link.  
 		/// </summary>
 		internal string _title;
 
@@ -55,9 +58,9 @@ namespace ZedGraph
 		/// </summary>
 		internal bool _isEnabled;
 
-		#endregion Fields
+	#endregion
 
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Gets or sets the title string for this link.
@@ -70,7 +73,7 @@ namespace ZedGraph
 		public string Title
 		{
 			get { return _title; }
-			set { _title=value; }
+			set { _title = value; }
 		}
 
 		/// <summary>
@@ -83,7 +86,7 @@ namespace ZedGraph
 		public string Url
 		{
 			get { return _url; }
-			set { _url=value; }
+			set { _url = value; }
 		}
 
 		/// <summary>
@@ -96,8 +99,8 @@ namespace ZedGraph
 		/// </remarks>
 		public string Target
 		{
-			get { return _target!=string.Empty ? _target : "_self"; }
-			set { _target=value; }
+			get { return _target != string.Empty ? _target : "_self"; }
+			set { _target = value; }
 		}
 
 		/// <summary>
@@ -119,7 +122,7 @@ namespace ZedGraph
 		public bool IsEnabled
 		{
 			get { return _isEnabled; }
-			set { _isEnabled=value; }
+			set { _isEnabled = value; }
 		}
 
 		/// <summary>
@@ -129,23 +132,23 @@ namespace ZedGraph
 		/// </summary>
 		public bool IsActive
 		{
-			get { return _isEnabled&&(_url!=null||_title!=null); }
+			get { return _isEnabled && ( _url != null || _title != null ); }
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Default constructor.  Set all properties to string.Empty, or null.
 		/// </summary>
 		public Link()
 		{
-			_title=string.Empty;
-			_url=string.Empty;
-			_target=string.Empty;
-			this.Tag=null;
-			_isEnabled=false;
+			_title = string.Empty;
+			_url = string.Empty;
+			_target = string.Empty;
+			this.Tag = null;
+			_isEnabled = false;
 		}
 
 		/// <summary>
@@ -154,32 +157,32 @@ namespace ZedGraph
 		/// <param name="title">The title for the link (which shows up in the tooltip).</param>
 		/// <param name="url">The URL destination for the link.</param>
 		/// <param name="target">The target for the link (typically "_blank" or "_self").</param>
-		public Link(string title, string url, string target)
+		public Link( string title, string url, string target )
 		{
-			_title=title;
-			_url=url;
-			_target=target;
-			Tag=null;
-			_isEnabled=true;
+			_title = title;
+			_url = url;
+			_target = target;
+			Tag = null;
+			_isEnabled = true;
 		}
 
 		/// <summary>
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="Link"/> object from which to copy</param>
-		public Link(Link rhs)
+		public Link( Link rhs )
 		{
 			// Copy value types
-			_title=rhs._title;
-			_url=rhs._url;
-			_target=rhs._target;
-			_isEnabled=false;
+			_title = rhs._title;
+			_url = rhs._url;
+			_target = rhs._target;
+			_isEnabled = false;
 
 			// copy reference types by cloning
-			if (rhs.Tag is ICloneable)
-				this.Tag=((ICloneable)rhs.Tag).Clone();
+			if ( rhs.Tag is ICloneable )
+				this.Tag = ((ICloneable) rhs.Tag).Clone();
 			else
-				this.Tag=rhs.Tag;
+				this.Tag = rhs.Tag;
 		}
 
 		/// <summary>
@@ -198,12 +201,13 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public Link Clone()
 		{
-			return new Link(this);
+			return new Link( this );
 		}
 
-		#endregion Constructors
 
-		#region methods
+	#endregion
+
+	#region methods
 
 		/// <summary>
 		/// Create a URL for a <see cref="CurveItem" /> that includes the index of the
@@ -211,7 +215,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <remarks>
 		/// An "index" parameter is added to the <see cref="Url" /> property for this
-		/// link to indicate which point was selected.  Further, if the
+		/// link to indicate which point was selected.  Further, if the 
 		/// X or Y axes that correspond to this <see cref="CurveItem" /> are of
 		/// <see cref="AxisType.Text" />, then an
 		/// additional parameter will be added containing the text value that
@@ -224,33 +228,32 @@ namespace ZedGraph
 		/// <param name="curve">The <see cref="CurveItem" /> for which to
 		/// make the url string.</param>
 		/// <returns>A string containing the url with an index parameter added.</returns>
-		public virtual string MakeCurveItemUrl(GraphPane pane, CurveItem curve, int index)
+		public virtual string MakeCurveItemUrl( GraphPane pane, CurveItem curve, int index )
 		{
 			string url = _url;
 
-			if (url.IndexOf('?')>=0)
-				url+="&index="+index.ToString();
+			if ( url.IndexOf( '?' ) >= 0 )
+				url += "&index=" + index.ToString();
 			else
-				url+="?index="+index.ToString();
+				url += "?index=" + index.ToString();
 
-			Axis xAxis = curve.GetXAxis(pane);
-			if (xAxis.Type==AxisType.Text&&index>=0&&
-					xAxis.Scale.TextLabels!=null&&
-					index<=xAxis.Scale.TextLabels.Length)
-				url+="&xtext="+xAxis.Scale.TextLabels[index];
+			Axis xAxis = curve.GetXAxis( pane );
+			if (	xAxis.Type == AxisType.Text && index >= 0 &&
+					xAxis.Scale.TextLabels != null &&
+					index <= xAxis.Scale.TextLabels.Length )
+				url += "&xtext=" + xAxis.Scale.TextLabels[index];
 
-			Axis yAxis = curve.GetYAxis(pane);
-			if (yAxis!=null&&yAxis.Type==AxisType.Text&&index>=0&&
-					yAxis.Scale.TextLabels!=null&&
-					index<=yAxis.Scale.TextLabels.Length)
-				url+="&ytext="+yAxis.Scale.TextLabels[index];
+			Axis yAxis = curve.GetYAxis( pane );
+			if (	yAxis != null && yAxis.Type == AxisType.Text && index >= 0 &&
+					yAxis.Scale.TextLabels != null &&
+					index <= yAxis.Scale.TextLabels.Length )
+				url += "&ytext=" + yAxis.Scale.TextLabels[index];
 
 			return url;
 		}
+	#endregion
 
-		#endregion methods
-
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -267,35 +270,35 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected Link(SerializationInfo info, StreamingContext context)
+		protected Link( SerializationInfo info, StreamingContext context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema");
+			int sch = info.GetInt32( "schema" );
 
-			_title=info.GetString("title");
-			_url=info.GetString("url");
-			_target=info.GetString("target");
-			_isEnabled=info.GetBoolean("isEnabled");
-			Tag=info.GetValue("Tag", typeof(object));
+			_title = info.GetString( "title" );
+			_url = info.GetString( "url" );
+			_target = info.GetString( "target" );
+			_isEnabled = info.GetBoolean( "isEnabled" );
+			Tag = info.GetValue( "Tag", typeof(object) );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			info.AddValue("schema", schema);
-			info.AddValue("title", _title);
-			info.AddValue("url", _url);
-			info.AddValue("target", _target);
-			info.AddValue("isEnabled", _isEnabled);
-			info.AddValue("Tag", Tag);
+			info.AddValue( "schema", schema );
+			info.AddValue( "title", _title );
+			info.AddValue( "url", _url );
+			info.AddValue( "target", _target );
+			info.AddValue( "isEnabled", _isEnabled );
+			info.AddValue( "Tag", Tag );
 		}
 
-		#endregion Serialization
+	#endregion
+
 	}
 }

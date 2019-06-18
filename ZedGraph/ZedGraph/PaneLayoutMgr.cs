@@ -19,6 +19,7 @@
 
 using System;
 using System.Drawing;
+using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -27,7 +28,7 @@ namespace ZedGraph
 	/// <summary>
 	/// internal class to store pane layout details for the <see cref="MasterPane" />
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.1 $ $Date: 2006-06-24 20:26:44 $ </version>
 	[Serializable]
@@ -35,7 +36,7 @@ namespace ZedGraph
 	{
 		// =========== PANE LAYOUT STUFF ================
 
-		#region Fields
+	#region Fields
 
 		/// <summary>
 		/// private field that saves the paneLayout format specified when
@@ -50,7 +51,6 @@ namespace ZedGraph
 		/// <see cref="_countList"/> is specifying rows or columns.
 		/// </summary>
 		internal bool _isColumnSpecified;
-
 		/// <summary>
 		/// private field that stores the row/column item count that was specified to the
 		/// <see cref="SetLayout(bool,int[],float[])"/> method.  This values will be
@@ -62,20 +62,20 @@ namespace ZedGraph
 		/// private field that stores the row/column size proportional values as specified
 		/// to the <see cref="SetLayout(bool,int[],float[])"/> method.  This
 		/// value will be null if <see cref="SetLayout(bool,int[],float[])"/>
-		/// was never called.
+		/// was never called.  
 		/// </summary>
 		internal float[] _prop;
 
-		#endregion Fields
+	#endregion
 
-		#region Constructors
+	#region Constructors
 
 		internal void Init()
 		{
-			_paneLayout=MasterPane.Default.PaneLayout;
-			_countList=null;
-			_isColumnSpecified=false;
-			_prop=null;
+			_paneLayout = MasterPane.Default.PaneLayout;
+			_countList = null;
+			_isColumnSpecified = false;
+			_prop = null;
 		}
 
 		internal PaneLayoutMgr()
@@ -83,12 +83,12 @@ namespace ZedGraph
 			Init();
 		}
 
-		internal PaneLayoutMgr(PaneLayoutMgr rhs)
+		internal PaneLayoutMgr( PaneLayoutMgr rhs )
 		{
-			_paneLayout=rhs._paneLayout;
-			_countList=rhs._countList;
-			_isColumnSpecified=rhs._isColumnSpecified;
-			_prop=rhs._prop;
+			_paneLayout = rhs._paneLayout;
+			_countList = rhs._countList;
+			_isColumnSpecified = rhs._isColumnSpecified;
+			_prop = rhs._prop;
 		}
 
 		/// <summary>
@@ -107,12 +107,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public PaneLayoutMgr Clone()
 		{
-			return new PaneLayoutMgr(this);
+			return new PaneLayoutMgr( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -126,17 +126,17 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		public PaneLayoutMgr(SerializationInfo info, StreamingContext context)
+		public PaneLayoutMgr( SerializationInfo info, StreamingContext context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema");
+			int sch = info.GetInt32( "schema" );
 
-			_paneLayout=(PaneLayout)info.GetValue("paneLayout", typeof(PaneLayout));
-			_countList=(int[])info.GetValue("countList", typeof(int[]));
+			_paneLayout = (PaneLayout)info.GetValue( "paneLayout", typeof( PaneLayout ) );
+			_countList = (int[])info.GetValue( "countList", typeof(int[]) );
 
-			_isColumnSpecified=info.GetBoolean("isColumnSpecified");
-			_prop=(float[])info.GetValue("prop", typeof(float[]));
+			_isColumnSpecified = info.GetBoolean( "isColumnSpecified" );
+			_prop = (float[]) info.GetValue( "prop", typeof( float[] ) );
 		}
 
 		/// <summary>
@@ -144,20 +144,19 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public virtual void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			info.AddValue("schema", schema);
+			info.AddValue( "schema", schema );
 
-			info.AddValue("paneLayout", _paneLayout);
-			info.AddValue("countList", _countList);
-			info.AddValue("isColumnSpecified", _isColumnSpecified);
-			info.AddValue("prop", _prop);
+			info.AddValue( "paneLayout", _paneLayout );
+			info.AddValue( "countList", _countList );
+			info.AddValue( "isColumnSpecified", _isColumnSpecified );
+			info.AddValue( "prop", _prop );
 		}
+	#endregion
 
-		#endregion Serialization
-
-		#region Methods
+	#region Methods
 
 		/// <overloads>The SetLayout() methods setup the desired layout of the
 		/// <see cref="GraphPane" /> objects within a <see cref="MasterPane" />.  These functions
@@ -183,11 +182,11 @@ namespace ZedGraph
 		/// <seealso cref="SetLayout(int,int)" />
 		/// <seealso cref="SetLayout(bool,int[])" />
 		/// <seealso cref="SetLayout(bool,int[],float[])" />
-		public void SetLayout(PaneLayout paneLayout)
+		public void SetLayout( PaneLayout paneLayout )
 		{
 			Init();
 
-			_paneLayout=paneLayout;
+			_paneLayout = paneLayout;
 		}
 
 		/// <summary>
@@ -204,21 +203,21 @@ namespace ZedGraph
 		/// <seealso cref="SetLayout(PaneLayout)" />
 		/// <seealso cref="SetLayout(bool,int[])" />
 		/// <seealso cref="SetLayout(bool,int[],float[])" />
-		public void SetLayout(int rows, int columns)
+		public void SetLayout( int rows, int columns )
 		{
 			Init();
 
-			if (rows<1)
-				rows=1;
-			if (columns<1)
-				columns=1;
+			if ( rows < 1 )
+				rows = 1;
+			if ( columns < 1 )
+				columns = 1;
 
 			int[] countList = new int[rows];
 
-			for (int i = 0 ; i<rows ; i++)
-				countList[i]=columns;
+			for (int i=0; i<rows; i++ )
+				countList[i] = columns;
 
-			SetLayout(true, countList, null);
+			SetLayout( true, countList, null );
 		}
 
 		/// <summary>
@@ -238,9 +237,9 @@ namespace ZedGraph
 		/// <seealso cref="SetLayout(PaneLayout)" />
 		/// <seealso cref="SetLayout(int,int)" />
 		/// <seealso cref="SetLayout(bool,int[],float[])" />
-		public void SetLayout(bool isColumnSpecified, int[] countList)
+		public void SetLayout( bool isColumnSpecified, int[] countList )
 		{
-			SetLayout(isColumnSpecified, countList, null);
+			SetLayout( isColumnSpecified, countList, null );
 		}
 
 		/// <summary>
@@ -275,30 +274,30 @@ namespace ZedGraph
 		/// <seealso cref="SetLayout(PaneLayout)" />
 		/// <seealso cref="SetLayout(int,int)" />
 		/// <seealso cref="SetLayout(bool,int[])" />
-		public void SetLayout(bool isColumnSpecified, int[] countList, float[] proportion)
+		public void SetLayout( bool isColumnSpecified, int[] countList, float[] proportion )
 		{
 			Init();
 
 			// use defaults if the parameters are invalid
-			if (countList!=null&&countList.Length>0)
+			if ( countList != null && countList.Length > 0 )
 			{
-				this._prop=new float[countList.Length];
+				this._prop = new float[countList.Length];
 
 				// Sum up the total proportional factors
 				float sumProp = 0.0f;
-				for (int i = 0 ; i<countList.Length ; i++)
+				for ( int i = 0; i < countList.Length; i++ )
 				{
-					this._prop[i]=(proportion==null||proportion.Length<=i||proportion[i]<1e-10) ?
+					this._prop[i] = ( proportion == null || proportion.Length <= i || proportion[i] < 1e-10 ) ?
 												1.0f : proportion[i];
-					sumProp+=this._prop[i];
+					sumProp += this._prop[i];
 				}
 
 				// Make prop sum to 1.0
-				for (int i = 0 ; i<countList.Length ; i++)
-					this._prop[i]/=sumProp;
+				for ( int i=0; i<countList.Length; i++ )
+					this._prop[i] /= sumProp;
 
-				_isColumnSpecified=isColumnSpecified;
-				_countList=countList;
+				_isColumnSpecified = isColumnSpecified;
+				_countList = countList;
 			}
 		}
 
@@ -317,89 +316,77 @@ namespace ZedGraph
 		/// <seealso cref="SetLayout(int,int)" />
 		/// <seealso cref="SetLayout(bool,int[])" />
 		/// <seealso cref="SetLayout(bool,int[],float[])" />
-		public void DoLayout(Graphics g, MasterPane master)
+		public void DoLayout( Graphics g, MasterPane master )
 		{
-			if (this._countList!=null)
-				DoLayout(g, master, this._isColumnSpecified, this._countList, this._prop);
+			if ( this._countList != null )
+				DoLayout( g, master, this._isColumnSpecified, this._countList, this._prop );
 			else
 			{
 				int count = master.PaneList.Count;
-				if (count==0)
+				if ( count == 0 )
 					return;
 
 				int rows,
 						cols,
-						root = (int)(Math.Sqrt((double)count)+0.9999999);
+						root = (int)( Math.Sqrt( (double)count ) + 0.9999999 );
 
 				//float[] widthList = new float[5];
 
-				switch (_paneLayout)
+				switch ( _paneLayout )
 				{
 					case PaneLayout.ForceSquare:
-						rows=root;
-						cols=root;
-						DoLayout(g, master, rows, cols);
+						rows = root;
+						cols = root;
+						DoLayout( g, master, rows, cols );
 						break;
-
 					case PaneLayout.SingleColumn:
-						rows=count;
-						cols=1;
-						DoLayout(g, master, rows, cols);
+						rows = count;
+						cols = 1;
+						DoLayout( g, master, rows, cols );
 						break;
-
 					case PaneLayout.SingleRow:
-						rows=1;
-						cols=count;
-						DoLayout(g, master, rows, cols);
+						rows = 1;
+						cols = count;
+						DoLayout( g, master, rows, cols );
 						break;
-
 					default:
 					case PaneLayout.SquareColPreferred:
-						rows=root;
-						cols=root;
-						if (count<=root*(root-1))
+						rows = root;
+						cols = root;
+						if ( count <= root * ( root - 1 ) )
 							rows--;
-						DoLayout(g, master, rows, cols);
+						DoLayout( g, master, rows, cols );
 						break;
-
 					case PaneLayout.SquareRowPreferred:
-						rows=root;
-						cols=root;
-						if (count<=root*(root-1))
+						rows = root;
+						cols = root;
+						if ( count <= root * ( root - 1 ) )
 							cols--;
-						DoLayout(g, master, rows, cols);
+						DoLayout( g, master, rows, cols );
 						break;
-
 					case PaneLayout.ExplicitCol12:
-						DoLayout(g, master, true, new int[2] { 1, 2 }, null);
+						DoLayout( g, master, true, new int[2] { 1, 2 }, null );
 						break;
-
 					case PaneLayout.ExplicitCol21:
-						DoLayout(g, master, true, new int[2] { 2, 1 }, null);
+						DoLayout( g, master, true, new int[2] { 2, 1 }, null );
 						break;
-
 					case PaneLayout.ExplicitCol23:
-						DoLayout(g, master, true, new int[2] { 2, 3 }, null);
+						DoLayout( g, master, true, new int[2] { 2, 3 }, null );
 						break;
-
 					case PaneLayout.ExplicitCol32:
-						DoLayout(g, master, true, new int[2] { 3, 2 }, null);
+						DoLayout( g, master, true, new int[2] { 3, 2 }, null );
 						break;
-
 					case PaneLayout.ExplicitRow12:
-						DoLayout(g, master, false, new int[2] { 1, 2 }, null);
+						DoLayout( g, master, false, new int[2] { 1, 2 }, null );
 						break;
-
 					case PaneLayout.ExplicitRow21:
-						DoLayout(g, master, false, new int[2] { 2, 1 }, null);
+						DoLayout( g, master, false, new int[2] { 2, 1 }, null );
 						break;
-
 					case PaneLayout.ExplicitRow23:
-						DoLayout(g, master, false, new int[2] { 2, 3 }, null);
+						DoLayout( g, master, false, new int[2] { 2, 3 }, null );
 						break;
-
 					case PaneLayout.ExplicitRow32:
-						DoLayout(g, master, false, new int[2] { 3, 2 }, null);
+						DoLayout( g, master, false, new int[2] { 3, 2 }, null );
 						break;
 				}
 			}
@@ -410,19 +397,19 @@ namespace ZedGraph
 		/// row and column count.  This method is only called by
 		/// <see cref="DoLayout(Graphics,MasterPane)" />.
 		/// </summary>
-		internal void DoLayout(Graphics g, MasterPane master, int rows, int columns)
+		internal void DoLayout( Graphics g, MasterPane master, int rows, int columns )
 		{
-			if (rows<1)
-				rows=1;
-			if (columns<1)
-				columns=1;
+			if ( rows < 1 )
+				rows = 1;
+			if ( columns < 1 )
+				columns = 1;
 
 			int[] countList = new int[rows];
 
-			for (int i = 0 ; i<rows ; i++)
-				countList[i]=columns;
+			for (int i=0; i<rows; i++ )
+				countList[i] = columns;
 
-			DoLayout(g, master, true, countList, null);
+			DoLayout( g, master, true, countList, null );
 		}
 
 		/// <summary>
@@ -430,54 +417,55 @@ namespace ZedGraph
 		/// columns per row configuration.  This method is only called by
 		/// <see cref="DoLayout(Graphics,MasterPane)" />.
 		/// </summary>
-		internal void DoLayout(Graphics g, MasterPane master, bool isColumnSpecified, int[] countList,
-					float[] proportion)
+		internal void DoLayout( Graphics g, MasterPane master, bool isColumnSpecified, int[] countList,
+					float[] proportion )
 		{
+
 			// calculate scaleFactor on "normal" pane size (BaseDimension)
 			float scaleFactor = master.CalcScaleFactor();
 
 			// innerRect is the area for the GraphPane's
-			RectangleF innerRect = master.CalcClientRect(g, scaleFactor);
-			master.Legend.CalcRect(g, master, scaleFactor, ref innerRect);
+			RectangleF innerRect = master.CalcClientRect( g, scaleFactor );
+			master.Legend.CalcRect( g, master, scaleFactor, ref innerRect );
 
 			// scaled InnerGap is the area between the GraphPane.Rect's
-			float scaledInnerGap = (float)(master._innerPaneGap*scaleFactor);
+			float scaledInnerGap = (float)( master._innerPaneGap * scaleFactor );
 
 			int iPane = 0;
 
-			if (isColumnSpecified)
+			if ( isColumnSpecified )
 			{
 				int rows = countList.Length;
 
 				float y = 0.0f;
 
-				for (int rowNum = 0 ; rowNum<rows ; rowNum++)
+				for ( int rowNum = 0; rowNum < rows; rowNum++ )
 				{
-					float propFactor = _prop==null ? 1.0f/rows : _prop[rowNum];
+					float propFactor = _prop == null ? 1.0f / rows : _prop[rowNum];
 
-					float height = (innerRect.Height-(float)(rows-1)*scaledInnerGap)*
+					float height = ( innerRect.Height - (float)( rows - 1 ) * scaledInnerGap ) *
 									propFactor;
 
 					int columns = countList[rowNum];
-					if (columns<=0)
-						columns=1;
-					float width = (innerRect.Width-(float)(columns-1)*scaledInnerGap)/
+					if ( columns <= 0 )
+						columns = 1;
+					float width = ( innerRect.Width - (float)( columns - 1 ) * scaledInnerGap ) /
 									(float)columns;
 
-					if (iPane>=master._paneList.Count)
+					if ( iPane >= master._paneList.Count )
 						return;
 
-					for (int colNum = 0 ; colNum<columns ; colNum++)
+					for ( int colNum = 0; colNum < columns; colNum++ )
 					{
-						master[iPane].Rect=new RectangleF(
-											innerRect.X+colNum*(width+scaledInnerGap),
-											innerRect.Y+y,
+						master[iPane].Rect = new RectangleF(
+											innerRect.X + colNum * ( width + scaledInnerGap ),
+											innerRect.Y + y,
 											width,
-											height);
+											height );
 						iPane++;
 					}
 
-					y+=height+scaledInnerGap;
+					y += height + scaledInnerGap;
 				}
 			}
 			else
@@ -486,38 +474,37 @@ namespace ZedGraph
 
 				float x = 0.0f;
 
-				for (int colNum = 0 ; colNum<columns ; colNum++)
+				for ( int colNum = 0; colNum < columns; colNum++ )
 				{
-					float propFactor = _prop==null ? 1.0f/columns : _prop[colNum];
+					float propFactor = _prop == null ? 1.0f / columns : _prop[colNum];
 
-					float width = (innerRect.Width-(float)(columns-1)*scaledInnerGap)*
+					float width = ( innerRect.Width - (float)( columns - 1 ) * scaledInnerGap ) *
 									propFactor;
 
 					int rows = countList[colNum];
-					if (rows<=0)
-						rows=1;
-					float height = (innerRect.Height-(float)(rows-1)*scaledInnerGap)/(float)rows;
+					if ( rows <= 0 )
+						rows = 1;
+					float height = ( innerRect.Height - (float)( rows - 1 ) * scaledInnerGap ) / (float)rows;
 
-					for (int rowNum = 0 ; rowNum<rows ; rowNum++)
+					for ( int rowNum = 0; rowNum < rows; rowNum++ )
 					{
-						if (iPane>=master._paneList.Count)
+						if ( iPane >= master._paneList.Count )
 							return;
 
-						master[iPane].Rect=new RectangleF(
-											innerRect.X+x,
-											innerRect.Y+rowNum*(height+scaledInnerGap),
+						master[iPane].Rect = new RectangleF(
+											innerRect.X + x,
+											innerRect.Y + rowNum * ( height + scaledInnerGap ),
 											width,
-											height);
+											height );
 						iPane++;
 					}
 
-					x+=width+scaledInnerGap;
+					x += width + scaledInnerGap;
 				}
 			}
 		}
 
 		/*
-
 		/// <summary>
 		/// Automatically set all of the <see cref="GraphPane"/> <see cref="PaneBase.Rect"/>'s in
 		/// the list to a reasonable configuration.
@@ -568,7 +555,7 @@ namespace ZedGraph
 			}
 		}
 		*/
+	#endregion
 
-		#endregion Methods
 	}
 }

@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2006  John Champion
+//Copyright © 2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,7 @@
 
 using System;
 using System.Drawing;
+using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -30,16 +31,16 @@ namespace ZedGraph
 	/// and <see cref="IsTitleAtCross" /> properties, which are specifically associated with
 	/// the <see cref="Axis" /> <see cref="Axis.Title" />.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.1 $ $Date: 2006-06-24 20:26:44 $ </version>
 	[Serializable]
 	public class AxisLabel : GapLabel, ICloneable, ISerializable
 	{
-		internal bool _isOmitMag,
+		internal bool	_isOmitMag,
 							_isTitleAtCross;
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Constructor to build an <see cref="AxisLabel" /> from the text and the
@@ -55,23 +56,23 @@ namespace ZedGraph
 		/// <param name="isBold">true for a bold font face</param>
 		/// <param name="isItalic">true for an italic font face</param>
 		/// <param name="isUnderline">true for an underline font face</param>
-		public AxisLabel(string text, string fontFamily, float fontSize, Color color, bool isBold,
-								bool isItalic, bool isUnderline) :
-			base(text, fontFamily, fontSize, color, isBold, isItalic, isUnderline)
+		public AxisLabel( string text, string fontFamily, float fontSize, Color color, bool isBold,
+								bool isItalic, bool isUnderline ) :
+			base( text, fontFamily, fontSize, color, isBold, isItalic, isUnderline )
 		{
-			_isOmitMag=false;
-			_isTitleAtCross=true;
+			_isOmitMag = false;
+			_isTitleAtCross = true;
 		}
 
 		/// <summary>
 		/// Copy constructor
 		/// </summary>
 		/// <param name="rhs">the <see cref="AxisLabel" /> instance to be copied.</param>
-		public AxisLabel(AxisLabel rhs)
-			: base(rhs)
+		public AxisLabel( AxisLabel rhs )
+			: base( rhs )
 		{
-			_isOmitMag=rhs._isOmitMag;
-			_isTitleAtCross=rhs._isTitleAtCross;
+			_isOmitMag = rhs._isOmitMag;
+			_isTitleAtCross = rhs._isTitleAtCross;
 		}
 
 		/// <summary>
@@ -90,12 +91,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public new AxisLabel Clone()
 		{
-			return new AxisLabel(this);
+			return new AxisLabel( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Gets or sets the property that controls whether or not the magnitude factor (power of 10) for
@@ -116,7 +117,7 @@ namespace ZedGraph
 		public bool IsOmitMag
 		{
 			get { return _isOmitMag; }
-			set { _isOmitMag=value; }
+			set { _isOmitMag = value; }
 		}
 
 		/// <summary>
@@ -130,12 +131,12 @@ namespace ZedGraph
 		public bool IsTitleAtCross
 		{
 			get { return _isTitleAtCross; }
-			set { _isTitleAtCross=value; }
+			set { _isTitleAtCross = value; }
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -149,31 +150,31 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected AxisLabel(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected AxisLabel( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch2 = info.GetInt32("schema3");
+			int sch2 = info.GetInt32( "schema3" );
 
-			_isOmitMag=info.GetBoolean("isOmitMag");
-			_isTitleAtCross=info.GetBoolean("isTitleAtCross");
+			_isOmitMag = info.GetBoolean( "isOmitMag" );
+			_isTitleAtCross = info.GetBoolean( "isTitleAtCross" );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
+			base.GetObjectData( info, context );
 
-			info.AddValue("schema3", schema2);
-			info.AddValue("isOmitMag", _isVisible);
-			info.AddValue("isTitleAtCross", _isTitleAtCross);
+			info.AddValue( "schema3", schema2 );
+			info.AddValue( "isOmitMag", _isVisible );
+			info.AddValue( "isTitleAtCross", _isTitleAtCross );
 		}
+		#endregion
 
-		#endregion Serialization
+
 	}
 }

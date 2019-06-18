@@ -123,18 +123,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ZedGraph\ArrowObj.cs" />
-    <Compile Include="ZedGraph\AssemblyInfo.cs" />
     <Compile Include="ZedGraph\Axis.cs" />
     <Compile Include="ZedGraph\AxisLabel.cs" />
-    <Compile Include="ZedGraph\AxisList.cs" />
     <Compile Include="ZedGraph\Bar.cs" />
     <Compile Include="ZedGraph\BarItem.cs" />
     <Compile Include="ZedGraph\BarSettings.cs" />
     <Compile Include="ZedGraph\BasicArrayPointList.cs" />
     <Compile Include="ZedGraph\Border.cs" />
     <Compile Include="ZedGraph\BoxObj.cs" />
-    <Compile Include="ZedGraph\CandleStick.cs" />
-    <Compile Include="ZedGraph\CandleStickItem.cs" />
     <Compile Include="ZedGraph\Chart.cs" />
     <Compile Include="ZedGraph\CollectionPlus.cs" />
     <Compile Include="ZedGraph\ColorSymbolRotator.cs" />
@@ -224,7 +220,6 @@
     <Compile Include="ZedGraph\TextScale.cs" />
     <Compile Include="ZedGraph\Types.cs" />
     <Compile Include="ZedGraph\ValueHandler.cs" />
-    <Compile Include="ZedGraph\WeeklyScale.cs" />
     <Compile Include="ZedGraph\X2Axis.cs" />
     <Compile Include="ZedGraph\XAxis.cs" />
     <Compile Include="ZedGraph\XDate.cs" />
@@ -253,7 +248,6 @@
     </Compile>
     <Compile Include="ZedGraph\ZedGraphException.cs" />
     <Compile Include="ZedGraph\ZoomState.cs" />
-    <Compile Include="ZedGraph\ZoomStateGroup.cs" />
     <Compile Include="ZedGraph\ZoomStateStack.cs" />
   </ItemGroup>
   <ItemGroup>

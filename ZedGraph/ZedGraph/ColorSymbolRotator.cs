@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2004  John Champion
+//Copyright © 2004  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -17,22 +17,22 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
-using Color = System.Drawing.Color;
+using System;
+using Color		 = System.Drawing.Color;
 
 namespace ZedGraph
 {
 	/// <summary>
 	/// Class used to get the next color/symbol for GraphPane.AddCurve methods.
 	/// </summary>
-	///
+	/// 
 	/// <author> Jerry Vos modified by John Champion </author>
 	/// <version> $Revision: 3.4 $ $Date: 2006-06-24 20:26:43 $ </version>
 	public class ColorSymbolRotator
 	{
-		#region Static fields
-
+	#region Static fields
 		/// <summary>
-		/// The <see cref="Color"/>s <see cref="ColorSymbolRotator"/>
+		/// The <see cref="Color"/>s <see cref="ColorSymbolRotator"/> 
 		/// rotates through.
 		/// </summary>
 		public static readonly Color[] COLORS = new Color[]
@@ -50,7 +50,7 @@ namespace ZedGraph
 		};
 
 		/// <summary>
-		/// The <see cref="SymbolType"/>s <see cref="ColorSymbolRotator"/>
+		/// The <see cref="SymbolType"/>s <see cref="ColorSymbolRotator"/> 
 		/// rotates through.
 		/// </summary>
 		public static readonly SymbolType[] SYMBOLS = new SymbolType[]
@@ -65,30 +65,26 @@ namespace ZedGraph
 			SymbolType.XCross,
 			SymbolType.HDash,
 			SymbolType.VDash
-		};
+		};		
 
 		private static ColorSymbolRotator _staticInstance;
-
-		#endregion Static fields
-
-		#region Fields
-
+	#endregion
+	
+	#region Fields
 		/// <summary>
-		/// The index of the next color to be used. Note: may be
+		/// The index of the next color to be used. Note: may be 
 		/// > COLORS.Length, it is reset to 0 on the next call if it is.
 		/// </summary>
 		protected int colorIndex = 0;
 
 		/// <summary>
-		/// The index of the next symbol to be used. Note: may be
+		/// The index of the next symbol to be used. Note: may be 
 		/// > SYMBOLS.Length, it is reset to 0 on the next call if it is.
 		/// </summary>
 		protected int symbolIndex = 0;
+	#endregion
 
-		#endregion Fields
-
-		#region Properties
-
+	#region Properties
 		/// <summary>
 		/// Retrieves the next color in the rotation  Calling this
 		/// method has the side effect of incrementing the color index.
@@ -108,15 +104,14 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (colorIndex>=COLORS.Length)
-					colorIndex=0;
+				if (colorIndex >= COLORS.Length)
+					colorIndex = 0;
 
 				return colorIndex++;
 			}
-
 			set
 			{
-				colorIndex=value;
+				colorIndex = value;
 			}
 		}
 
@@ -139,15 +134,14 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (symbolIndex>=SYMBOLS.Length)
-					symbolIndex=0;
+				if (symbolIndex >= SYMBOLS.Length)
+					symbolIndex = 0;
 
 				return symbolIndex++;
 			}
-
 			set
 			{
-				symbolIndex=value;
+				symbolIndex = value;
 			}
 		}
 
@@ -161,35 +155,34 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (_staticInstance==null)
-					_staticInstance=new ColorSymbolRotator();
+				if (_staticInstance == null)
+					_staticInstance = new ColorSymbolRotator();
 
 				return _staticInstance;
 			}
 		}
-
+		
 		/// <summary>
-		/// Retrieves the next color from this class's static
+		/// Retrieves the next color from this class's static 
 		/// <see cref="ColorSymbolRotator"/> instance
 		/// <seealso cref="StaticInstance"/>
 		/// <seealso cref="StaticNextSymbol"/>
 		/// </summary>
 		public static Color StaticNextColor
 		{
-			get { return StaticInstance.NextColor; }
+			get { return StaticInstance.NextColor; } 
 		}
 
 		/// <summary>
-		/// Retrieves the next symbol type from this class's static
+		/// Retrieves the next symbol type from this class's static 
 		/// <see cref="ColorSymbolRotator"/> instance
 		/// <seealso cref="StaticInstance"/>
 		/// <seealso cref="StaticNextColor"/>
 		/// </summary>
 		public static SymbolType StaticNextSymbol
 		{
-			get { return StaticInstance.NextSymbol; }
+			get { return StaticInstance.NextSymbol; } 
 		}
-
-		#endregion Properties
+	#endregion
 	}
 }

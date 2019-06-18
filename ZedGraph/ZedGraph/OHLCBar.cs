@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2006  John Champion
+//Copyright © 2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -21,23 +21,25 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-#endregion Using directives
+#endregion
 
 namespace ZedGraph
 {
 	/// <summary>
 	/// This class handles the drawing of the curve <see cref="OHLCBar"/> objects.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.5 $ $Date: 2007-04-16 00:03:02 $ </version>
 	[Serializable]
 	public class OHLCBar : LineBase, ICloneable, ISerializable
 	{
-		#region Fields
+	#region Fields
 
 		/// <summary>
 		/// Private field that stores the visibility of the <see cref="OHLCBar"/> open and
@@ -66,9 +68,9 @@ namespace ZedGraph
 		/// </summary>
 		internal double _userScaleSize = 1.0;
 
-		#endregion Fields
+	#endregion
 
-		#region Defaults
+	#region Defaults
 
 		/// <summary>
 		/// A simple struct that defines the
@@ -82,7 +84,6 @@ namespace ZedGraph
 			/// in units of points.
 			/// </summary>
 			public static float Size = 12;
-
 			/// <summary>
 			/// The default display mode for symbols (<see cref="OHLCBar.IsOpenCloseVisible"/> property).
 			/// true to display symbols, false to hide them.
@@ -95,9 +96,9 @@ namespace ZedGraph
 			public static Boolean IsAutoSize = true;
 		}
 
-		#endregion Defaults
+	#endregion
 
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Gets or sets a property that shows or hides the <see cref="OHLCBar"/> open/close "wings".
@@ -107,7 +108,7 @@ namespace ZedGraph
 		public bool IsOpenCloseVisible
 		{
 			get { return _isOpenCloseVisible; }
-			set { _isOpenCloseVisible=value; }
+			set { _isOpenCloseVisible = value; }
 		}
 
 		/// <summary>
@@ -130,7 +131,7 @@ namespace ZedGraph
 		public float Size
 		{
 			get { return _size; }
-			set { _size=value; _isAutoSize=false; }
+			set { _size = value; _isAutoSize = false; }
 		}
 
 		/// <summary>
@@ -141,18 +142,18 @@ namespace ZedGraph
 		public Boolean IsAutoSize
 		{
 			get { return _isAutoSize; }
-			set { _isAutoSize=value; }
+			set { _isAutoSize = value; }
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Default constructor that sets all <see cref="OHLCBar"/> properties to
 		/// default values as defined in the <see cref="Default"/> class.
 		/// </summary>
-		public OHLCBar() : this(LineBase.Default.Color)
+		public OHLCBar() : this( LineBase.Default.Color )
 		{
 		}
 
@@ -165,22 +166,22 @@ namespace ZedGraph
 		/// <param name="color">A <see cref="Color"/> value indicating
 		/// the color of the symbol
 		/// </param>
-		public OHLCBar(Color color) : base(color)
+		public OHLCBar( Color color ) : base( color )
 		{
-			_size=Default.Size;
-			_isAutoSize=Default.IsAutoSize;
-			_isOpenCloseVisible=Default.IsOpenCloseVisible;
+			_size = Default.Size;
+			_isAutoSize = Default.IsAutoSize;
+			_isOpenCloseVisible = Default.IsOpenCloseVisible;
 		}
 
 		/// <summary>
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="OHLCBar"/> object from which to copy</param>
-		public OHLCBar(OHLCBar rhs) : base(rhs)
+		public OHLCBar( OHLCBar rhs ) : base( rhs )
 		{
-			_isOpenCloseVisible=rhs._isOpenCloseVisible;
-			_size=rhs._size;
-			_isAutoSize=rhs._isAutoSize;
+			_isOpenCloseVisible = rhs._isOpenCloseVisible;
+			_size = rhs._size;
+			_isAutoSize = rhs._isAutoSize;
 		}
 
 		/// <summary>
@@ -199,12 +200,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public OHLCBar Clone()
 		{
-			return new OHLCBar(this);
+			return new OHLCBar( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -218,36 +219,36 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected OHLCBar(SerializationInfo info, StreamingContext context) :
-			base(info, context)
+		protected OHLCBar( SerializationInfo info, StreamingContext context ) :
+			base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema");
+			int sch = info.GetInt32( "schema" );
 
-			_isOpenCloseVisible=info.GetBoolean("isOpenCloseVisible");
-			_size=info.GetSingle("size");
-			_isAutoSize=info.GetBoolean("isAutoSize");
+			_isOpenCloseVisible = info.GetBoolean( "isOpenCloseVisible" );
+			_size = info.GetSingle( "size" );
+			_isAutoSize = info.GetBoolean( "isAutoSize" );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema", schema);
-			info.AddValue("isOpenCloseVisible", _isOpenCloseVisible);
-			info.AddValue("size", _size);
-			info.AddValue("isAutoSize", _isAutoSize);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema", schema );
+			info.AddValue( "isOpenCloseVisible", _isOpenCloseVisible );
+			info.AddValue( "size", _size );
+			info.AddValue( "isAutoSize", _isAutoSize );
 		}
 
-		#endregion Serialization
+	#endregion
 
-		#region Rendering Methods
+	#region Rendering Methods
+
 
 		/// <summary>
 		/// Draw the <see cref="OHLCBar"/> to the specified <see cref="Graphics"/>
@@ -278,33 +279,34 @@ namespace ZedGraph
 		/// The scaled width of the candlesticks, pixels</param>
 		/// <param name="pen">A pen with attributes of <see cref="Color"/> and
 		/// <see cref="LineBase.Width"/> for this <see cref="OHLCBar"/></param>
-		public void Draw(Graphics g, GraphPane pane, bool isXBase,
+		public void Draw( Graphics g, GraphPane pane, bool isXBase,
 								float pixBase, float pixHigh, float pixLow,
 								float pixOpen, float pixClose,
-								float halfSize, Pen pen)
+								float halfSize, Pen pen  )
 		{
-			if (pixBase!=PointPair.Missing)
+			if ( pixBase != PointPair.Missing )
 			{
-				if (isXBase)
+				if ( isXBase )
 				{
-					if (Math.Abs(pixLow)<1000000&&Math.Abs(pixHigh)<1000000)
-						g.DrawLine(pen, pixBase, pixHigh, pixBase, pixLow);
-					if (_isOpenCloseVisible&&Math.Abs(pixOpen)<1000000)
-						g.DrawLine(pen, pixBase-halfSize, pixOpen, pixBase, pixOpen);
-					if (_isOpenCloseVisible&&Math.Abs(pixClose)<1000000)
-						g.DrawLine(pen, pixBase, pixClose, pixBase+halfSize, pixClose);
+					if ( Math.Abs( pixLow ) < 1000000 && Math.Abs( pixHigh ) < 1000000 )
+						g.DrawLine( pen, pixBase, pixHigh, pixBase, pixLow );
+					if ( _isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
+						g.DrawLine( pen, pixBase - halfSize, pixOpen, pixBase, pixOpen );
+					if ( _isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
+						g.DrawLine( pen, pixBase, pixClose, pixBase + halfSize, pixClose );
 				}
 				else
 				{
-					if (Math.Abs(pixLow)<1000000&&Math.Abs(pixHigh)<1000000)
-						g.DrawLine(pen, pixHigh, pixBase, pixLow, pixBase);
-					if (_isOpenCloseVisible&&Math.Abs(pixOpen)<1000000)
-						g.DrawLine(pen, pixOpen, pixBase-halfSize, pixOpen, pixBase);
-					if (_isOpenCloseVisible&&Math.Abs(pixClose)<1000000)
-						g.DrawLine(pen, pixClose, pixBase, pixClose, pixBase+halfSize);
+					if ( Math.Abs( pixLow ) < 1000000 && Math.Abs( pixHigh ) < 1000000 )
+						g.DrawLine( pen, pixHigh, pixBase, pixLow, pixBase );
+					if ( _isOpenCloseVisible && Math.Abs( pixOpen ) < 1000000 )
+						g.DrawLine( pen, pixOpen, pixBase - halfSize, pixOpen, pixBase );
+					if ( _isOpenCloseVisible && Math.Abs( pixClose ) < 1000000 )
+						g.DrawLine( pen, pixClose, pixBase, pixClose, pixBase + halfSize );
 				}
 			}
 		}
+
 
 		/// <summary>
 		/// Draw all the <see cref="OHLCBar"/>'s to the specified <see cref="Graphics"/>
@@ -330,25 +332,24 @@ namespace ZedGraph
 		/// <see cref="PaneBase.CalcScaleFactor"/> method, and is used to proportionally adjust
 		/// font sizes, etc. according to the actual size of the graph.
 		/// </param>
-		public void Draw(Graphics g, GraphPane pane, OHLCBarItem curve,
-							Axis baseAxis, Axis valueAxis, float scaleFactor)
+		public void Draw( Graphics g, GraphPane pane, OHLCBarItem curve,
+							Axis baseAxis, Axis valueAxis, float scaleFactor )
 		{
 			//ValueHandler valueHandler = new ValueHandler( pane, false );
 
 			float pixBase, pixHigh, pixLow, pixOpen, pixClose;
 
-			if (curve.Points!=null)
+			if ( curve.Points != null )
 			{
 				//float halfSize = _size * scaleFactor;
-				float halfSize = GetBarWidth(pane, baseAxis, scaleFactor);
+				float halfSize = GetBarWidth( pane, baseAxis, scaleFactor );
 
-				using (Pen pen = !curve.IsSelected ? new Pen(_color, _width) :
-						new Pen(Selection.Border.Color, Selection.Border.Width))
-
-				//				using ( Pen pen = new Pen( _color, _penWidth ) )
+				using ( Pen pen = !curve.IsSelected ? new Pen( _color, _width ) :
+						new Pen( Selection.Border.Color, Selection.Border.Width ) )
+//				using ( Pen pen = new Pen( _color, _penWidth ) )
 				{
-					// Loop over each defined point
-					for (int i = 0 ; i<curve.Points.Count ; i++)
+					// Loop over each defined point							
+					for ( int i = 0; i < curve.Points.Count; i++ )
 					{
 						PointPair pt = curve.Points[i];
 						double date = pt.X;
@@ -356,10 +357,10 @@ namespace ZedGraph
 						double low = pt.Z;
 						double open = PointPair.Missing;
 						double close = PointPair.Missing;
-						if (pt is StockPt)
+						if ( pt is StockPt )
 						{
-							open=(pt as StockPt).Open;
-							close=(pt as StockPt).Close;
+							open = ( pt as StockPt ).Open;
+							close = ( pt as StockPt ).Close;
 						}
 
 						// Any value set to double max is invalid and should be skipped
@@ -367,36 +368,35 @@ namespace ZedGraph
 						//   by zero, etc.
 						// Also, any value <= zero on a log scale is invalid
 
-						if (!curve.Points[i].IsInvalid3D&&
-								(date>0||!baseAxis._scale.IsLog)&&
-								((high>0&&low>0)||!valueAxis._scale.IsLog))
+						if ( !curve.Points[i].IsInvalid3D &&
+								( date > 0 || !baseAxis._scale.IsLog ) &&
+								( ( high > 0 && low > 0 ) || !valueAxis._scale.IsLog ) )
 						{
-							pixBase=(int)(baseAxis.Scale.Transform(curve.IsOverrideOrdinal, i, date)+0.5);
-
+							pixBase = (int)( baseAxis.Scale.Transform( curve.IsOverrideOrdinal, i, date ) + 0.5 );
 							//pixBase = baseAxis.Scale.Transform( curve.IsOverrideOrdinal, i, date );
-							pixHigh=valueAxis.Scale.Transform(curve.IsOverrideOrdinal, i, high);
-							pixLow=valueAxis.Scale.Transform(curve.IsOverrideOrdinal, i, low);
-							if (PointPair.IsValueInvalid(open))
-								pixOpen=Single.MaxValue;
+							pixHigh = valueAxis.Scale.Transform( curve.IsOverrideOrdinal, i, high );
+							pixLow = valueAxis.Scale.Transform( curve.IsOverrideOrdinal, i, low );
+							if ( PointPair.IsValueInvalid( open ) )
+								pixOpen = Single.MaxValue;
 							else
-								pixOpen=valueAxis.Scale.Transform(curve.IsOverrideOrdinal, i, open);
+								pixOpen = valueAxis.Scale.Transform( curve.IsOverrideOrdinal, i, open );
 
-							if (PointPair.IsValueInvalid(close))
-								pixClose=Single.MaxValue;
+							if ( PointPair.IsValueInvalid( close ) )
+								pixClose = Single.MaxValue;
 							else
-								pixClose=valueAxis.Scale.Transform(curve.IsOverrideOrdinal, i, close);
+								pixClose = valueAxis.Scale.Transform( curve.IsOverrideOrdinal, i, close );
 
-							if (!curve.IsSelected&&this._gradientFill.IsGradientValueType)
+							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
 							{
-								using (Pen tPen = GetPen(pane, scaleFactor, pt))
-									Draw(g, pane, baseAxis is XAxis||baseAxis is X2Axis,
+								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
+									Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 											pixBase, pixHigh, pixLow, pixOpen,
-											pixClose, halfSize, tPen);
+											pixClose, halfSize, tPen );
 							}
 							else
-								Draw(g, pane, baseAxis is XAxis||baseAxis is X2Axis,
+								Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,
 										pixBase, pixHigh, pixLow, pixOpen,
-										pixClose, halfSize, pen);
+										pixClose, halfSize, pen );
 						}
 					}
 				}
@@ -417,19 +417,20 @@ namespace ZedGraph
 		/// font sizes, etc. according to the actual size of the graph.
 		/// </param>
 		/// <returns>The width of each bar, in pixel units</returns>
-		public float GetBarWidth(GraphPane pane, Axis baseAxis, float scaleFactor)
+		public float GetBarWidth( GraphPane pane, Axis baseAxis, float scaleFactor )
 		{
 			float width;
-			if (_isAutoSize)
-				width=baseAxis._scale.GetClusterWidth(_userScaleSize)/
-								(1.0F+pane._barSettings.MinClusterGap)/2.0f;
+			if ( _isAutoSize )
+				width = baseAxis._scale.GetClusterWidth( _userScaleSize ) /
+								( 1.0F + pane._barSettings.MinClusterGap ) / 2.0f;
 			else
-				width=(float)(_size*scaleFactor)/2.0f;
+				width = (float)( _size * scaleFactor ) / 2.0f;
 
 			// use integral size
-			return (int)(width+0.5f);
+			return (int)(width + 0.5f);
 		}
+		
+	#endregion
 
-		#endregion Rendering Methods
 	}
 }

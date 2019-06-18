@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2004  John Champion
+//Copyright © 2004  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -37,13 +38,17 @@ namespace ZedGraph
 	/// symbols will be drawn at the "Z" value from each <see cref="PointPair" /> (see
 	/// <see cref="PointPair.Z" />).
 	/// </remarks>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 1.7 $ $Date: 2007-01-25 07:56:09 $ </version>
 	[Serializable]
 	public class StickItem : LineItem, ICloneable, ISerializable
 	{
-		#region Properties
+	#region Fields
+
+	#endregion
+
+	#region Properties
 
 		/// <summary>
 		/// Gets a flag indicating if the Z data range should be included in the axis scaling calculations.
@@ -51,7 +56,7 @@ namespace ZedGraph
 		/// <param name="pane">The parent <see cref="GraphPane" /> of this <see cref="CurveItem" />.
 		/// </param>
 		/// <value>true if the Z data are included, false otherwise</value>
-		override internal bool IsZIncluded(GraphPane pane)
+		override internal bool IsZIncluded( GraphPane pane )
 		{
 			return _symbol.IsVisible;
 		}
@@ -62,24 +67,22 @@ namespace ZedGraph
 		/// <param name="pane">The parent <see cref="GraphPane" /> of this <see cref="CurveItem" />.
 		/// </param>
 		/// <value>true if the X axis is independent, false otherwise</value>
-		override internal bool IsXIndependent(GraphPane pane)
+		override internal bool IsXIndependent( GraphPane pane )
 		{
 			return true;
 		}
-
-		#endregion Properties
-
-		#region Constructors
-
+	#endregion
+	
+	#region Constructors
 		/// <summary>
 		/// Create a new <see cref="StickItem"/>, specifying only the legend <see cref="CurveItem.Label" />.
 		/// </summary>
 		/// <param name="label">The label that will appear in the legend.</param>
-		public StickItem(string label) : base(label)
+		public StickItem( string label ) : base( label )
 		{
-			_symbol.IsVisible=false;
+			_symbol.IsVisible = false;
 		}
-
+		
 		/// <summary>
 		/// Create a new <see cref="StickItem"/> using the specified properties.
 		/// </summary>
@@ -94,8 +97,8 @@ namespace ZedGraph
 		/// <param name="lineWidth">The width (in points) to be used for the <see cref="Line"/>.  This
 		/// width is scaled based on <see cref="PaneBase.CalcScaleFactor"/>.  Use a value of zero to
 		/// hide the line (see <see cref="ZedGraph.LineBase.IsVisible"/>).</param>
-		public StickItem(string label, double[] x, double[] y, Color color, float lineWidth)
-			: this(label, new PointPairList(x, y), color, lineWidth)
+		public StickItem( string label, double[] x, double[] y, Color color, float lineWidth )
+			: this( label, new PointPairList( x, y ), color, lineWidth )
 		{
 		}
 
@@ -110,8 +113,8 @@ namespace ZedGraph
 		/// <param name="color">A <see cref="Color"/> value that will be applied to
 		/// the <see cref="Line"/> and <see cref="Symbol"/> properties.
 		/// </param>
-		public StickItem(string label, double[] x, double[] y, Color color)
-			: this(label, new PointPairList(x, y), color)
+		public StickItem( string label, double[] x, double[] y, Color color )
+			: this( label, new PointPairList( x, y ), color )
 		{
 		}
 
@@ -124,8 +127,8 @@ namespace ZedGraph
 		/// <param name="color">A <see cref="Color"/> value that will be applied to
 		/// the <see cref="Line"/> and <see cref="Symbol"/> properties.
 		/// </param>
-		public StickItem(string label, IPointList points, Color color)
-			: this(label, points, color, ZedGraph.LineBase.Default.Width)
+		public StickItem( string label, IPointList points, Color color )
+			: this( label, points, color, ZedGraph.LineBase.Default.Width )
 		{
 		}
 
@@ -141,17 +144,17 @@ namespace ZedGraph
 		/// <param name="lineWidth">The width (in points) to be used for the <see cref="Line"/>.  This
 		/// width is scaled based on <see cref="PaneBase.CalcScaleFactor"/>.  Use a value of zero to
 		/// hide the line (see <see cref="ZedGraph.LineBase.IsVisible"/>).</param>
-		public StickItem(string label, IPointList points, Color color, float lineWidth)
-			: base(label, points, color, Symbol.Default.Type, lineWidth)
+		public StickItem( string label, IPointList points, Color color, float lineWidth )
+			: base( label, points, color, Symbol.Default.Type, lineWidth )
 		{
-			_symbol.IsVisible=false;
+			_symbol.IsVisible = false;
 		}
 
 		/// <summary>
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="StickItem"/> object from which to copy</param>
-		public StickItem(StickItem rhs) : base(rhs)
+		public StickItem( StickItem rhs ) : base( rhs )
 		{
 		}
 
@@ -171,13 +174,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public new StickItem Clone()
 		{
-			return new StickItem(this);
+			return new StickItem( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
-
+	#region Serialization
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
 		/// </summary>
@@ -190,25 +192,28 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected StickItem(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected StickItem( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema3");
-		}
+			int sch = info.GetInt32( "schema3" );
 
+		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema3", schema3);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema3", schema3 );
 		}
+	#endregion
 
-		#endregion Serialization
+	#region Methods
+
+	#endregion
 	}
 }

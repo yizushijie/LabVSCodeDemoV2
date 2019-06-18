@@ -444,7 +444,8 @@ namespace NPlot.Windows
 		Browsable(true),
 		Bindable(true)
 		]
-		public int Padding
+		//public int Padding
+		public new int Padding
 		{
 			get
 			{

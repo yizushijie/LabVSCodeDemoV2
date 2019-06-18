@@ -437,7 +437,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 串口使用的参数
 		/// </summary>
-		public COMMPortParam commPortParam = new COMMPortParam();
+		private COMMPortParam commPortParam = new COMMPortParam();
 
 		#endregion
 
@@ -722,6 +722,25 @@ namespace Harry.LabCOMMPort
 					this.commComboBox = new ComboBox();
 				}
 				this.commComboBox = value;
+			}
+		}
+
+		/// <summary>
+		/// 通讯端口的参数
+		/// </summary>
+		public virtual COMMPortParam m_COMMPortParam
+		{
+			get
+			{
+				return this.commPortParam;
+			}
+			set
+			{
+				if (this.commPortParam==null)
+				{
+					this.commPortParam = new COMMPortParam();
+				}
+				this.commPortParam = value;
 			}
 		}
 

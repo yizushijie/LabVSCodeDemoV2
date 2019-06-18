@@ -1,6 +1,6 @@
 //============================================================================
 //PointPair4 Class
-//Copyright ?2006  Jerry Vos & John Champion
+//Copyright © 2006  Jerry Vos & John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,8 +18,10 @@
 //=============================================================================
 
 using System;
+using System.Drawing;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using IComparer = System.Collections.IComparer;
 
 namespace ZedGraph
 {
@@ -27,29 +29,30 @@ namespace ZedGraph
 	/// The basic <see cref="PointPair" /> class holds three data values (X, Y, Z).  This
 	/// class extends the basic PointPair to contain four data values (X, Y, Z, T).
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.3 $ $Date: 2007-03-17 18:43:44 $ </version>
 	[Serializable]
 	public class PointPair4 : PointPair, ISerializable
 	{
-		#region Member variables
+
+	#region Member variables
 
 		/// <summary>
 		/// This PointPair4's T coordinate.
 		/// </summary>
 		public double T;
 
-		#endregion Member variables
+	#endregion
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Default Constructor
 		/// </summary>
 		public PointPair4() : base()
 		{
-			this.T=0;
+			this.T = 0;
 		}
 
 		/// <summary>
@@ -59,9 +62,9 @@ namespace ZedGraph
 		/// <param name="y">This pair's y coordinate.</param>
 		/// <param name="z">This pair's z coordinate.</param>
 		/// <param name="t">This pair's t coordinate.</param>
-		public PointPair4(double x, double y, double z, double t) : base(x, y, z)
+		public PointPair4( double x, double y, double z, double t ) : base( x, y, z )
 		{
-			this.T=t;
+			this.T = t;
 		}
 
 		/// <summary>
@@ -73,24 +76,24 @@ namespace ZedGraph
 		/// <param name="z">This pair's z coordinate.</param>
 		/// <param name="t">This pair's t coordinate.</param>
 		/// <param name="label">This pair's string label (<see cref="PointPair.Tag"/>)</param>
-		public PointPair4(double x, double y, double z, double t, string label) :
-					base(x, y, z, label)
+		public PointPair4( double x, double y, double z, double t, string label ) :
+					base( x, y, z, label )
 		{
-			this.T=t;
+			this.T = t;
 		}
 
 		/// <summary>
 		/// The PointPair4 copy constructor.
 		/// </summary>
 		/// <param name="rhs">The basis for the copy.</param>
-		public PointPair4(PointPair4 rhs) : base(rhs)
+		public PointPair4( PointPair4 rhs ) : base( rhs )
 		{
-			this.T=rhs.T;
+			this.T = rhs.T;
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -104,31 +107,30 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected PointPair4(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected PointPair4( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema3");
+			int sch = info.GetInt32( "schema3" );
 
-			T=info.GetDouble("T");
+			T = info.GetDouble( "T" );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema2", schema3);
-			info.AddValue("T", T);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema2", schema3 );
+			info.AddValue( "T", T );
 		}
 
-		#endregion Serialization
+	#endregion
 
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Readonly value that determines if either the X, Y, Z, or T
@@ -141,24 +143,24 @@ namespace ZedGraph
 		{
 			get
 			{
-				return this.X==PointPair.Missing||
-						this.Y==PointPair.Missing||
-						this.Z==PointPair.Missing||
-						this.T==PointPair.Missing||
-						Double.IsInfinity(this.X)||
-						Double.IsInfinity(this.Y)||
-						Double.IsInfinity(this.Z)||
-						Double.IsInfinity(this.T)||
-						Double.IsNaN(this.X)||
-						Double.IsNaN(this.Y)||
-						Double.IsNaN(this.Z)||
-						Double.IsNaN(this.T);
+				return this.X == PointPair.Missing ||
+						this.Y == PointPair.Missing ||
+						this.Z == PointPair.Missing ||
+						this.T == PointPair.Missing ||
+						Double.IsInfinity( this.X ) ||
+						Double.IsInfinity( this.Y ) ||
+						Double.IsInfinity( this.Z ) ||
+						Double.IsInfinity( this.T ) ||
+						Double.IsNaN( this.X ) ||
+						Double.IsNaN( this.Y ) ||
+						Double.IsNaN( this.Z ) ||
+						Double.IsNaN( this.T );
 			}
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Methods
+	#region Methods
 
 		/// <summary>
 		/// Format this PointPair4 value using the default format.  Example:  "( 12.345, -16.876 )".
@@ -166,9 +168,9 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="isShowZT">true to show the third "Z" and fourth "T" value coordinates</param>
 		/// <returns>A string representation of the PointPair4</returns>
-		public new string ToString(bool isShowZT)
+		public new string ToString( bool isShowZT )
 		{
-			return this.ToString(PointPair.DefaultFormat, isShowZT);
+			return this.ToString( PointPair.DefaultFormat, isShowZT );
 		}
 
 		/// <summary>
@@ -181,12 +183,12 @@ namespace ZedGraph
 		/// the two double type values (see <see cref="System.Double.ToString()"/>).</param>
 		/// <returns>A string representation of the PointPair</returns>
 		/// <param name="isShowZT">true to show the third "Z" or low dependent value coordinate</param>
-		public new string ToString(string format, bool isShowZT)
+		public new string ToString( string format, bool isShowZT )
 		{
-			return "( "+this.X.ToString(format)+
-					", "+this.Y.ToString(format)+
-					(isShowZT ? (", "+this.Z.ToString(format)+
-							", "+this.T.ToString(format)) : "")+" )";
+			return "( " + this.X.ToString( format ) +
+					", " + this.Y.ToString( format ) +
+					( isShowZT ? ( ", " + this.Z.ToString( format ) +
+							", " + this.T.ToString( format ) ): "" ) + " )";
 		}
 
 		/// <summary>
@@ -202,15 +204,15 @@ namespace ZedGraph
 		/// <param name="formatT">A format string that will be used to format the T
 		/// double type value (see <see cref="System.Double.ToString()"/>).</param>
 		/// <returns>A string representation of the PointPair</returns>
-		public string ToString(string formatX, string formatY, string formatZ, string formatT)
+		public string ToString( string formatX, string formatY, string formatZ, string formatT )
 		{
-			return "( "+this.X.ToString(formatX)+
-					", "+this.Y.ToString(formatY)+
-					", "+this.Z.ToString(formatZ)+
-					", "+this.T.ToString(formatT)+
+			return "( " + this.X.ToString( formatX ) +
+					", " + this.Y.ToString( formatY ) +
+					", " + this.Z.ToString( formatZ ) +
+					", " + this.T.ToString( formatT ) +
 					" )";
 		}
 
-		#endregion Methods
+	#endregion
 	}
 }

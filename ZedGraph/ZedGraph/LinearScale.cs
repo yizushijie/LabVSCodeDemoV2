@@ -18,6 +18,8 @@
 //=============================================================================
 
 using System;
+using System.Collections;
+using System.Text;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -31,21 +33,22 @@ namespace ZedGraph
 	/// <remarks>
 	/// LinearScale is the normal, default cartesian axis.
 	/// </remarks>
-	///
+	/// 
 	/// <author> John Champion  </author>
 	/// <version> $Revision: 1.10 $ $Date: 2007-04-16 00:03:02 $ </version>
 	[Serializable]
-	internal class LinearScale : Scale, ISerializable //, ICloneable
+	class LinearScale : Scale, ISerializable //, ICloneable
 	{
-		#region constructors
+
+	#region constructors
 
 		/// <summary>
 		/// Default constructor that defines the owner <see cref="Axis" />
 		/// (containing object) for this new object.
 		/// </summary>
 		/// <param name="owner">The owner, or containing object, of this instance</param>
-		public LinearScale(Axis owner)
-			: base(owner)
+		public LinearScale( Axis owner )
+			: base( owner )
 		{
 		}
 
@@ -55,10 +58,11 @@ namespace ZedGraph
 		/// <param name="rhs">The <see cref="LinearScale" /> object from which to copy</param>
 		/// <param name="owner">The <see cref="Axis" /> object that will own the
 		/// new instance of <see cref="LinearScale" /></param>
-		public LinearScale(Scale rhs, Axis owner)
-			: base(rhs, owner)
+		public LinearScale( Scale rhs, Axis owner )
+			: base( rhs, owner )
 		{
 		}
+
 
 		/// <summary>
 		/// Create a new clone of the current item, with a new owner assignment
@@ -66,14 +70,13 @@ namespace ZedGraph
 		/// <param name="owner">The new <see cref="Axis" /> instance that will be
 		/// the owner of the new Scale</param>
 		/// <returns>A new <see cref="Scale" /> clone.</returns>
-		public override Scale Clone(Axis owner)
+		public override Scale Clone( Axis owner )
 		{
-			return new LinearScale(this, owner);
+			return new LinearScale( this, owner );
 		}
+	#endregion
 
-		#endregion constructors
-
-		#region properties
+	#region properties
 
 		/// <summary>
 		/// Return the <see cref="AxisType" /> for this <see cref="Scale" />, which is
@@ -84,9 +87,9 @@ namespace ZedGraph
 			get { return AxisType.Linear; }
 		}
 
-		#endregion properties
+	#endregion
 
-		#region methods
+	#region methods
 
 		/// <summary>
 		/// Select a reasonable linear axis scale given a range of data values.
@@ -127,74 +130,74 @@ namespace ZedGraph
 		/// </param>
 		/// <seealso cref="PickScale"/>
 		/// <seealso cref="AxisType.Linear"/>
-		override public void PickScale(GraphPane pane, Graphics g, float scaleFactor)
+		override public void PickScale( GraphPane pane, Graphics g, float scaleFactor )
 		{
 			// call the base class first
-			base.PickScale(pane, g, scaleFactor);
+			base.PickScale( pane, g, scaleFactor );
 
 			// Test for trivial condition of range = 0 and pick a suitable default
-			if (_max-_min<1.0e-30)
+			if ( _max - _min < 1.0e-30 )
 			{
-				if (_maxAuto)
-					_max=_max+0.2*(_max==0 ? 1.0 : Math.Abs(_max));
-				if (_minAuto)
-					_min=_min-0.2*(_min==0 ? 1.0 : Math.Abs(_min));
+				if ( _maxAuto )
+					_max = _max + 0.2 * ( _max == 0 ? 1.0 : Math.Abs( _max ) );
+				if ( _minAuto )
+					_min = _min - 0.2 * ( _min == 0 ? 1.0 : Math.Abs( _min ) );
 			}
 
 			// This is the zero-lever test.  If minVal is within the zero lever fraction
 			// of the data range, then use zero.
 
-			if (_minAuto&&_min>0&&
-				_min/(_max-_min)<Default.ZeroLever)
-				_min=0;
+			if ( _minAuto && _min > 0 &&
+				_min / ( _max - _min ) < Default.ZeroLever )
+				_min = 0;
 
 			// Repeat the zero-lever test for cases where the maxVal is less than zero
-			if (_maxAuto&&_max<0&&
-				Math.Abs(_max/(_max-_min))<
-				Default.ZeroLever)
-				_max=0;
+			if ( _maxAuto && _max < 0 &&
+				Math.Abs( _max / ( _max - _min ) ) <
+				Default.ZeroLever )
+				_max = 0;
 
 			// Calculate the new step size
-			if (_majorStepAuto)
+			if ( _majorStepAuto )
 			{
-				double targetSteps = (_ownerAxis is XAxis||_ownerAxis is X2Axis) ?
+				double targetSteps = ( _ownerAxis is XAxis || _ownerAxis is X2Axis ) ?
 							Default.TargetXSteps : Default.TargetYSteps;
 
 				// Calculate the step size based on target steps
-				_majorStep=CalcStepSize(_max-_min, targetSteps);
+				_majorStep = CalcStepSize( _max - _min, targetSteps );
 
-				if (_isPreventLabelOverlap)
+				if ( _isPreventLabelOverlap )
 				{
 					// Calculate the maximum number of labels
-					double maxLabels = (double)this.CalcMaxLabels(g, pane, scaleFactor);
+					double maxLabels = (double) this.CalcMaxLabels( g, pane, scaleFactor );
 
-					if (maxLabels<(_max-_min)/_majorStep)
-						_majorStep=CalcBoundedStepSize(_max-_min, maxLabels);
+					if ( maxLabels < ( _max - _min ) / _majorStep )
+						_majorStep = CalcBoundedStepSize( _max - _min, maxLabels );
 				}
 			}
 
 			// Calculate the new step size
-			if (_minorStepAuto)
-				_minorStep=CalcStepSize(_majorStep,
-					(_ownerAxis is XAxis||_ownerAxis is X2Axis) ?
-							Default.TargetMinorXSteps : Default.TargetMinorYSteps);
+			if ( _minorStepAuto )
+				_minorStep = CalcStepSize( _majorStep,
+					( _ownerAxis is XAxis || _ownerAxis is X2Axis ) ?
+							Default.TargetMinorXSteps : Default.TargetMinorYSteps );
 
 			// Calculate the scale minimum
-			if (_minAuto)
-				_min=_min-MyMod(_min, _majorStep);
+			if ( _minAuto )
+				_min = _min - MyMod( _min, _majorStep );
 
 			// Calculate the scale maximum
-			if (_maxAuto)
-				_max=MyMod(_max, _majorStep)==0.0 ? _max :
-					_max+_majorStep-MyMod(_max, _majorStep);
+			if ( _maxAuto )
+				_max = MyMod( _max, _majorStep ) == 0.0 ? _max :
+					_max + _majorStep - MyMod( _max, _majorStep );
 
-			SetScaleMag(_min, _max, _majorStep);
+			SetScaleMag( _min, _max, _majorStep );
 		}
 
-		#endregion methods
 
-		#region Serialization
+	#endregion
 
+	#region Serialization
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
 		/// </summary>
@@ -207,25 +210,25 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected LinearScale(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected LinearScale( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema2");
-		}
+			int sch = info.GetInt32( "schema2" );
 
+		}
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema2", schema2);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema2", schema2 );
 		}
+	#endregion
 
-		#endregion Serialization
 	}
 }

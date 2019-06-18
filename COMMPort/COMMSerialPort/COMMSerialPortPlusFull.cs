@@ -131,24 +131,32 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public virtual COMMSerialPortParam m_COMMPortParam
+		public new COMMSerialPortParam m_COMMPortParam
 		{
 			get
 			{
-				COMMSerialPortParam _return = base.commPortParam as COMMSerialPortParam;
+				COMMSerialPortParam _return = base.m_COMMPortParam as COMMSerialPortParam;
 				if (_return == null)
 				{
 					_return = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text, this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
+				}
+				else
+				{
+					_return.name = this.m_COMMComboBox.Text;
+					_return.baudRate = this.comboBox_COMMPortBaudRate.Text;
+					_return.parity = this.comboBox_COMMPortParity.Text;
+					_return.dataBits = this.comboBox_COMMPortDataBits.Text;
+					_return.stopBits = this.comboBox_COMMPortStopBits.Text;
 				}
 				return _return;
 			}
 			set
 			{
-				if (base.commPortParam == null)
+				if (base.m_COMMPortParam == null)
 				{
-					base.commPortParam = new COMMSerialPortParam();
+					base.m_COMMPortParam = new COMMSerialPortParam();
 				}
-				base.commPortParam = value;
+				base.m_COMMPortParam = value;
 			}
 		}
 		

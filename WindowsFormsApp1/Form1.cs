@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ZedGraph;
 
 namespace WindowsFormsApp1
 {
@@ -27,6 +28,7 @@ namespace WindowsFormsApp1
 			this.InitZedGraph();
 			//this.plotline();
 			//this.InitChart();
+			this.GraphCurve();
 		}
 
 
@@ -64,9 +66,16 @@ namespace WindowsFormsApp1
 			//this.zedGraphControl1.GraphPane.XAxis.MinorGrid.IsVisible = true;
 
 			//---大网格实线显示
-			this.zedGraphControl1.GraphPane.XAxis.Scale.FontSpec.Angle = 90;
+			//this.zedGraphControl1.GraphPane.XAxis.Scale.FontSpec.Size = 90;
 			this.zedGraphControl1.GraphPane.XAxis.MajorGrid.DashOff = 5;
 
+			this.zedGraphControl1.GraphPane.XAxis.Title.Text = "时间";
+			this.zedGraphControl1.GraphPane.YAxis.Title.Text = "电压值";
+
+			this.zedGraphControl1.GraphPane.XAxis.Title.FontSpec.Size = 30;
+			this.zedGraphControl1.GraphPane.YAxis.Title.FontSpec.Size = 30;
+
+			this.zedGraphControl1.GraphPane.Title.FontSpec.Size = 30;
 			//---小网格虚线显示
 			//this.zedGraphControl1.GraphPane.XAxis.MinorGrid.DashOff = 0;
 
@@ -188,6 +197,49 @@ namespace WindowsFormsApp1
 		//	this.chart1.Series[0].ChartType = SeriesChartType.Line;
 		//	this.chart1.Series[0].Points.Clear();
 		//}
+
+		/// <summary>
+		/// 绘制曲线
+		/// </summary>
+		/// <param name=""></param>
+		public void GraphCurve()
+		{
+			int i = 0;
+			double[] xPoint = new double[50];
+			double[] yPoint = new double[50];
+			this.zedGraphControl1.GraphPane.AddCurve("随机数", null, Color.Blue, SymbolType.Circle);
+			IPointListEdit ip=this.zedGraphControl1.GraphPane.CurveList["随机数"].Points as IPointListEdit;
+			for ( i = 0; i < 50; i++)
+			{
+				xPoint[i] =i*2;
+				yPoint[i] = i * 2+100;
+				if (ip != null)
+				{
+					ip.Add(xPoint[i], yPoint[i]);
+				}
+			}
+			//this.curveChart1.AddCurve("随机数");
+			//if (this.curveChart1.m_ZedGraph.GraphPane.CurveList[0].Label.FontSpec==null)
+			//{
+			//	this.curveChart1.m_ZedGraph.GraphPane.CurveList[0].Label.FontSpec = new ZedGraph.FontSpec();
+			//}
+			//this.curveChart1.m_ZedGraph.GraphPane.CurveList[0].Label.FontSpec.Size =12;
+			this.curveChart1.m_XAxisScaleMax = xPoint[49]+2;
+			this.curveChart1.m_XAxisScaleMin = xPoint[0];
+			//this.curveChart1.m_XAxisScaleFontSize = 16;
+			//this.curveChart1.m_YAxisScaleFontSize = 16;
+			//this.curveChart1.m_XAxisTitleFontSize = 16;
+			//this.curveChart1.m_YAxisTitleFontSize = 16;
+			//this.curveChart1.m_TitleFontSize = 16;
+			//this.curveChart1.m_YAxisScaleMax = yPoint[49]+2;
+			//this.curveChart1.m_YAxisScaleMin = yPoint[0];
+			this.curveChart1.m_XAxisScaleMajorStep =20;
+			this.curveChart1.m_YAxisScaleMajorStep =20;
+			this.curveChart1.AddXYPoint("随机数", xPoint, yPoint);
+			//this.curveChart1.FontSize(16);
+			//this.curveChart1.DefaultZoom();
+			this.curveChart1.Init(16);
+		}
 
 	}
 }

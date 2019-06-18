@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2004  John Champion
+//Copyright © 2004  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -21,8 +21,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-#endregion Using directives
+#endregion
 
 namespace ZedGraph
 {
@@ -40,10 +41,10 @@ namespace ZedGraph
 		/// <param name="list">The <see cref="YAxisList" /> (a list of Y axes),
 		/// from which to retrieve the state and create the <see cref="ScaleState" />
 		/// objects.</param>
-		public ScaleStateList(YAxisList list)
+		public ScaleStateList( YAxisList list )
 		{
-			foreach (Axis axis in list)
-				this.Add(new ScaleState(axis));
+			foreach ( Axis axis in list )
+				this.Add( new ScaleState( axis ) );
 		}
 
 		/// <summary>
@@ -53,21 +54,21 @@ namespace ZedGraph
 		/// <param name="list">The <see cref="Y2AxisList" /> (a list of Y axes),
 		/// from which to retrieve the state and create the <see cref="ScaleState" />
 		/// objects.</param>
-		public ScaleStateList(Y2AxisList list)
+		public ScaleStateList( Y2AxisList list )
 		{
-			foreach (Axis axis in list)
-				this.Add(new ScaleState(axis));
+			foreach ( Axis axis in list )
+				this.Add( new ScaleState( axis ) );
 		}
 
 		/// <summary>
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="ScaleStateList"/> object from which to copy</param>
-		public ScaleStateList(ScaleStateList rhs)
+		public ScaleStateList( ScaleStateList rhs )
 		{
-			foreach (ScaleState item in rhs)
+			foreach ( ScaleState item in rhs )
 			{
-				this.Add(item.Clone());
+				this.Add( item.Clone() );
 			}
 		}
 
@@ -87,7 +88,7 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public ScaleStateList Clone()
 		{
-			return new ScaleStateList(this);
+			return new ScaleStateList( this );
 		}
 
 		/// <summary>
@@ -99,11 +100,11 @@ namespace ZedGraph
 		/// <see cref="Axis" /> objects to be compared with this <see cref="ScaleStateList" />.
 		/// </param>
 		/// <returns>true if a difference is found, false otherwise</returns>
-		public bool IsChanged(YAxisList list)
+		public bool IsChanged( YAxisList list )
 		{
-			int count = Math.Min(list.Count, this.Count);
-			for (int i = 0 ; i<count ; i++)
-				if (this[i].IsChanged(list[i]))
+			int count = Math.Min( list.Count, this.Count );
+			for ( int i = 0; i < count; i++ )
+				if ( this[i].IsChanged( list[i] ) )
 					return true;
 
 			return false;
@@ -118,18 +119,16 @@ namespace ZedGraph
 		/// <see cref="Axis" /> objects to be compared with this <see cref="ScaleStateList" />.
 		/// </param>
 		/// <returns>true if a difference is found, false otherwise</returns>
-		public bool IsChanged(Y2AxisList list)
+		public bool IsChanged( Y2AxisList list )
 		{
-			int count = Math.Min(list.Count, this.Count);
-			for (int i = 0 ; i<count ; i++)
-				if (this[i].IsChanged(list[i]))
+			int count = Math.Min( list.Count, this.Count );
+			for ( int i = 0; i < count; i++ )
+				if ( this[i].IsChanged( list[i] ) )
 					return true;
 
 			return false;
 		}
-
 		/*
-
 				/// <summary>
 				/// Indexer to access the specified <see cref="ScaleState"/> object by
 				/// its ordinal position in the list.
@@ -137,12 +136,11 @@ namespace ZedGraph
 				/// <param name="index">The ordinal position (zero-based) of the
 				/// <see cref="ScaleState"/> object to be accessed.</param>
 				/// <value>A <see cref="ScaleState"/> object reference.</value>
-				public ScaleState this[ int index ]
+				public ScaleState this[ int index ]  
 				{
 					get { return (ScaleState) List[index]; }
 					set { List[index] = value; }
 				}
-
 				/// <summary>
 				/// Add a <see cref="ScaleState"/> object to the collection at the end of the list.
 				/// </summary>
@@ -156,25 +154,25 @@ namespace ZedGraph
 		*/
 
 		/// <summary>
-		///
+		/// 
 		/// </summary>
 		/// <param name="list"></param>
-		public void ApplyScale(YAxisList list)
+		public void ApplyScale( YAxisList list )
 		{
-			int count = Math.Min(list.Count, this.Count);
-			for (int i = 0 ; i<count ; i++)
-				this[i].ApplyScale(list[i]);
+			int count = Math.Min( list.Count, this.Count );
+			for ( int i = 0; i < count; i++ )
+				this[i].ApplyScale( list[i] );
 		}
 
 		/// <summary>
-		///
+		/// 
 		/// </summary>
 		/// <param name="list"></param>
-		public void ApplyScale(Y2AxisList list)
+		public void ApplyScale( Y2AxisList list )
 		{
-			int count = Math.Min(list.Count, this.Count);
-			for (int i = 0 ; i<count ; i++)
-				this[i].ApplyScale(list[i]);
+			int count = Math.Min( list.Count, this.Count );
+			for ( int i = 0; i < count; i++ )
+				this[i].ApplyScale( list[i] );
 		}
 	}
 }

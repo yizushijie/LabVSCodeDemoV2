@@ -18,6 +18,7 @@
 //=============================================================================
 
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 
 namespace ZedGraph
@@ -30,14 +31,14 @@ namespace ZedGraph
 	/// <seealso cref="BasicArrayPointList" />
 	/// <seealso cref="IPointList" />
 	/// <seealso cref="IPointListEdit" />
-	///
+	/// 
 	/// <author>Jerry Vos and John Champion</author>
 	/// <version> $Revision: 3.5 $ $Date: 2007-04-16 00:03:02 $ </version>
 	[Serializable]
 	public class RadarPointList : List<PointPair>, IPointList, IPointListEdit
 	{
-		#region Fields
 
+	#region Fields
 		/// <summary>
 		/// Default to clockwise rotation as this is the standard for radar charts
 		/// </summary>
@@ -48,10 +49,9 @@ namespace ZedGraph
 		/// which is the standard for radar charts.
 		/// </summary>
 		private double _rotation = 90;
+	#endregion
 
-		#endregion Fields
-
-		#region Properties
+	#region Properties
 
 		/// <summary>
 		/// Indexer to access the specified <see cref="PointPair"/> object by
@@ -66,38 +66,34 @@ namespace ZedGraph
 			get
 			{
 				int count = this.Count;
-
 				// The last point is a repeat of the first point
-				if (index==count-1)
-					index=0;
+				if ( index == count - 1 )
+					index = 0;
 
-				if (index<0||index>=count)
+				if ( index < 0 || index >= count )
 					return null;
 
 				PointPair pt = (PointPair)base[index];
-
-				//				double theta = (double) index / (double) count * 2.0 * Math.PI;
-				double rotationRadians = _rotation*Math.PI/180;
-				double theta = rotationRadians+(_clockwise ? -1.0d : 1.0d)*
-						((double)index/(double)(count-1)*2.0*Math.PI);
-				double x = pt.Y*Math.Cos(theta);
-				double y = pt.Y*Math.Sin(theta);
-				return new PointPair(x, y, pt.Z, (string)pt.Tag);
+//				double theta = (double) index / (double) count * 2.0 * Math.PI;
+				double rotationRadians = _rotation * Math.PI / 180;
+				double theta = rotationRadians + ( _clockwise ? -1.0d : 1.0d ) *
+						( (double) index / (double) (count-1) * 2.0 * Math.PI);
+				double x = pt.Y * Math.Cos( theta );
+				double y = pt.Y * Math.Sin( theta );
+				return new PointPair( x, y, pt.Z, (string) pt.Tag );
 			}
-
 			set
 			{
 				int count = this.Count;
-
 				// The last point is a repeat of the first point
-				if (index==count-1)
-					index=0;
+				if ( index == count - 1 )
+					index = 0;
 
-				if (index<0||index>=count)
+				if ( index < 0 || index >= count )
 					return;
 
 				PointPair pt = (PointPair)base[index];
-				pt.Y=Math.Sqrt(value.X*value.X+value.Y*value.Y);
+				pt.Y = Math.Sqrt( value.X * value.X + value.Y * value.Y );
 			}
 		}
 
@@ -107,7 +103,7 @@ namespace ZedGraph
 		public bool Clockwise
 		{
 			get { return _clockwise; }
-			set { _clockwise=value; }
+			set { _clockwise = value; }
 		}
 
 		/// <summary>
@@ -116,7 +112,7 @@ namespace ZedGraph
 		public double Rotation
 		{
 			get { return _rotation; }
-			set { _rotation=value; }
+			set { _rotation = value; }
 		}
 
 		/// <summary>
@@ -124,7 +120,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		private PointPair GetAt(int index)
+		private PointPair GetAt( int index )
 		{
 			return base[index];
 		}
@@ -134,13 +130,12 @@ namespace ZedGraph
 		/// </summary>
 		public new int Count
 		{
-			get { return base.Count+1; }
+			get { return base.Count + 1; }
 		}
 
-		#endregion Properties
+	#endregion
 
-		#region Constructors
-
+	#region Constructors
 		/// <summary>
 		/// Default Constructor
 		/// </summary>
@@ -151,10 +146,10 @@ namespace ZedGraph
 		/// <summary>
 		/// Copy Constructor
 		/// </summary>
-		public RadarPointList(RadarPointList rhs)
+		public RadarPointList( RadarPointList rhs )
 		{
-			for (int i = 0 ; i<rhs.Count ; i++)
-				this.Add(rhs.GetAt(i));
+			for ( int i = 0; i < rhs.Count; i++ )
+				this.Add( rhs.GetAt(i) );
 		}
 
 		/// <summary>
@@ -173,37 +168,35 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public RadarPointList Clone()
 		{
-			return new RadarPointList(this);
+			return new RadarPointList( this );
 		}
 
-		#endregion Constructors
 
-		#region Methods
+	#endregion
 
-		/*
-		 * /// <summary>
+	#region Methods
+/*
+ * /// <summary>
+		/// Add the specified PointPair to the collection.
+		/// </summary>
+		/// <param name="pt">The PointPair to be added</param>
+		/// <returns>The ordinal position in the list where the point was added</returns>
+		public int Add( PointPair pt )
+		{
+			return List.Add( pt );
+		}
 
-				/// Add the specified PointPair to the collection.
-				/// </summary>
-				/// <param name="pt">The PointPair to be added</param>
-				/// <returns>The ordinal position in the list where the point was added</returns>
-				public int Add( PointPair pt )
-				{
-					return List.Add( pt );
-				}
-
-				/// <summary>
-				/// Add a single point to the <see cref="RadarPointList"/> from a value of type double.
-				/// </summary>
-				/// <param name="r">The radial coordinate value</param>
-				/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
-				/// <seealso cref="IList.Add"/>
-				public int Add( double r )
-				{
-					return List.Add( new PointPair( PointPair.Missing, r ) );
-				}
-		*/
-
+		/// <summary>
+		/// Add a single point to the <see cref="RadarPointList"/> from a value of type double.
+		/// </summary>
+		/// <param name="r">The radial coordinate value</param>
+		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
+		/// <seealso cref="IList.Add"/>
+		public int Add( double r )
+		{
+			return List.Add( new PointPair( PointPair.Missing, r ) );
+		}
+*/
 		/// <summary>
 		/// Add a single point to the <see cref="RadarPointList"/> from two values of type double.
 		/// </summary>
@@ -211,11 +204,13 @@ namespace ZedGraph
 		/// <param name="z">The 'Z' coordinate value, which is not normally used for plotting,
 		/// but can be used for <see cref="FillType.GradientByZ" /> type fills</param>
 		/// <returns>The zero-based ordinal index where the point was added in the list.</returns>
-		public void Add(double r, double z)
+		public void Add( double r, double z )
 		{
-			Add(new PointPair(PointPair.Missing, r, z));
+			Add( new PointPair( PointPair.Missing, r, z ) );
 		}
 
-		#endregion Methods
+	#endregion
 	}
 }
+
+

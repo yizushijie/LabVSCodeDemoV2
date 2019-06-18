@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2005  John Champion
+//Copyright © 2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -21,20 +21,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
-#endregion Using directives
+#endregion
 
 namespace ZedGraph
 {
 	/// <summary>
 	/// A collection class containing a list of <see cref="ScrollRange"/> objects.
 	/// </summary>
-	///
+	/// 
 	/// <author>John Champion</author>
 	/// <version> $Revision: 3.3 $ $Date: 2006-06-24 20:26:43 $ </version>
 	public class ScrollRangeList : List<ScrollRange>, ICloneable
 	{
-		#region Constructors
+
+	#region Constructors
 
 		/// <summary>
 		/// Default constructor for the collection class.
@@ -47,10 +51,10 @@ namespace ZedGraph
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="ScrollRangeList"/> object from which to copy</param>
-		public ScrollRangeList(ScrollRangeList rhs)
+		public ScrollRangeList( ScrollRangeList rhs )
 		{
-			foreach (ScrollRange item in rhs)
-				this.Add(new ScrollRange(item));
+			foreach ( ScrollRange item in rhs )
+				this.Add( new ScrollRange( item ) );
 		}
 
 		/// <summary>
@@ -69,12 +73,13 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public ScrollRangeList Clone()
 		{
-			return new ScrollRangeList(this);
+			return new ScrollRangeList( this );
 		}
 
-		#endregion Constructors
+		
+	#endregion
 
-		#region List Methods
+	#region List Methods
 
 		/// <summary>
 		/// Indexer to access the specified <see cref="ScrollRange"/> object by
@@ -83,21 +88,19 @@ namespace ZedGraph
 		/// <param name="index">The ordinal position (zero-based) of the
 		/// <see cref="ScrollRange"/> object to be accessed.</param>
 		/// <value>A <see cref="ScrollRange"/> object instance</value>
-		public new ScrollRange this[int index]
+		public new ScrollRange this[ int index ]  
 		{
 			get
 			{
-				if (index<0||index>=this.Count)
-					return new ScrollRange(false);
+				if ( index < 0 || index >= this.Count )
+					return new ScrollRange( false );
 				else
-					return (ScrollRange)base[index];
+					return (ScrollRange) base[index];
 			}
-
-			set { base[index]=value; }
+			set { base[index] = value; }
 		}
 
 		/*		/// <summary>
-
 				/// Add a <see cref="ScrollRange"/> object to the collection at the end of the list.
 				/// </summary>
 				/// <param name="item">The <see cref="ScrollRange"/> object to be added</param>
@@ -106,7 +109,6 @@ namespace ZedGraph
 				{
 					return List.Add( item );
 				}
-
 				/// <summary>
 				/// Insert a <see cref="ScrollRange"/> object into the collection at the specified
 				/// zero-based index location.
@@ -121,6 +123,7 @@ namespace ZedGraph
 				}
 		*/
 
-		#endregion List Methods
+	#endregion
+
 	}
 }

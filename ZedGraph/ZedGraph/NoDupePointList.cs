@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2006  John Champion
+//Copyright © 2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
 
 namespace ZedGraph
 {
@@ -33,7 +35,6 @@ namespace ZedGraph
 		/// The X value for the point, stored as a double type.
 		/// </summary>
 		public double X;
-
 		/// <summary>
 		/// The Y value for the point, stored as a double type.
 		/// </summary>
@@ -49,7 +50,7 @@ namespace ZedGraph
 	/// Note that this type probably does not make sense for line plots, but is intended
 	/// primarily for scatter plots.
 	/// </remarks>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.5 $ $Date: 2007-06-02 06:56:03 $ </version>
 	[Serializable]
@@ -62,7 +63,6 @@ namespace ZedGraph
 		/// access this value.
 		/// </summary>
 		protected bool _isFiltered;
-
 		/// <summary>
 		/// Protected field that stores the number of data points after filtering (e.g.,
 		/// <see cref="FilterData" /> has been called).  The <see cref="Count" /> property
@@ -70,12 +70,12 @@ namespace ZedGraph
 		/// for a dataset that has been filtered.
 		/// </summary>
 		protected int _filteredCount;
-
 		/// <summary>
 		/// Protected array of indices for all the points that are currently visible.  This only
 		/// applies if <see cref="IsFiltered" /> is true.
 		/// </summary>
 		protected int[] _visibleIndicies;
+
 
 		/// <summary>
 		/// Protected field that stores a value that determines how close a point must be to a prior
@@ -83,6 +83,7 @@ namespace ZedGraph
 		/// to access this value.
 		/// </summary>
 		protected int _filterMode;
+
 
 		/// <summary>
 		/// Gets or sets a value that determines how close a point must be to a prior
@@ -99,7 +100,7 @@ namespace ZedGraph
 		public int FilterMode
 		{
 			get { return _filterMode; }
-			set { _filterMode=value; }
+			set { _filterMode = value; }
 		}
 
 		/// <summary>
@@ -131,24 +132,23 @@ namespace ZedGraph
 			get
 			{
 				int j = index;
-				if (_isFiltered)
-					j=_visibleIndicies[index];
+				if ( _isFiltered )
+					j = _visibleIndicies[index];
 
 				DataPoint dp = base[j];
-				PointPair pt = new PointPair(dp.X, dp.Y);
+				PointPair pt = new PointPair( dp.X, dp.Y );
 				return pt;
 			}
-
 			set
 			{
 				int j = index;
-				if (_isFiltered)
-					j=_visibleIndicies[index];
+				if ( _isFiltered )
+					j = _visibleIndicies[index];
 
 				DataPoint dp;
-				dp.X=value.X;
-				dp.Y=value.Y;
-				base[j]=dp;
+				dp.X = value.X;
+				dp.Y = value.Y;
+				base[j] = dp;
 			}
 		}
 
@@ -161,7 +161,7 @@ namespace ZedGraph
 		{
 			get
 			{
-				if (!_isFiltered)
+				if ( !_isFiltered )
 					return base.Count;
 				else
 					return _filteredCount;
@@ -181,26 +181,28 @@ namespace ZedGraph
 		/// Append a data point to the collection
 		/// </summary>
 		/// <param name="pt">The <see cref="PointPair" /> value to append</param>
-		public void Add(PointPair pt)
+		public void Add( PointPair pt )
 		{
 			DataPoint dp = new DataPoint();
-			dp.X=pt.X;
-			dp.Y=pt.Y;
-			Add(dp);
+			dp.X = pt.X;
+			dp.Y = pt.Y;
+			Add( dp );
 		}
+
 
 		/// <summary>
 		/// Append a point to the collection
 		/// </summary>
 		/// <param name="x">The x value of the point to append</param>
 		/// <param name="y">The y value of the point to append</param>
-		public void Add(double x, double y)
+		public void Add( double x, double y )
 		{
 			DataPoint dp = new DataPoint();
-			dp.X=x;
-			dp.Y=y;
-			Add(dp);
+			dp.X = x;
+			dp.Y = y;
+			Add( dp );
 		}
+
 
 		// generic Clone: just call the typesafe version
 		object ICloneable.Clone()
@@ -216,7 +218,7 @@ namespace ZedGraph
 		/// </returns>
 		public NoDupePointList Clone()
 		{
-			return new NoDupePointList(this);
+			return new NoDupePointList( this );
 		}
 
 		/// <summary>
@@ -224,10 +226,10 @@ namespace ZedGraph
 		/// </summary>
 		public NoDupePointList()
 		{
-			_isFiltered=false;
-			_filteredCount=0;
-			_visibleIndicies=null;
-			_filterMode=0;
+			_isFiltered = false;
+			_filteredCount = 0;
+			_visibleIndicies = null;
+			_filterMode = 0;
 		}
 
 		/// <summary>
@@ -235,20 +237,20 @@ namespace ZedGraph
 		/// but it does not duplicate the data (it just keeps a reference to the original)
 		/// </summary>
 		/// <param name="rhs">The NoDupePointList to be copied</param>
-		public NoDupePointList(NoDupePointList rhs)
+		public NoDupePointList( NoDupePointList rhs )
 		{
 			int count = rhs.TotalCount;
-			for (int i = 0 ; i<count ; i++)
-				Add(rhs.GetDataPointAt(i));
+			for ( int i = 0; i < count; i++ )
+				Add( rhs.GetDataPointAt( i ) );
 
-			_filteredCount=rhs._filteredCount;
-			_isFiltered=rhs._isFiltered;
-			_filterMode=rhs._filterMode;
+			_filteredCount = rhs._filteredCount;
+			_isFiltered = rhs._isFiltered;
+			_filterMode = rhs._filterMode;
 
-			if (rhs._visibleIndicies!=null)
-				_visibleIndicies=(int[])rhs._visibleIndicies.Clone();
+			if ( rhs._visibleIndicies != null )
+				_visibleIndicies = (int[]) rhs._visibleIndicies.Clone();
 			else
-				_visibleIndicies=null;
+				_visibleIndicies = null;
 		}
 
 		/// <summary>
@@ -256,7 +258,7 @@ namespace ZedGraph
 		/// translation to a PointPair.
 		/// </summary>
 		/// <param name="index">The ordinal position of the DataPoint of interest</param>
-		protected DataPoint GetDataPointAt(int index)
+		protected DataPoint GetDataPointAt( int index )
 		{
 			return base[index];
 		}
@@ -268,8 +270,8 @@ namespace ZedGraph
 		/// </summary>
 		public void ClearFilter()
 		{
-			_isFiltered=false;
-			_filteredCount=0;
+			_isFiltered = false;
+			_filteredCount = 0;
 		}
 
 		/// <summary>
@@ -292,61 +294,61 @@ namespace ZedGraph
 		/// <param name="pane">The <see cref="GraphPane" /> into which the data
 		/// will be plotted. </param>
 		/// <param name="yAxis">The <see cref="Axis" /> class to be used in the Y direction
-		/// for plotting these data.  This can be a <see cref="YAxis" /> or a
+		/// for plotting these data.  This can be a <see cref="YAxis" /> or a 
 		/// <see cref="Y2Axis" />, and can be a primary or secondary axis (if multiple Y or Y2
 		/// axes are being used).
 		/// </param>
 		/// <param name="xAxis">The <see cref="Axis" /> class to be used in the X direction
-		/// for plotting these data.  This can be an <see cref="XAxis" /> or a
+		/// for plotting these data.  This can be an <see cref="XAxis" /> or a 
 		/// <see cref="X2Axis" />.
 		/// </param>
-		public void FilterData(GraphPane pane, Axis xAxis, Axis yAxis)
+		public void FilterData( GraphPane pane, Axis xAxis, Axis yAxis )
 		{
-			if (_visibleIndicies==null||_visibleIndicies.Length<base.Count)
-				_visibleIndicies=new int[base.Count];
+			if ( _visibleIndicies == null || _visibleIndicies.Length < base.Count )
+				_visibleIndicies = new int[base.Count];
 
-			_filteredCount=0;
-			_isFiltered=true;
+			_filteredCount = 0;
+			_isFiltered = true;
 
 			int width = (int)pane.Chart.Rect.Width;
 			int height = (int)pane.Chart.Rect.Height;
-			if (width<=0||height<=0)
-				throw new IndexOutOfRangeException("Error in FilterData: Chart rect not valid");
+			if ( width <= 0 || height <= 0 )
+				throw new IndexOutOfRangeException( "Error in FilterData: Chart rect not valid" );
 
 			bool[,] usedArray = new bool[width, height];
-			for (int i = 0 ; i<width ; i++)
-				for (int j = 0 ; j<height ; j++)
-					usedArray[i, j]=false;
+			for ( int i = 0; i < width; i++ )
+				for ( int j = 0; j < height; j++ )
+					usedArray[i, j] = false;
 
-			xAxis.Scale.SetupScaleData(pane, xAxis);
-			yAxis.Scale.SetupScaleData(pane, yAxis);
+			xAxis.Scale.SetupScaleData( pane, xAxis );
+			yAxis.Scale.SetupScaleData( pane, yAxis );
 
-			int n = _filterMode<0 ? 0 : _filterMode;
+			int n = _filterMode < 0 ? 0 : _filterMode;
 			int left = (int)pane.Chart.Rect.Left;
 			int top = (int)pane.Chart.Rect.Top;
 
-			for (int i = 0 ; i<base.Count ; i++)
+			for ( int i=0; i<base.Count; i++ )
 			{
 				DataPoint dp = base[i];
-				int x = (int)(xAxis.Scale.Transform(dp.X)+0.5)-left;
-				int y = (int)(yAxis.Scale.Transform(dp.Y)+0.5)-top;
+				int x = (int)( xAxis.Scale.Transform( dp.X ) + 0.5 ) - left;
+				int y = (int)( yAxis.Scale.Transform( dp.Y ) + 0.5 ) - top;
 
-				if (x>=0&&x<width&&y>=0&&y<height)
+				if ( x >= 0 && x < width && y >= 0 && y < height )
 				{
 					bool used = false;
-					if (n<=0)
-						used=usedArray[x, y];
+					if ( n <= 0 )
+						used = usedArray[x, y];
 					else
 					{
-						for (int ix = x-n ; ix<=x+n ; ix++)
-							for (int iy = y-n ; iy<=y+n ; iy++)
-								used|=(ix>=0&&ix<width&&iy>=0&&iy<height&&usedArray[ix, iy]);
+						for ( int ix = x - n; ix <= x + n; ix++ )
+							for ( int iy = y - n; iy <= y + n; iy++ )
+								used |= ( ix >= 0 && ix < width && iy >= 0 && iy < height && usedArray[ix, iy] );
 					}
 
-					if (!used)
+					if ( !used )
 					{
-						usedArray[x, y]=true;
-						_visibleIndicies[_filteredCount]=i;
+						usedArray[x, y] = true;
+						_visibleIndicies[_filteredCount] = i;
 						_filteredCount++;
 					}
 				}

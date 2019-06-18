@@ -1,6 +1,6 @@
 //============================================================================
 //PointPairCV Class
-//Copyright ?2007  John Champion
+//Copyright © 2007  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -17,10 +17,14 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 
+using System;
+using System.Collections;
+using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-#if (!DOTNET1)    // Is this a .Net 2 compilation?
+#if ( !DOTNET1 )	// Is this a .Net 2 compilation?
+using System.Collections.Generic;
 #endif
 
 namespace ZedGraph
@@ -34,17 +38,18 @@ namespace ZedGraph
 	/// </summary>
 	public class PointPairCV : PointPair
 	{
-		#region Properties
+
+	#region Properties
 
 		/// <summary>
-		/// This is a user value that can be anything.  It is used to provide special
+		/// This is a user value that can be anything.  It is used to provide special 
 		/// property-based coloration to the graph elements.
 		/// </summary>
 		private double _colorValue;
 
-		#endregion Properties
+	#endregion
 
-		#region Constructors
+	#region Constructors
 
 		/// <summary>
 		/// Creates a point pair with the specified X, Y, and base value.
@@ -52,14 +57,14 @@ namespace ZedGraph
 		/// <param name="x">This pair's x coordinate.</param>
 		/// <param name="y">This pair's y coordinate.</param>
 		/// <param name="z">This pair's z or lower dependent coordinate.</param>
-		public PointPairCV(double x, double y, double z)
-			: base(x, y, z, null)
+		public PointPairCV( double x, double y, double z )
+			: base( x, y, z, null )
 		{
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
+	#region Serialization
 
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
@@ -73,14 +78,14 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected PointPairCV(SerializationInfo info, StreamingContext context)
-			: base(info, context)
+		protected PointPairCV( SerializationInfo info, StreamingContext context )
+			: base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema3");
+			int sch = info.GetInt32( "schema3" );
 
-			ColorValue=info.GetDouble("ColorValue");
+			ColorValue = info.GetDouble( "ColorValue" );
 		}
 
 		/// <summary>
@@ -88,17 +93,18 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute( SecurityAction.Demand, SerializationFormatter = true )]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema3", schema2);
-			info.AddValue("ColorValue", ColorValue);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema3", schema2 );
+			info.AddValue( "ColorValue", ColorValue );
 		}
 
-		#endregion Serialization
+	#endregion
 
-		#region Properties
+
+	#region Properties
 
 		/// <summary>
 		/// The ColorValue property.  This is used with the
@@ -107,9 +113,10 @@ namespace ZedGraph
 		override public double ColorValue
 		{
 			get { return _colorValue; }
-			set { _colorValue=value; }
+			set { _colorValue = value; }
 		}
 
-		#endregion Properties
+	#endregion
+
 	}
 }

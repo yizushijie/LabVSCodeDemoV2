@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Collections;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -32,14 +33,13 @@ namespace ZedGraph
 	/// as the ellipse that would be contained by the rectangular box as
 	/// defined by the <see cref="Location"/> property.
 	/// </summary>
-	///
+	/// 
 	/// <author> John Champion </author>
 	/// <version> $Revision: 3.3 $ $Date: 2007-01-25 07:56:08 $ </version>
 	[Serializable]
 	public class EllipseObj : BoxObj, ICloneable, ISerializable
 	{
-		#region Constructors
-
+	#region Constructors
 		/// <overloads>Constructors for the <see cref="EllipseObj"/> object</overloads>
 		/// <summary>
 		/// A constructor that allows the position and size
@@ -53,11 +53,11 @@ namespace ZedGraph
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
 		/// <param name="height">The height of this <see cref="BoxObj" />.  This will be in units determined by
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
-		public EllipseObj(double x, double y, double width, double height)
-			: base(x, y, width, height)
+		public EllipseObj( double x, double y, double width, double height )
+			: base( x, y, width, height )
 		{
 		}
-
+		
 		/// <summary>
 		/// A default constructor that places the <see cref="EllipseObj"/> at location (0,0),
 		/// with width/height of (1,1).  Other properties are defaulted.
@@ -65,7 +65,7 @@ namespace ZedGraph
 		public EllipseObj() : base()
 		{
 		}
-
+		
 		/// <summary>
 		/// A constructor that allows the position, border color, and solid fill color
 		/// of the <see cref="EllipseObj"/> to be pre-specified.
@@ -82,8 +82,8 @@ namespace ZedGraph
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
 		/// <param name="height">The height of this <see cref="BoxObj" />.  This will be in units determined by
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
-		public EllipseObj(double x, double y, double width, double height, Color borderColor, Color fillColor)
-			: base(x, y, width, height, borderColor, fillColor)
+		public EllipseObj( double x, double y, double width, double height, Color borderColor, Color fillColor )
+			: base( x, y, width, height, borderColor, fillColor )
 		{
 		}
 
@@ -106,9 +106,9 @@ namespace ZedGraph
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
 		/// <param name="height">The height of this <see cref="BoxObj" />.  This will be in units determined by
 		/// <see cref="ZedGraph.Location.CoordinateFrame" />.</param>
-		public EllipseObj(double x, double y, double width, double height, Color borderColor,
-							Color fillColor1, Color fillColor2) :
-				base(x, y, width, height, borderColor, fillColor1, fillColor2)
+		public EllipseObj( double x, double y, double width, double height, Color borderColor,
+							Color fillColor1, Color fillColor2 ) :
+				base( x, y, width, height, borderColor, fillColor1, fillColor2 )
 		{
 		}
 
@@ -117,7 +117,7 @@ namespace ZedGraph
 		/// </summary>
 		/// <param name="rhs">The <see cref="EllipseObj"/> object from
 		/// which to copy</param>
-		public EllipseObj(BoxObj rhs) : base(rhs)
+		public EllipseObj( BoxObj rhs ) : base( rhs )
 		{
 		}
 
@@ -137,13 +137,12 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public new EllipseObj Clone()
 		{
-			return new EllipseObj(this);
+			return new EllipseObj( this );
 		}
 
-		#endregion Constructors
+	#endregion
 
-		#region Serialization
-
+	#region Serialization
 		/// <summary>
 		/// Current schema value that defines the version of the serialized file
 		/// </summary>
@@ -156,29 +155,26 @@ namespace ZedGraph
 		/// </param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data
 		/// </param>
-		protected EllipseObj(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected EllipseObj( SerializationInfo info, StreamingContext context ) : base( info, context )
 		{
 			// The schema value is just a file version parameter.  You can use it to make future versions
 			// backwards compatible as new member variables are added to classes
-			int sch = info.GetInt32("schema3");
+			int sch = info.GetInt32( "schema3" );
 		}
-
 		/// <summary>
 		/// Populates a <see cref="SerializationInfo"/> instance with the data needed to serialize the target object
 		/// </summary>
 		/// <param name="info">A <see cref="SerializationInfo"/> instance that defines the serialized data</param>
 		/// <param name="context">A <see cref="StreamingContext"/> instance that contains the serialized data</param>
-		[SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
+		public override void GetObjectData( SerializationInfo info, StreamingContext context )
 		{
-			base.GetObjectData(info, context);
-			info.AddValue("schema3", schema3);
+			base.GetObjectData( info, context );
+			info.AddValue( "schema3", schema3 );
 		}
-
-		#endregion Serialization
-
-		#region Rendering Methods
-
+	#endregion
+	
+	#region Rendering Methods
 		/// <summary>
 		/// Render this object to the specified <see cref="Graphics"/> device.
 		/// </summary>
@@ -200,27 +196,27 @@ namespace ZedGraph
 		/// <see cref="PaneBase.CalcScaleFactor"/> method, and is used to proportionally adjust
 		/// font sizes, etc. according to the actual size of the graph.
 		/// </param>
-		override public void Draw(Graphics g, PaneBase pane, float scaleFactor)
+		override public void Draw( Graphics g, PaneBase pane, float scaleFactor )
 		{
 			// Convert the arrow coordinates from the user coordinate system
 			// to the screen coordinate system
-			RectangleF pixRect = this.Location.TransformRect(pane);
+			RectangleF pixRect = this.Location.TransformRect( pane );
 
-			if (Math.Abs(pixRect.Left)<100000&&
-					Math.Abs(pixRect.Top)<100000&&
-					Math.Abs(pixRect.Right)<100000&&
-					Math.Abs(pixRect.Bottom)<100000)
+			if (	Math.Abs( pixRect.Left ) < 100000 &&
+					Math.Abs( pixRect.Top ) < 100000 &&
+					Math.Abs( pixRect.Right ) < 100000 &&
+					Math.Abs( pixRect.Bottom ) < 100000 )
 			{
-				if (_fill.IsVisible)
-					using (Brush brush = _fill.MakeBrush(pixRect))
-						g.FillEllipse(brush, pixRect);
+				if ( _fill.IsVisible )
+					using ( Brush brush = _fill.MakeBrush( pixRect ) )
+						g.FillEllipse( brush, pixRect );
 
-				if (_border.IsVisible)
-					using (Pen pen = _border.GetPen(pane, scaleFactor))
-						g.DrawEllipse(pen, pixRect);
+				if ( _border.IsVisible )
+					using ( Pen pen = _border.GetPen( pane, scaleFactor ) )
+						g.DrawEllipse( pen, pixRect );
 			}
 		}
-
+		
 		/// <summary>
 		/// Determine if the specified screen point lies inside the bounding box of this
 		/// <see cref="BoxObj"/>.
@@ -241,22 +237,23 @@ namespace ZedGraph
 		/// font sizes, etc. according to the actual size of the graph.
 		/// </param>
 		/// <returns>true if the point lies in the bounding box, false otherwise</returns>
-		override public bool PointInBox(PointF pt, PaneBase pane, Graphics g, float scaleFactor)
+		override public bool PointInBox( PointF pt, PaneBase pane, Graphics g, float scaleFactor )
 		{
-			if (!base.PointInBox(pt, pane, g, scaleFactor))
+			if ( ! base.PointInBox(pt, pane, g, scaleFactor ) )
 				return false;
 
 			// transform the x,y location from the user-defined
 			// coordinate frame to the screen pixel location
-			RectangleF pixRect = _location.TransformRect(pane);
+			RectangleF pixRect = _location.TransformRect( pane );
 
-			using (GraphicsPath path = new GraphicsPath())
+			using ( GraphicsPath path = new GraphicsPath() )
 			{
-				path.AddEllipse(pixRect);
-				return path.IsVisible(pt);
+				path.AddEllipse( pixRect );
+				return path.IsVisible( pt );
 			}
 		}
-
-		#endregion Rendering Methods
+		
+	#endregion
+	
 	}
 }

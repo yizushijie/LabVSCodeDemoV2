@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright ?2005  John Champion
+//Copyright © 2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -21,20 +21,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
-#endregion Using directives
+#endregion
 
 namespace ZedGraph
 {
 	/// <summary>
 	/// A collection class containing a list of <see cref="YAxis"/> objects.
 	/// </summary>
-	///
+	/// 
 	/// <author>John Champion</author>
 	/// <version> $Revision: 3.3 $ $Date: 2006-06-24 20:26:43 $ </version>
 	[Serializable]
 	public class YAxisList : List<YAxis>, ICloneable
 	{
+
 		#region Constructors
 
 		/// <summary>
@@ -48,11 +52,11 @@ namespace ZedGraph
 		/// The Copy Constructor
 		/// </summary>
 		/// <param name="rhs">The <see cref="YAxisList"/> object from which to copy</param>
-		public YAxisList(YAxisList rhs)
+		public YAxisList( YAxisList rhs )
 		{
-			foreach (YAxis item in rhs)
+			foreach ( YAxis item in rhs )
 			{
-				this.Add(item.Clone());
+				this.Add( item.Clone() );
 			}
 		}
 
@@ -72,10 +76,10 @@ namespace ZedGraph
 		/// <returns>A new, independent copy of this class</returns>
 		public YAxisList Clone()
 		{
-			return new YAxisList(this);
+			return new YAxisList( this );
 		}
 
-		#endregion Constructors
+		#endregion
 
 		#region List Methods
 
@@ -88,7 +92,7 @@ namespace ZedGraph
 		/// <value>An <see cref="Axis"/> object reference.</value>
 		public new YAxis this[int index]
 		{
-			get { return (((index<0||index>=this.Count) ? null : base[index])); }
+			get { return ( ( ( index < 0 || index >= this.Count ) ? null : base[index] ) ); }
 		}
 
 		/// <summary>
@@ -102,8 +106,8 @@ namespace ZedGraph
 		{
 			get
 			{
-				int index = IndexOf(title);
-				if (index>=0)
+				int index = IndexOf( title );
+				if ( index >= 0 )
 					return this[index];
 				else
 					return null;
@@ -122,12 +126,12 @@ namespace ZedGraph
 		/// <returns>The zero-based index of the specified <see cref="Axis"/>,
 		/// or -1 if the <see cref="Axis.Title"/> was not found in the list</returns>
 		/// <seealso cref="IndexOfTag"/>
-		public int IndexOf(string title)
+		public int IndexOf( string title )
 		{
 			int index = 0;
-			foreach (YAxis axis in this)
+			foreach ( YAxis axis in this )
 			{
-				if (String.Compare(axis.Title._text, title, true)==0)
+				if ( String.Compare( axis.Title._text, title, true ) == 0 )
 					return index;
 				index++;
 			}
@@ -147,13 +151,13 @@ namespace ZedGraph
 		/// </param>
 		/// <returns>The zero-based index of the specified <see cref="Axis" />,
 		/// or -1 if the <see cref="Axis.Tag" /> string is not in the list</returns>
-		public int IndexOfTag(string tagStr)
+		public int IndexOfTag( string tagStr )
 		{
 			int index = 0;
-			foreach (YAxis axis in this)
+			foreach ( YAxis axis in this )
 			{
-				if (axis.Tag is string&&
-					String.Compare((string)axis.Tag, tagStr, true)==0)
+				if ( axis.Tag is string &&
+					String.Compare( (string)axis.Tag, tagStr, true ) == 0 )
 					return index;
 				index++;
 			}
@@ -167,16 +171,17 @@ namespace ZedGraph
 		/// <param name="title">The title string for the new axis</param>
 		/// <returns>An integer representing the ordinal position of the new <see cref="YAxis" /> in
 		/// this <see cref="YAxisList" />.  This is the value that you would set the
-		/// <see cref="CurveItem.YAxisIndex" /> property of a given <see cref="CurveItem" /> to
+		/// <see cref="CurveItem.YAxisIndex" /> property of a given <see cref="CurveItem" /> to 
 		/// assign it to this new <see cref="YAxis" />.</returns>
-		public int Add(string title)
+		public int Add( string title )
 		{
-			YAxis axis = new YAxis(title);
-			Add(axis);
+			YAxis axis = new YAxis( title );
+			Add( axis );
 
-			return Count-1;
+			return Count - 1;
 		}
 
-		#endregion List Methods
+		#endregion
+
 	}
 }

@@ -35,8 +35,9 @@
 			// zedGraphCurveChart
 			// 
 			this.zedGraphCurveChart.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.zedGraphCurveChart.IsAutoScrollRange = true;
 			this.zedGraphCurveChart.Location = new System.Drawing.Point(0, 0);
-			this.zedGraphCurveChart.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+			this.zedGraphCurveChart.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.zedGraphCurveChart.Name = "zedGraphCurveChart";
 			this.zedGraphCurveChart.ScrollGrace = 0D;
 			this.zedGraphCurveChart.ScrollMaxX = 0D;
@@ -45,9 +46,8 @@
 			this.zedGraphCurveChart.ScrollMinX = 0D;
 			this.zedGraphCurveChart.ScrollMinY = 0D;
 			this.zedGraphCurveChart.ScrollMinY2 = 0D;
-			this.zedGraphCurveChart.Size = new System.Drawing.Size(442, 340);
+			this.zedGraphCurveChart.Size = new System.Drawing.Size(443, 340);
 			this.zedGraphCurveChart.TabIndex = 0;
-			this.zedGraphCurveChart.ZoomStepFraction = 0.01D;
 			// 
 			// CurveChart
 			// 
@@ -56,7 +56,7 @@
 			this.Controls.Add(this.zedGraphCurveChart);
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.Name = "CurveChart";
-			this.Size = new System.Drawing.Size(442, 340);
+			this.Size = new System.Drawing.Size(443, 340);
 			this.ResumeLayout(false);
 
 		}
