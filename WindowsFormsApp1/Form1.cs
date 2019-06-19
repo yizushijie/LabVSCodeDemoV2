@@ -37,104 +37,104 @@ namespace WindowsFormsApp1
 		/// </summary>
 		private void InitZedGraph()
 		{
-			//---垂直参考线
-			//---显示大网格
-			this.zedGraphControl1.GraphPane.YAxis.MajorGrid.IsVisible = true;
+			////---垂直参考线
+			////---显示大网格
+			//this.zedGraphControl1.GraphPane.YAxis.MajorGrid.IsVisible = true;
 
-			//---显示小网格
-			//this.zedGraphControl1.GraphPane.YAxis.MinorGrid.IsVisible = true;
+			////---显示小网格
+			////this.zedGraphControl1.GraphPane.YAxis.MinorGrid.IsVisible = true;
 
-			//---大网格实线显示
-			this.zedGraphControl1.GraphPane.YAxis.MajorGrid.DashOff = 5;
+			////---大网格实线显示
+			//this.zedGraphControl1.GraphPane.YAxis.MajorGrid.DashOff = 5;
 
-			//---小网格虚线显示
-			//this.zedGraphControl1.GraphPane.YAxis.MinorGrid.DashOff = 10;
+			////---小网格虚线显示
+			////this.zedGraphControl1.GraphPane.YAxis.MinorGrid.DashOff = 10;
 
-			//---网格点的步进刻度
-			//this.zedGraphControl1.GraphPane.YAxis.Scale.MajorStep = 2;
-			//this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MinorStep = this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MajorStep / 5.0;
+			////---网格点的步进刻度
+			////this.zedGraphControl1.GraphPane.YAxis.Scale.MajorStep = 2;
+			////this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MinorStep = this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MajorStep / 5.0;
 
-			//---Y轴扫描的最大值和最小值
-			//this.zedGraphControl_myChart.GraphPane.YAxis.Scale.Min = (this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MinorStep*(-1.00));
-			//this.zedGraphControl_myChart.GraphPane.YAxis.Scale.Max = 10;
+			////---Y轴扫描的最大值和最小值
+			////this.zedGraphControl_myChart.GraphPane.YAxis.Scale.Min = (this.zedGraphControl_myChart.GraphPane.YAxis.Scale.MinorStep*(-1.00));
+			////this.zedGraphControl_myChart.GraphPane.YAxis.Scale.Max = 10;
 
-			//---水平参考线
-			//---显示大网格
-			this.zedGraphControl1.GraphPane.XAxis.MajorGrid.IsVisible = true;
+			////---水平参考线
+			////---显示大网格
+			//this.zedGraphControl1.GraphPane.XAxis.MajorGrid.IsVisible = true;
 
-			//---显示小网格
-			//this.zedGraphControl1.GraphPane.XAxis.MinorGrid.IsVisible = true;
+			////---显示小网格
+			////this.zedGraphControl1.GraphPane.XAxis.MinorGrid.IsVisible = true;
 
-			//---大网格实线显示
-			//this.zedGraphControl1.GraphPane.XAxis.Scale.FontSpec.Size = 90;
-			this.zedGraphControl1.GraphPane.XAxis.MajorGrid.DashOff = 5;
+			////---大网格实线显示
+			////this.zedGraphControl1.GraphPane.XAxis.Scale.FontSpec.Size = 90;
+			//this.zedGraphControl1.GraphPane.XAxis.MajorGrid.DashOff = 5;
 
-			this.zedGraphControl1.GraphPane.XAxis.Title.Text = "时间";
-			this.zedGraphControl1.GraphPane.YAxis.Title.Text = "电压值";
+			//this.zedGraphControl1.GraphPane.XAxis.Title.Text = "时间";
+			//this.zedGraphControl1.GraphPane.YAxis.Title.Text = "电压值";
 
-			this.zedGraphControl1.GraphPane.XAxis.Title.FontSpec.Size = 30;
-			this.zedGraphControl1.GraphPane.YAxis.Title.FontSpec.Size = 30;
+			//this.zedGraphControl1.GraphPane.XAxis.Title.FontSpec.Size = 30;
+			//this.zedGraphControl1.GraphPane.YAxis.Title.FontSpec.Size = 30;
 
-			this.zedGraphControl1.GraphPane.Title.FontSpec.Size = 30;
-			//---小网格虚线显示
-			//this.zedGraphControl1.GraphPane.XAxis.MinorGrid.DashOff = 0;
+			//this.zedGraphControl1.GraphPane.Title.FontSpec.Size = 30;
+			////---小网格虚线显示
+			////this.zedGraphControl1.GraphPane.XAxis.MinorGrid.DashOff = 0;
 
-			//---网格点的步进刻度
-			//this.zedGraphControl1.GraphPane.XAxis.Scale.MajorStep = 2;
-			//this.zedGraphControl_myChart.GraphPane.XAxis.Scale.MinorStep = this.zedGraphControl_myChart.GraphPane.XAxis.Scale.MajorStep / 5.0;
+			////---网格点的步进刻度
+			////this.zedGraphControl1.GraphPane.XAxis.Scale.MajorStep = 2;
+			////this.zedGraphControl_myChart.GraphPane.XAxis.Scale.MinorStep = this.zedGraphControl_myChart.GraphPane.XAxis.Scale.MajorStep / 5.0;
 
-			//---X轴扫描的最大值和最小值
-			//this.zedGraphControl1.GraphPane.XAxis.Scale.Min = 0;
-			//this.zedGraphControl1.GraphPane.XAxis.Scale.Max = 10;
-			//---滚动条自动滚动到最右边
-			//this.zedGraphControl_myChart.ScrollMaxX = this.zedGraphControl_myChart.GraphPane.XAxis.Scale.Max;
+			////---X轴扫描的最大值和最小值
+			////this.zedGraphControl1.GraphPane.XAxis.Scale.Min = 0;
+			////this.zedGraphControl1.GraphPane.XAxis.Scale.Max = 10;
+			////---滚动条自动滚动到最右边
+			////this.zedGraphControl_myChart.ScrollMaxX = this.zedGraphControl_myChart.GraphPane.XAxis.Scale.Max;
 
-			//---是否显示横向滚动条
-			this.zedGraphControl1.IsShowHScrollBar = true;
-			//---是否显示纵向滚动条
-			this.zedGraphControl1.IsShowVScrollBar = true;
-			//this.zedGraphControl1.IsAutoScrollRange = true;
+			////---是否显示横向滚动条
+			//this.zedGraphControl1.IsShowHScrollBar = true;
+			////---是否显示纵向滚动条
+			//this.zedGraphControl1.IsShowVScrollBar = true;
+			////this.zedGraphControl1.IsAutoScrollRange = true;
 
-			//---是否显示右键菜单，如果指定了ContextMenuStrip会一直显示指定的ContextMenu
-			this.zedGraphControl1.IsShowContextMenu = true;
+			////---是否显示右键菜单，如果指定了ContextMenuStrip会一直显示指定的ContextMenu
+			//this.zedGraphControl1.IsShowContextMenu = true;
 
-			//--- 复制图像时是否显示提示信息
-			//zedGraph.IsShowCopyMessage
-			///---鼠标在图表上移动时是否显示鼠标所在点对应的坐标值
-			//zedGraph.IsShowCursorValues
+			////--- 复制图像时是否显示提示信息
+			////zedGraph.IsShowCopyMessage
+			/////---鼠标在图表上移动时是否显示鼠标所在点对应的坐标值
+			////zedGraph.IsShowCursorValues
 
-			//---鼠标经过图表上的点时是否气泡显示该点所对应的值
-			this.zedGraphControl1.IsShowPointValues = true;
-			//---处理鼠标经过图表上的点时是否气泡显示该点所对应的值的事件
-			//this.zedGraphControl1.PointValueEvent += new ZedGraphControl.PointValueHandler(this.PointValueEventHandler);
+			////---鼠标经过图表上的点时是否气泡显示该点所对应的值
+			//this.zedGraphControl1.IsShowPointValues = true;
+			////---处理鼠标经过图表上的点时是否气泡显示该点所对应的值的事件
+			////this.zedGraphControl1.PointValueEvent += new ZedGraphControl.PointValueHandler(this.PointValueEventHandler);
 
-			//---是否允许横向缩放
-			//this.zedGraphControl1.IsEnableHZoom = true;
-			//使用滚轮时以鼠标所在点进行缩放还是以图形中心进行缩放
-			//this.zedGraphControl_myChart.IsZoomOnMouseCenter=false;
-			//---是否允许纵向缩放
-			//this.zedGraphControl1.IsEnableVZoom = true;
-			//---放大缩小
-			this.zedGraphControl1.ZoomStepFraction = 0.2;
-			//---是否允许缩放
-			//this.zedGraphControl1.IsEnableZoom = true;
-			//---缩放事件处理
-			//this.zedGraphControl1.ZoomEvent += new ZedGraphControl.ZoomEventHandler(this.ZoomEventHandler);
+			////---是否允许横向缩放
+			////this.zedGraphControl1.IsEnableHZoom = true;
+			////使用滚轮时以鼠标所在点进行缩放还是以图形中心进行缩放
+			////this.zedGraphControl_myChart.IsZoomOnMouseCenter=false;
+			////---是否允许纵向缩放
+			////this.zedGraphControl1.IsEnableVZoom = true;
+			////---放大缩小
+			//this.zedGraphControl1.ZoomStepFraction = 0.2;
+			////---是否允许缩放
+			////this.zedGraphControl1.IsEnableZoom = true;
+			////---缩放事件处理
+			////this.zedGraphControl1.ZoomEvent += new ZedGraphControl.ZoomEventHandler(this.ZoomEventHandler);
 
-			//---在图表是添加一些文本
-			//---左键拖拽放大\n鼠标中键滚放缩\n右键菜单
-			//TextObj text = new TextObj( "Zoom: left mouse & drag\nPan: middle mouse & drag\nContext Menu: right mouse",
-			//							0.05f, 0.95f, CoordType.ChartFraction, AlignH.Left, AlignV.Bottom);
-			//text.FontSpec.StringAlignment = StringAlignment.Near;
-			//this.zedGraphControl_myChart.GraphPane.GraphObjList.Add(text);
+			////---在图表是添加一些文本
+			////---左键拖拽放大\n鼠标中键滚放缩\n右键菜单
+			////TextObj text = new TextObj( "Zoom: left mouse & drag\nPan: middle mouse & drag\nContext Menu: right mouse",
+			////							0.05f, 0.95f, CoordType.ChartFraction, AlignH.Left, AlignV.Bottom);
+			////text.FontSpec.StringAlignment = StringAlignment.Near;
+			////this.zedGraphControl_myChart.GraphPane.GraphObjList.Add(text);
 
-			//---处理自定义X轴刻度格式事件
-			///this.zedGraphControl_myChart.GraphPane.XAxis.ScaleFormatEvent += new Axis.ScaleFormatHandler(XAxisScaleFormatEventHandler);
-			//---处理自定义Y轴刻度格式事件
-			///this.zedGraphControl_myChart.GraphPane.YAxis.ScaleFormatEvent += new Axis.ScaleFormatHandler(YScaleFormatEventHandler);
+			////---处理自定义X轴刻度格式事件
+			/////this.zedGraphControl_myChart.GraphPane.XAxis.ScaleFormatEvent += new Axis.ScaleFormatHandler(XAxisScaleFormatEventHandler);
+			////---处理自定义Y轴刻度格式事件
+			/////this.zedGraphControl_myChart.GraphPane.YAxis.ScaleFormatEvent += new Axis.ScaleFormatHandler(YScaleFormatEventHandler);
 
-			//---将刷新图形控件
-			this.zedGraphControl1.Refresh();
+			////---将刷新图形控件
+			//this.zedGraphControl1.Refresh();
 		}
 
 		/*
@@ -207,16 +207,11 @@ namespace WindowsFormsApp1
 			int i = 0;
 			double[] xPoint = new double[50];
 			double[] yPoint = new double[50];
-			this.zedGraphControl1.GraphPane.AddCurve("随机数", null, Color.Blue, SymbolType.Circle);
-			IPointListEdit ip=this.zedGraphControl1.GraphPane.CurveList["随机数"].Points as IPointListEdit;
+		
 			for ( i = 0; i < 50; i++)
 			{
 				xPoint[i] =i*2;
 				yPoint[i] = i * 2+100;
-				if (ip != null)
-				{
-					ip.Add(xPoint[i], yPoint[i]);
-				}
 			}
 			//this.curveChart1.AddCurve("随机数");
 			//if (this.curveChart1.m_ZedGraph.GraphPane.CurveList[0].Label.FontSpec==null)
@@ -238,7 +233,14 @@ namespace WindowsFormsApp1
 			this.curveChart1.AddXYPoint("随机数", xPoint, yPoint);
 			//this.curveChart1.FontSize(16);
 			//this.curveChart1.DefaultZoom();
-			this.curveChart1.Init(16);
+			this.curveChart1.Init(24);
+
+			this.zedGraphCurveChart1.m_XAxisScaleMajorStep = 20;
+			this.zedGraphCurveChart1.m_YAxisScaleMajorStep = 20;
+			this.zedGraphCurveChart1.AddXYPoint("随机数", xPoint, yPoint);
+			//this.curveChart1.FontSize(16);
+			//this.curveChart1.DefaultZoom();
+			this.zedGraphCurveChart1.Init(24);
 		}
 
 	}

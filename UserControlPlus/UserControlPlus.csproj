@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurveChart\CurveChart.cs">
+    <Compile Include="ZedGraphChart\CurveChart.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CurveChart\CurveChart.Designer.cs">
+    <Compile Include="ZedGraphChart\CurveChart.Designer.cs">
       <DependentUpon>CurveChart.cs</DependentUpon>
     </Compile>
     <Compile Include="PanelPlus\PanelPlus.cs">
@@ -69,6 +69,15 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RichTextBoxPlus\RichTextBoxPlus.cs" />
+    <Compile Include="ZedGraphChart\ZedGraphBaseChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ZedGraphChart\ZedGraphBaseChart.Designer.cs">
+      <DependentUpon>ZedGraphBaseChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZedGraphChart\ZedGraphCurveChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WinAPI\WinAPI.csproj">
@@ -81,8 +90,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CurveChart\CurveChart.resx">
+    <EmbeddedResource Include="ZedGraphChart\CurveChart.resx">
       <DependentUpon>CurveChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZedGraphChart\ZedGraphBaseChart.resx">
+      <DependentUpon>ZedGraphBaseChart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

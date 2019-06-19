@@ -30,11 +30,43 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam1 = new Harry.LabCOMMPort.COMMSerialPortParam();
-			this.commSerialPortPlus1 = new Harry.LabCOMMPort.COMMSerialPortPlus();
-			this.richTextBoxEx1 = new Harry.LabUserControlPlus.RichTextBoxEx();
-			this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
 			this.curveChart1 = new Harry.LabUserControlPlus.CurveChart();
+			this.richTextBoxEx1 = new Harry.LabUserControlPlus.RichTextBoxEx();
+			this.commSerialPortPlus1 = new Harry.LabCOMMPort.COMMSerialPortPlus();
+			this.zedGraphCurveChart1 = new Harry.LabUserControlPlus.ZedGraphCurveChart();
 			this.SuspendLayout();
+			// 
+			// curveChart1
+			// 
+			this.curveChart1.Location = new System.Drawing.Point(529, 36);
+			this.curveChart1.m_LabelFontSize = 12F;
+			this.curveChart1.m_Title = "标题";
+			this.curveChart1.m_TitleFontSize = 16F;
+			this.curveChart1.m_XAxisScaleFontSize = 14F;
+			this.curveChart1.m_XAxisScaleMajorStep = 0.1D;
+			this.curveChart1.m_XAxisScaleMax = 1.0000000000000002D;
+			this.curveChart1.m_XAxisScaleMin = 0D;
+			this.curveChart1.m_XAxisTitle = "X轴";
+			this.curveChart1.m_XAxisTitleFontSize = 14F;
+			this.curveChart1.m_YAxisScaleFontSize = 14F;
+			this.curveChart1.m_YAxisScaleMajorStep = 0.1D;
+			this.curveChart1.m_YAxisScaleMax = 1.0000000000000002D;
+			this.curveChart1.m_YAxisScaleMin = 0D;
+			this.curveChart1.m_YAxisTitle = "Y 轴";
+			this.curveChart1.m_YAxisTitleFontSize = 14F;
+			this.curveChart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.curveChart1.Name = "curveChart1";
+			this.curveChart1.Size = new System.Drawing.Size(392, 347);
+			this.curveChart1.TabIndex = 3;
+			// 
+			// richTextBoxEx1
+			// 
+			this.richTextBoxEx1.Location = new System.Drawing.Point(39, 166);
+			this.richTextBoxEx1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.richTextBoxEx1.Name = "richTextBoxEx1";
+			this.richTextBoxEx1.Size = new System.Drawing.Size(437, 72);
+			this.richTextBoxEx1.TabIndex = 0;
+			this.richTextBoxEx1.Text = "";
 			// 
 			// commSerialPortPlus1
 			// 
@@ -49,60 +81,36 @@
 			this.commSerialPortPlus1.Size = new System.Drawing.Size(356, 76);
 			this.commSerialPortPlus1.TabIndex = 1;
 			// 
-			// richTextBoxEx1
+			// zedGraphCurveChart1
 			// 
-			this.richTextBoxEx1.Location = new System.Drawing.Point(39, 166);
-			this.richTextBoxEx1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.richTextBoxEx1.Name = "richTextBoxEx1";
-			this.richTextBoxEx1.Size = new System.Drawing.Size(437, 72);
-			this.richTextBoxEx1.TabIndex = 0;
-			this.richTextBoxEx1.Text = "";
-			// 
-			// zedGraphControl1
-			// 
-			this.zedGraphControl1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.zedGraphControl1.Location = new System.Drawing.Point(39, 304);
-			this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-			this.zedGraphControl1.Name = "zedGraphControl1";
-			this.zedGraphControl1.ScrollGrace = 0D;
-			this.zedGraphControl1.ScrollMaxX = 0D;
-			this.zedGraphControl1.ScrollMaxY = 0D;
-			this.zedGraphControl1.ScrollMaxY2 = 0D;
-			this.zedGraphControl1.ScrollMinX = 0D;
-			this.zedGraphControl1.ScrollMinY = 0D;
-			this.zedGraphControl1.ScrollMinY2 = 0D;
-			this.zedGraphControl1.Size = new System.Drawing.Size(437, 250);
-			this.zedGraphControl1.TabIndex = 2;
-			// 
-			// curveChart1
-			// 
-			this.curveChart1.Location = new System.Drawing.Point(484, 77);
-			this.curveChart1.m_Title = "Title";
-			this.curveChart1.m_TitleFontSize = 16F;
-			this.curveChart1.m_XAxisScaleFontSize = 14F;
-			this.curveChart1.m_XAxisScaleMajorStep = 0.1D;
-			this.curveChart1.m_XAxisScaleMax = 1.0000000000000002D;
-			this.curveChart1.m_XAxisScaleMin = 0D;
-			this.curveChart1.m_XAxisTitle = "X Axis";
-			this.curveChart1.m_XAxisTitleFontSize = 14F;
-			this.curveChart1.m_YAxisScaleFontSize = 14F;
-			this.curveChart1.m_YAxisScaleMajorStep = 0.1D;
-			this.curveChart1.m_YAxisScaleMax = 1.0000000000000002D;
-			this.curveChart1.m_YAxisScaleMin = 0D;
-			this.curveChart1.m_YAxisTitle = "Y Axis";
-			this.curveChart1.m_YAxisTitleFontSize = 14F;
-			this.curveChart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.curveChart1.Name = "curveChart1";
-			this.curveChart1.Size = new System.Drawing.Size(732, 546);
-			this.curveChart1.TabIndex = 3;
+			this.zedGraphCurveChart1.Location = new System.Drawing.Point(529, 387);
+			this.zedGraphCurveChart1.m_FontSize = 24F;
+			this.zedGraphCurveChart1.m_Title = "标题";
+			this.zedGraphCurveChart1.m_TitleFontSize = 24F;
+			this.zedGraphCurveChart1.m_XAxisScaleFontSize = 24F;
+			this.zedGraphCurveChart1.m_XAxisScaleMajorStep = 0.1D;
+			this.zedGraphCurveChart1.m_XAxisScaleMax = 1.0000000000000002D;
+			this.zedGraphCurveChart1.m_XAxisScaleMin = 0D;
+			this.zedGraphCurveChart1.m_XAxisTitle = "X轴";
+			this.zedGraphCurveChart1.m_XAxisTitleFontSize = 24F;
+			this.zedGraphCurveChart1.m_YAxisScaleFontSize = 24F;
+			this.zedGraphCurveChart1.m_YAxisScaleMajorStep = 0.2D;
+			this.zedGraphCurveChart1.m_YAxisScaleMax = 1D;
+			this.zedGraphCurveChart1.m_YAxisScaleMin = 0D;
+			this.zedGraphCurveChart1.m_YAxisTitle = "Y轴";
+			this.zedGraphCurveChart1.m_YAxisTitleFontSize = 24F;
+			this.zedGraphCurveChart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.zedGraphCurveChart1.Name = "zedGraphCurveChart1";
+			this.zedGraphCurveChart1.Size = new System.Drawing.Size(392, 340);
+			this.zedGraphCurveChart1.TabIndex = 4;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1228, 748);
+			this.ClientSize = new System.Drawing.Size(1360, 748);
+			this.Controls.Add(this.zedGraphCurveChart1);
 			this.Controls.Add(this.curveChart1);
-			this.Controls.Add(this.zedGraphControl1);
 			this.Controls.Add(this.commSerialPortPlus1);
 			this.Controls.Add(this.richTextBoxEx1);
 			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -118,8 +126,8 @@
 
 		private Harry.LabUserControlPlus.RichTextBoxEx richTextBoxEx1;
 		private Harry.LabCOMMPort.COMMSerialPortPlus commSerialPortPlus1;
-		private ZedGraph.ZedGraphControl zedGraphControl1;
 		private Harry.LabUserControlPlus.CurveChart curveChart1;
+		private Harry.LabUserControlPlus.ZedGraphCurveChart zedGraphCurveChart1;
 	}
 }
 
