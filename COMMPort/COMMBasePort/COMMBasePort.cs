@@ -1450,7 +1450,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		[Description("端口状态同步事件"), Category("自定义事件")]
+		[Description("通讯端口同步事件"), Category("自定义事件")]
 		private event COMMSYNCEventHandler OnCOMMSYNCEvent = null;
 
 		/// <summary>
@@ -1478,7 +1478,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		[Description("委托接收事件"), Category("自定义事件")]
+		[Description("数据接收事件"), Category("自定义事件")]
 		private event COMMEventHandler OnReceivedEvent = null;
 
 		/// <summary>
@@ -1506,7 +1506,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		[Description("委托设备移除事件"), Category("自定义事件")]
+		[Description("设备移除事件"), Category("自定义事件")]
 		private event COMMEventHandler OnRemoveDeviceEvent = null;
 
 		/// <summary>
