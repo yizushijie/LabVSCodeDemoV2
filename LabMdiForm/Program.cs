@@ -13,7 +13,7 @@ namespace Harry.LabMdiForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MdiForm());
+			Application.Run(new LabMdiForm());
         }
     }
 }

@@ -17,6 +17,7 @@
 //Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //=============================================================================
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ZedGraph
@@ -53,5 +54,18 @@ namespace ZedGraph
 		/// Gets the number of points available in the list.
 		/// </summary>
 		int Count { get; }
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public interface IOrdinalPointList : IPointList
+	{
+	  /// <summary>
+	  /// Get a data point index by the X coordinate value.
+	  /// E.g. for ordinal date this function would retrieve the index of the date
+	  /// in the underlying collection based on the date value.
+	  /// </summary>
+	  int Ordinal(double xValue);
 	}
 }

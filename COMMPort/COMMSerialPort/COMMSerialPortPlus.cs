@@ -8,10 +8,27 @@ namespace Harry.LabCOMMPort
 	public partial class COMMSerialPortPlus : COMMBasePortPlus
 	{
 		#region 变量定义
-		
+
+		private bool defaultShowParamMenu=true;
+
 		#endregion
 
 		#region 属性定义
+
+		/// <summary>
+		/// 是否显示右键配置参数界面
+		/// </summary>
+		public virtual bool m_COMMShowParamMenu
+		{
+			get
+			{
+				return this.defaultShowParamMenu;
+			}
+			set
+			{
+				this.defaultShowParamMenu = value;
+			}
+		}
 
 
 		#region 重载属性
@@ -124,7 +141,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public new COMMSerialPortParam m_COMMPortParam
+		public virtual new COMMSerialPortParam m_COMMPortParam
 		{
 			get
 			{
@@ -135,7 +152,8 @@ namespace Harry.LabCOMMPort
 				}
 				else
 				{
-					_return.name = this.m_COMMComboBox.Text;
+					_return.defaultName = this.m_COMMComboBox.Text;
+			
 				}
 				return _return;
 			} 
@@ -147,6 +165,26 @@ namespace Harry.LabCOMMPort
 				}
 				base.m_COMMPortParam = value;
 			} 
+		}
+
+		/// <summary>
+		/// 通讯端口的波特率
+		/// </summary>
+		public virtual int m_COMMPortBaudRate
+		{
+			get
+			{
+				return Convert.ToInt32(this.m_COMMPortParam.defaultBaudRate);
+			}
+			set
+			{
+				this.m_COMMPortParam.defaultBaudRate = value.ToString();
+				//---检查端口是否打开
+				if ((this.m_COMMPort!=null)&&(this.m_COMMPort.IsAttached())&&(this.m_COMMPort.m_COMMIndex!=0))
+				{
+					this.m_COMMPort.OpenDevice();
+				}
+			}
 		}
 
 		#endregion
@@ -271,7 +309,7 @@ namespace Harry.LabCOMMPort
 				if (this.m_COMMPort != null)
 				{
 					this.m_COMMPort.GetPortNames(this.m_COMMComboBox, argRichTextBox);
-					this.m_COMMPort.m_COMMPortParam=new COMMSerialPortParam(this.m_COMMComboBox.Text);
+					this.m_COMMPort.m_COMMPortParam = new COMMSerialPortParam(this.m_COMMComboBox.Text);
 				}
 			}
 			if (isAddWatcherPort == true)
@@ -295,54 +333,11 @@ namespace Harry.LabCOMMPort
 				case "button_COMMInit":
 					if (btn.Text == "打开设备")
 					{
-						//if ((this.commPort != null) &&(this.commPort.OpenDevice(this.comboBox_COMMName.Text, this.commRichTextBox) == 0))
-						if ((this.m_COMMPort != null) && (this.m_COMMPort.OpenDevice(this.m_COMMPortParam, this.m_COMMRichTextBox) == 0))
-						{
-							btn.Text = "关闭设备";
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.open;
-
-							//---消息显示
-							if (this.m_COMMRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
-									Color.Black, false);
-							}
-
-							this.COMMControl(false);
-
-							//---加载设备移除处理
-							if (this.m_COMMPort.m_OnRemoveDeviceEvent == null)
-							{
-								this.m_COMMPort.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
-							}
-						}
-						else
-						{
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.error;
-							if (this.m_COMMRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开失败!\r\n",
-									Color.Red, false);
-							}
-						}
+						this.OpenDevice();
 					}
 					else if (btn.Text == "关闭设备")
 					{
-						if (this.m_COMMPort != null)
-						{
-							this.m_COMMPort.CloseDevice();
-							btn.Text = "打开设备";
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.lost;
-
-							//---消息显示
-							if (this.m_COMMRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
-									Color.Black, false);
-							}
-
-							this.COMMControl(true);
-						}
+						this.CloseDevice();
 					}
 					//else if (btn.Text == "配置设备")
 					//{
@@ -350,7 +345,7 @@ namespace Harry.LabCOMMPort
 					//}
 					else
 					{
-						MessageBoxPlus.Show(this.m_COMMForm, "设备操作异常！错误操作：" + btn.Text, "错误提示");
+						this.ErrMsgDevice();
 					}
 					break;
 
@@ -360,6 +355,7 @@ namespace Harry.LabCOMMPort
 			btn.Enabled = true;
 		}
 
+		/*
 		/// <summary>
 		/// 设置参数
 		/// </summary>
@@ -390,7 +386,7 @@ namespace Harry.LabCOMMPort
 				p.CloseForm();
 			}
 		}
-
+		*/
 
 		/// <summary>
 		/// 
@@ -405,15 +401,15 @@ namespace Harry.LabCOMMPort
 			{
 				case "comboBox_COMMName":
 					//---判断鼠标按下的按键
-					if (e.Button==MouseButtons.Right)
+					if ((e.Button==MouseButtons.Right)&&(this.defaultShowParamMenu==true))
 					{
 						//---鼠标右键配置通信端口的参数
-						this.SetCOMMSerialPortParam();
+						this.ConfigCOMMSerialPortParam();
 						//---判断是否端口发生了变化
-						if (((this.comboBox_COMMName.Text!=string.Empty)||this.comboBox_COMMName.Text!="")&&((this.m_COMMPortParam.name != string.Empty)||(this.m_COMMPortParam.name!=""))&&(this.m_COMMPortParam.name!=this.comboBox_COMMName.Text))
+						if (((this.comboBox_COMMName.Text!=string.Empty)||this.comboBox_COMMName.Text!="")&&((this.m_COMMPortParam.defaultName != string.Empty)||(this.m_COMMPortParam.defaultName!=""))&&(this.m_COMMPortParam.defaultName!=this.comboBox_COMMName.Text))
 						{
 							//---数据位
-							index = this.comboBox_COMMName.Items.IndexOf(this.m_COMMPortParam.name);
+							index = this.comboBox_COMMName.Items.IndexOf(this.m_COMMPortParam.defaultName);
 							if (index < 0)
 							{
 								this.comboBox_COMMName.SelectedIndex = 0;
@@ -428,6 +424,80 @@ namespace Harry.LabCOMMPort
 				default:
 					break;
 			}
+		}
+
+		/// <summary>
+		/// 打开设备
+		/// </summary>
+		public virtual void OpenDevice()
+		{
+			//if ((this.commPort != null) &&(this.commPort.OpenDevice(this.comboBox_COMMName.Text, this.commRichTextBox) == 0))
+			if ((this.m_COMMPort != null) && (this.m_COMMPort.OpenDevice(this.m_COMMPortParam, this.m_COMMRichTextBox) == 0))
+			{
+				this.m_ButtonCOMMInit.Text = "关闭设备";
+				this.m_PictureBoxCOMMState.Image = Properties.Resources.open;
+
+				//---消息显示
+				if (this.m_COMMRichTextBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
+						Color.Black, false);
+				}
+				if (this.m_COMMPort.m_OnCOMMSYNCEvent != null)
+				{
+					this.m_COMMPort.m_OnCOMMSYNCEvent();
+				}
+
+				this.COMMControl(false);
+
+				//---加载设备移除处理
+				if (this.m_COMMPort.m_OnRemoveDeviceEvent == null)
+				{
+					this.m_COMMPort.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
+				}
+			}
+			else
+			{
+				this.m_PictureBoxCOMMState.Image = Properties.Resources.error;
+				if (this.m_COMMRichTextBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开失败!\r\n",
+						Color.Red, false);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 关闭设备
+		/// </summary>
+		public virtual void CloseDevice()
+		{
+			if (this.m_COMMPort != null)
+			{
+				this.m_COMMPort.CloseDevice();
+				this.m_ButtonCOMMInit.Text = "打开设备";
+				this.m_PictureBoxCOMMState.Image = Properties.Resources.lost;
+
+				//---消息显示
+				if (this.m_COMMRichTextBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
+						Color.Black, false);
+				}
+				if (this.m_COMMPort.m_OnCOMMSYNCEvent != null)
+				{
+					this.m_COMMPort.m_OnCOMMSYNCEvent();
+				}
+				this.COMMControl(true);
+			}
+		}
+
+		/// <summary>
+		/// 操作设备时发生的异常提示
+		/// </summary>
+		public virtual void ErrMsgDevice()
+		{
+			MessageBoxPlus.Show(this.m_COMMForm, "设备操作异常！错误操作：" + this.m_ButtonCOMMInit.Text, "错误提示");
 		}
 
 		#endregion
@@ -445,9 +515,9 @@ namespace Harry.LabCOMMPort
 		}
 
 		/// <summary>
-		/// 设置通信端口的参数
+		/// 配置通信端口的参数
 		/// </summary>
-		private void SetCOMMSerialPortParam()
+		private void ConfigCOMMSerialPortParam()
 		{
 			if ((this.m_COMMComboBox.Text != null) && (this.m_COMMComboBox.Items.Count > 0))
 			{
@@ -473,8 +543,8 @@ namespace Harry.LabCOMMPort
 				}
 
 			}
-		
 		}
+
 		#endregion
 
 		#endregion

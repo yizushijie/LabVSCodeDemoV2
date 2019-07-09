@@ -1,6 +1,6 @@
 //============================================================================ 
 //DataSourcePointList Class 
-//Copyright © 2006 John Champion, Jerry Vos 
+//Copyright ?2006 John Champion, Jerry Vos 
 // 
 //This library is free software; you can redistribute it and/or 
 //modify it under the terms of the GNU Lesser General Public 
@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Data;
+using System.Collections.Generic;
 
 namespace ZedGraph
 {
@@ -298,7 +299,10 @@ namespace ZedGraph
 			return val;
 		}
 
+		#endregion
 
+		#region Enumeration Support
+		
 		#endregion
 	}
 }

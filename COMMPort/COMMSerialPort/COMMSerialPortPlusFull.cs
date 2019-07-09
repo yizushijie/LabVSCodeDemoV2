@@ -15,7 +15,10 @@ namespace Harry.LabCOMMPort
 	{
 		#region 变量定义
 
-		private int commSerialPortDefaultBaudRateMaxNum = 0;
+		/// <summary>
+		/// 默认波特率集合的最大个数
+		/// </summary>
+		private int defaultSerialPortBaudRateMaxNum = 0;
 
 		#endregion
 
@@ -131,7 +134,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public new COMMSerialPortParam m_COMMPortParam
+		public virtual new COMMSerialPortParam m_COMMPortParam
 		{
 			get
 			{
@@ -142,11 +145,11 @@ namespace Harry.LabCOMMPort
 				}
 				else
 				{
-					_return.name = this.m_COMMComboBox.Text;
-					_return.baudRate = this.comboBox_COMMPortBaudRate.Text;
-					_return.parity = this.comboBox_COMMPortParity.Text;
-					_return.dataBits = this.comboBox_COMMPortDataBits.Text;
-					_return.stopBits = this.comboBox_COMMPortStopBits.Text;
+					_return.defaultName = this.m_COMMComboBox.Text;
+					_return.defaultBaudRate = this.comboBox_COMMPortBaudRate.Text;
+					_return.defaultParity = this.comboBox_COMMPortParity.Text;
+					_return.defaultDataBits = this.comboBox_COMMPortDataBits.Text;
+					_return.defaultStopBits = this.comboBox_COMMPortStopBits.Text;
 				}
 				return _return;
 			}
@@ -350,7 +353,7 @@ namespace Harry.LabCOMMPort
 			{
 				return;
 			}
-			int index = this.comboBox_COMMPortBaudRate.Items.IndexOf(commSerialPortParam.baudRate);
+			int index = this.comboBox_COMMPortBaudRate.Items.IndexOf(commSerialPortParam.defaultBaudRate);
 			if (index<0)
 			{
 				this.comboBox_COMMPortBaudRate.SelectedIndex = 0;
@@ -359,7 +362,7 @@ namespace Harry.LabCOMMPort
 					comboBox_COMMPortBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
 				}
 			}
-			this.comboBox_COMMPortBaudRate.Text = commSerialPortParam.baudRate;
+			this.comboBox_COMMPortBaudRate.Text = commSerialPortParam.defaultBaudRate;
 		}
 
 		/// <summary>
@@ -503,7 +506,7 @@ namespace Harry.LabCOMMPort
 
 			this.comboBox_COMMPortBaudRate.SelectedIndexChanged += new EventHandler(this.ComboBox_SelectedIndexChanged);
 
-			this.commSerialPortDefaultBaudRateMaxNum = this.comboBox_COMMPortBaudRate.Items.Count;
+			this.defaultSerialPortBaudRateMaxNum = this.comboBox_COMMPortBaudRate.Items.Count;
 
 		}
 
@@ -529,7 +532,7 @@ namespace Harry.LabCOMMPort
 						cbb.Text = "";
 
 						//---判断是否添加了新数据，如果添加，去除新添加的数据
-						if (cbb.Items.Count > this.commSerialPortDefaultBaudRateMaxNum)
+						if (cbb.Items.Count > this.defaultSerialPortBaudRateMaxNum)
 						{
 							cbb.Items.Remove(cbb.Items[cbb.Items.Count - 1]);
 						}
@@ -544,7 +547,7 @@ namespace Harry.LabCOMMPort
 						if (this.m_ComboBoxCOMMPortBaudRate.Items.IndexOf(cbb.Text)<0)
 						{
 							//---判断是否添加了新数据，如果添加，去除新添加的数据
-							if (cbb.Items.Count > this.commSerialPortDefaultBaudRateMaxNum)
+							if (cbb.Items.Count > this.defaultSerialPortBaudRateMaxNum)
 							{
 								cbb.Items.Remove(cbb.Items[cbb.Items.Count - 1]);
 							}

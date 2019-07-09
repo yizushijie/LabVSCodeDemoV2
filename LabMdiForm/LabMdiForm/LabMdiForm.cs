@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Harry.LabMdiForm
 {
-    public partial class MdiForm : Form
+    public partial class LabMdiForm : Form
     {
 
 		#region 属性定义
@@ -21,7 +21,7 @@ namespace Harry.LabMdiForm
 		/// <summary>
 		/// 构造函数
 		/// </summary>
-		public MdiForm()
+		public LabMdiForm()
         {
 			InitializeComponent();
 
@@ -33,7 +33,7 @@ namespace Harry.LabMdiForm
         /// 
         /// </summary>
         /// <param name="argForm"></param>
-        public MdiForm(Form argForm)
+        public LabMdiForm(Form argForm)
         {
             InitializeComponent();
 

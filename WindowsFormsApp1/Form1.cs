@@ -1,4 +1,5 @@
 ﻿using Harry.LabCOMMPort;
+using Harry.LabDigitalPower;
 using NPlot;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace WindowsFormsApp1
 	public partial class Form1 : Form
 	{
 		private COMMBasePort usedPort = null;
+
+		private GPD3303 usedPower = new GPD3303();
+
+		private double rndVa = 0;
 		public Form1()
 		{
 			InitializeComponent();
@@ -24,11 +29,12 @@ namespace WindowsFormsApp1
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			this.usedPort = new COMMSerialPort();
-			this.commSerialPortPlus1.Init(this, this.usedPort, this.richTextBoxEx1, true, true);
+			//this.commSerialPortPlus1.Init(this, this.usedPort, this.richTextBoxEx1, true, true);
+			this.gpD3303Plus1.Init(this, this.usedPort, this.richTextBoxEx1, true, true);
 			this.InitZedGraph();
 			//this.plotline();
 			//this.InitChart();
-			this.GraphCurve();
+			//this.GraphCurve();
 		}
 
 
@@ -198,6 +204,7 @@ namespace WindowsFormsApp1
 		//	this.chart1.Series[0].Points.Clear();
 		//}
 
+		/*
 		/// <summary>
 		/// 绘制曲线
 		/// </summary>
@@ -237,12 +244,41 @@ namespace WindowsFormsApp1
 
 			this.zedGraphCurveChart1.m_XAxisScaleMajorStep = 20;
 			this.zedGraphCurveChart1.m_YAxisScaleMajorStep = 20;
-			this.zedGraphCurveChart1.AddXYPoint("随机数", xPoint, yPoint);
+			//this.zedGraphCurveChart1.m_ZedGraphChart.GraphPane.XAxis.Scale.Max= this.zedGraphCurveChart1.m_XAxisScaleMajorStep * 50;
+			//this.zedGraphCurveChart1.m_ZedGraphChart.GraphPane.YAxis.Scale.Max = this.zedGraphCurveChart1.m_YAxisScaleMajorStep * 50;
+
+			//this.zedGraphCurveChart1.AddXYPoint("随机数", xPoint, yPoint);
 			//this.curveChart1.FontSize(16);
 			//this.curveChart1.DefaultZoom();
 			this.zedGraphCurveChart1.Init(24);
 		}
+		*/
+		private void Timer1_Tick(object sender, EventArgs e)
+		{
+			if (rndVa > 360*2*Math.PI)
+			{
+				//this.zedGraphCurveChart1.m_ZedGraph.GraphPane.XAxis.Scale.Min = 360 * 2 * Math.PI;
+				rndVa = 0 ;
+			}
+			double x = rndVa;
+			double y = 200 * Math.Sin(x/36);
+			//this.zedGraphCurveChart1.AddPoint("正弦波", x+ this.zedGraphCurveChart1.m_ZedGraph.GraphPane.XAxis.Scale.Min, y);//rndVa*10);
+			rndVa++;
+		
+		}
 
+		private void Button_OpenPower_Click(object sender, EventArgs e)
+		{
+			//this.usedPower.Init(this.commSerialPortPlus1.comboBox_COMMName.Text);
+		}
+
+		private void Button1_Click(object sender, EventArgs e)
+		{
+			//this.usedPower.SetVoltage(2, (float)this.numericUpDownPlus1.Value);
+			//this.usedPower.SetOutStatus(true);
+			//this.usedPower.MeasureU(2);
+			//this.usedPower.SetOutStatus(false);
+		}
 	}
 }
 

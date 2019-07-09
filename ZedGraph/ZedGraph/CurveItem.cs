@@ -71,7 +71,7 @@ namespace ZedGraph
 		/// <see cref="CurveItem" /> belongs.  Use the public property <see cref="YAxisIndex" />
 		/// to access this value.
 		/// </summary>
-		protected int		_yAxisIndex;
+		protected int	_yAxisIndex;
 
 		/// <summary>
 		/// protected field that stores the boolean value that determines whether this

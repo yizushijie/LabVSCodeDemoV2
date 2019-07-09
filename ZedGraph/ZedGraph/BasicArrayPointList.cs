@@ -1,6 +1,6 @@
 //============================================================================
 //BasicArrayPointList Class
-//Copyright © 2005  John Champion
+//Copyright ?2005  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -18,9 +18,35 @@
 //=============================================================================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ZedGraph
 {
+	/// <summary>
+	/// 
+	/// </summary>
+	public struct CompactPt : IPointPair
+	{
+		public CompactPt(double x, double y) { X = x; Y = y; }
+		public CompactPt(IPointPair rhs) { X = rhs.X; Y = rhs.Y; }
+
+		public double X { get; set; }
+		public double Y { get; set; }
+		public double Z { get => Y; set => value = Y; }
+
+		public object Tag { get { return null; } set { } }
+		public float Low => (float)Y;
+		public float High => (float)Y;
+		public float ColorValue => (float)Y;
+		public bool IsValid => Y != PointPairBase.Missing && Y != PointPairBase.Missing;
+		public bool IsInvalid => !IsValid;
+		public bool IsFiltered => false;
+
+		public IPointPair Clone() => new CompactPt(X, Y);
+		object ICloneable.Clone() => Clone();
+	}
+
 	/// <summary>
 	/// A data collection class for ZedGraph, provided as an alternative to <see cref="PointPairList" />.
 	/// </summary>
@@ -140,8 +166,6 @@ namespace ZedGraph
 			return new BasicArrayPointList( this );
 		}
 
-		
-	#endregion
-
+		#endregion
 	}
 }

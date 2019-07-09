@@ -120,6 +120,9 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		protected override sealed CreateParams CreateParams
 		{
 			get
@@ -150,7 +153,9 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
-		//构造函数
+		/// <summary>
+		/// 构造函数
+		/// </summary>
 		public COMMBaseForm()
 		{
 			//初始化消息筛选器。添加和移除在显示/隐藏时负责
@@ -460,7 +465,8 @@ namespace Harry.LabCOMMPort
 			if (this.Visible)
 			{
 				return;
-			}//原因见ShowDialogInternal
+			}
+			//--原因见ShowDialogInternal
 			if (base.Visible)
 			{
 				return;

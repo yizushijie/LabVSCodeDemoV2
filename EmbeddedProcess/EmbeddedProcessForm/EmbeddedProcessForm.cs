@@ -22,7 +22,7 @@ namespace Harry.LabEmbeddedProcess
 		/// <summary>
 		/// 
 		/// </summary>
-		private string _processPatch = null;
+		private string defaultProcessPatch = null;
 		
 		#endregion
 
@@ -154,7 +154,7 @@ namespace Harry.LabEmbeddedProcess
 		/// <param name="exePath"></param>
 		public void StartProcess(string exePath)
 		{
-			this._processPatch = exePath;
+			this.defaultProcessPatch = exePath;
 			this.panelPlus_EmbeddedProcess.EmbeddedProcess(exePath);
 		}
 

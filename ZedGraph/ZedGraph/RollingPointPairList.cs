@@ -1,7 +1,7 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright © 2006  John Champion
-//RollingPointPairList class Copyright © 2006 by Colin Green
+//Copyright ?2006  John Champion
+//RollingPointPairList class Copyright ?2006 by Colin Green
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public

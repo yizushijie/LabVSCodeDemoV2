@@ -29,6 +29,34 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
+		/// <summary>
+		/// 端口参数信息
+		/// </summary>
+		public new COMMUSBPortParam m_COMMPortParam
+		{
+			get
+			{
+				COMMUSBPortParam _return = base.m_COMMPortParam as COMMUSBPortParam;
+				if (_return == null)
+				{
+					_return = new COMMUSBPortParam();
+				}
+				else
+				{
+					_return.Init(0x2013,0x03EB);
+				}
+				return _return;
+			}
+			set
+			{
+				if (base.m_COMMPortParam==null)
+				{
+					base.m_COMMPortParam = new COMMUSBPortParam();
+				}
+				base.m_COMMPortParam = value;
+			}
+		}
+
 		#endregion
 
 		#region 构造函数

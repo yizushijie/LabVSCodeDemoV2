@@ -43,12 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ZedGraphChart\CurveChart.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ZedGraphChart\CurveChart.Designer.cs">
-      <DependentUpon>CurveChart.cs</DependentUpon>
-    </Compile>
     <Compile Include="PanelPlus\PanelPlus.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -62,6 +56,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ContextMenuPlus\ContextMenuPlus.cs" />
+    <Compile Include="NumericUpDownPlus\NumericUpDownPlus.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MessageBoxPlus\MessageBoxPlus.cs" />
     <Compile Include="MessageBoxPlus\MessageBoxPlusHelp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,9 +87,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ZedGraphChart\CurveChart.resx">
-      <DependentUpon>CurveChart.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ZedGraphChart\ZedGraphBaseChart.resx">
       <DependentUpon>ZedGraphBaseChart.cs</DependentUpon>
     </EmbeddedResource>

@@ -31,12 +31,12 @@ namespace Harry.LabUserControlPlus
 		/// <summary>
 		/// 
 		/// </summary>
-		private Process _process = null;
+		private Process defaulProcess = null;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private IntPtr _embededWindowHandle = (IntPtr)0;
+		private IntPtr defaultEmbededWindowHandle = (IntPtr)0;
 
 		#endregion
 
@@ -67,9 +67,9 @@ namespace Harry.LabUserControlPlus
 		/// <param name="e"></param>
 		protected override void OnResize(EventArgs e)
 		{
-			if (_process != null)
+			if (defaulProcess != null)
 			{
-				Win32API.MoveWindow(this._process.MainWindowHandle, 0, 0, this.Width, this.Height, true);
+				Win32API.MoveWindow(this.defaulProcess.MainWindowHandle, 0, 0, this.Width, this.Height, true);
 			}
 
 			base.OnResize(e);
@@ -147,15 +147,15 @@ namespace Harry.LabUserControlPlus
 					setTime++;
 				}
 				//---设置初始尺寸和位置
-				Win32API.MoveWindow(this._process.MainWindowHandle, 0, 0, this.Width, this.Height, true);
+				Win32API.MoveWindow(this.defaulProcess.MainWindowHandle, 0, 0, this.Width, this.Height, true);
 				// Remove border and whatnot               
 				//---移除边框和右上角的最大，最小和关闭功能
-				Win32API.SetWindowLong(new HandleRef(this, this._process.MainWindowHandle), Win32API.GWL_STYLE, Win32API.WS_VISIBLE);
+				Win32API.SetWindowLong(new HandleRef(this, this.defaulProcess.MainWindowHandle), Win32API.GWL_STYLE, Win32API.WS_VISIBLE);
 			}
 
 			if (isEmbedSuccess)
 			{
-				this._embededWindowHandle = this._process.MainWindowHandle;
+				this.defaultEmbededWindowHandle = this.defaulProcess.MainWindowHandle;
 			}
 
 			return isEmbedSuccess;
@@ -176,12 +176,12 @@ namespace Harry.LabUserControlPlus
 			this._eventDone.Reset();
 
 			//---启动进程
-			this._process = this.Start(processPath);
+			this.defaulProcess = this.Start(processPath);
 
 			//---等待新进程完成它的初始化并等待用户输入
-			this._process.WaitForInputIdle();
+			this.defaulProcess.WaitForInputIdle();
 
-			if (this._process == null)
+			if (this.defaulProcess == null)
 			{
 				return false;
 			}
@@ -191,7 +191,7 @@ namespace Harry.LabUserControlPlus
 			{
 				while (true)
 				{
-					if (this._process.MainWindowHandle != (IntPtr)0)
+					if (this.defaulProcess.MainWindowHandle != (IntPtr)0)
 					{
 						this._eventDone.Set();
 						break;
@@ -204,10 +204,10 @@ namespace Harry.LabUserControlPlus
 			//---嵌入进程
 			if (this._eventDone.WaitOne(10000))
 			{
-				isStartAndEmbedSuccess = this.EmbeddedProcess(_process);
+				isStartAndEmbedSuccess = this.EmbeddedProcess(defaulProcess);
 				if (!isStartAndEmbedSuccess)
 				{
-					this.Kill(this._process);
+					this.Kill(this.defaulProcess);
 				}
 			}
 			return isStartAndEmbedSuccess;
@@ -219,7 +219,7 @@ namespace Harry.LabUserControlPlus
 		/// </summary>
 		public void Stop()
 		{
-			this.Kill(this._process);
+			this.Kill(this.defaulProcess);
 		}
 
 
@@ -230,7 +230,7 @@ namespace Harry.LabUserControlPlus
 		/// <returns></returns>
 		public bool EmbeddedExistedProcess(Process process)
 		{
-			this._process = process;
+			this.defaulProcess = process;
 
 			return this.EmbeddedProcess(process);
 		}

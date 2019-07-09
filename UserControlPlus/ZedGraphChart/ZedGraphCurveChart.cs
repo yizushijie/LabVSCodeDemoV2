@@ -1,49 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Harry.LabUserControlPlus
 {
-	public class ZedGraphCurveChart : ZedGraphBaseChart,ICloneable
+	public partial class ZedGraphCurveChart : ZedGraphBaseChart
 	{
 		#region 变量定义
 
 		#endregion
+
 		#region 属性定义
-		
+
 		#endregion
 
 		#region 构造函数
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public ZedGraphCurveChart():base()
+		public ZedGraphCurveChart()
 		{
 			this.Init();
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="zedGraph"></param>
-		public ZedGraphCurveChart(ZedGraphControl zedGraph)
-		{
-			base.CreateZedGraph(zedGraph);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="zgcc"></param>
-		public ZedGraphCurveChart(ZedGraphCurveChart zgcc)
-		{
-			base.CreateZedGraph(zgcc.m_ZedGraphChart);
-		}
-		
 		#endregion
 
 		#region 私有函数
@@ -51,33 +32,103 @@ namespace Harry.LabUserControlPlus
 		/// <summary>
 		/// 
 		/// </summary>
-		private  void InitChart()
+		private void Init()
 		{
-			base.m_Title = "标题";
-			base.m_XAxisTitle = "X轴";
-			base.m_YAxisTitle = "Y轴";
-			base.Init(24);
+			this.m_ZedGraph.GraphPane.Title.Text = "标题";
+			this.m_ZedGraph.GraphPane.XAxis.Title.Text = "X轴";
+			this.m_ZedGraph.GraphPane.YAxis.Title.Text = "X轴";
+			this.FontSize(16);
 		}
+
+
+		/// <summary>
+		/// 添加曲线
+		/// </summary>
+		/// <param name="addCurve"></param>
+		/// <param name="curveColor"></param>
+		/// <param name="curveType"></param>
+		private LineItem AddCurve(string addCurve, Color curveColor, SymbolType curveType, bool isFillColor = false)
+		{
+			LineItem myCurve = this.m_ZedGraph.GraphPane.AddCurve(addCurve, null, curveColor, curveType);
+			if (isFillColor)
+			{
+				myCurve.Symbol.Fill = new Fill(curveColor);
+			}
+			return myCurve;
+		}
+
+		/// <summary>
+		/// 显示曲线
+		/// </summary>
+		/// <param name="addCurve"></param>
+		/// <param name="list"></param>
+		/// <param name="curveColor"></param>
+		/// <param name="curveType"></param>
+		/// <returns></returns>
+		private LineItem AddCurve(string addCurve, PointPairList list, Color curveColor, SymbolType curveType, bool isFillColor = false)
+		{
+			LineItem myCurve = this.m_ZedGraph.GraphPane.AddCurve(addCurve, list, curveColor, curveType);
+			if (isFillColor)
+			{
+				myCurve.Symbol.Fill = new Fill(curveColor);
+			}
+			return myCurve;
+		}
+
+		/// <summary>
+		/// 显示曲线
+		/// </summary>
+		/// <param name="addCurve"></param>
+		/// <param name="curveColor"></param>
+		/// <returns></returns>
+		private  LineItem AddCurve(string addCurve, Color curveColor, bool isFillColor = false)
+		{
+			LineItem myCurve = this.m_ZedGraph.GraphPane.AddCurve(addCurve, null, curveColor, SymbolType.Circle);
+			if (isFillColor)
+			{
+				myCurve.Symbol.Fill = new Fill(curveColor);
+			}
+			return myCurve;
+		}
+
+		/// <summary>
+		/// 添加曲线
+		/// </summary>
+		/// <param name="addCurve"></param>
+		/// <param name="isFillColor"></param>
+		/// <returns></returns>
+		private  LineItem AddCurve(string addCurve, bool isFillColor = false)
+		{
+			LineItem myCurve = this.m_ZedGraph.GraphPane.AddCurve(addCurve, null, Color.Blue, SymbolType.None);
+			if (isFillColor)
+			{
+				myCurve.Symbol.Fill = new Fill(Color.Blue);
+			}
+			return myCurve;
+		}
+
+
+		/// <summary>
+		/// 显示图标
+		/// </summary>
+		/// <param name="addCurve"></param>
+		/// <param name="list"></param>
+		/// <param name="curveColor"></param>
+		/// <returns></returns>
+		private  LineItem AddCurve(string addCurve, PointPairList list, Color curveColor, bool isFillColor = false)
+		{
+			LineItem myCurve = this.m_ZedGraph.GraphPane.AddCurve(addCurve, list, curveColor, SymbolType.None);
+			if (isFillColor)
+			{
+				myCurve.Symbol.Fill = new Fill(curveColor);
+			}
+			return myCurve;
+		}
+
 
 		#endregion
+
 		#region 公共函数
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public override  void Init()
-		{
-			this.InitChart();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public override void Init(float size,bool isRefresh=false )
-		{
-			base.Init(size, isRefresh);
-			this.InitChart();
-		}
 
 		/// <summary>
 		/// 添加数据点
@@ -85,28 +136,28 @@ namespace Harry.LabUserControlPlus
 		/// <param name="curveName"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public virtual void AddXYPoint(string curveName, double x, double y)
+		public override void AddPoint(string curveName, double x, double y)
 		{
 			//---异步调用
-			if (this.m_ZedGraphChart.InvokeRequired)
+			if (this.m_ZedGraph.InvokeRequired)
 			{
-				this.m_ZedGraphChart.BeginInvoke((EventHandler)
+				this.m_ZedGraph.BeginInvoke((EventHandler)
 								 (delegate
 								 {
 									 //---查空操作
-									 if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+									 if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
 									 }
 									 //---增加坐标XY轴的点
-									 IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+									 IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 //---判断曲线是否存在
 									 if (ip == null)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
-										 ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+										 ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 }
 									 //---添加数据
 									 if (ip != null)
@@ -120,19 +171,19 @@ namespace Harry.LabUserControlPlus
 			else
 			{
 				//---查空操作
-				if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+				if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
 				}
 				//---增加坐标XY轴的点
-				IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+				IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				//---判断曲线是否存在
 				if (ip == null)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
-					ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+					ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				}
 				//---添加数据
 				if (ip != null)
@@ -151,28 +202,28 @@ namespace Harry.LabUserControlPlus
 		/// <param name="curveName"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public virtual void AddXYPoint(string curveName, PointPair xypoint)
+		public override void AddPoint(string curveName, PointPair xypoint)
 		{
 			//---异步调用
-			if (this.m_ZedGraphChart.InvokeRequired)
+			if (this.m_ZedGraph.InvokeRequired)
 			{
-				this.m_ZedGraphChart.BeginInvoke((EventHandler)
+				this.m_ZedGraph.BeginInvoke((EventHandler)
 								 (delegate
 								 {
 									 //---查空操作
-									 if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+									 if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
 									 }
 									 //---增加坐标XY轴的点
-									 IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+									 IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 //---判断曲线是否存在
 									 if (ip == null)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
-										 ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+										 ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 }
 									 //---添加数据
 									 if (ip != null)
@@ -186,19 +237,19 @@ namespace Harry.LabUserControlPlus
 			else
 			{
 				//---查空操作
-				if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+				if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
 				}
 				//---增加坐标XY轴的点
-				IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+				IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				//---判断曲线是否存在
 				if (ip == null)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
-					ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+					ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				}
 				//---添加数据
 				if (ip != null)
@@ -216,29 +267,29 @@ namespace Harry.LabUserControlPlus
 		/// <param name="curveName"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public virtual void AddXYPoint(string curveName, double[] x, double[] y)
+		public override void AddPoint(string curveName, double[] x, double[] y)
 		{
 			int i = 0;
 			//---异步调用
-			if (this.m_ZedGraphChart.InvokeRequired)
+			if (this.m_ZedGraph.InvokeRequired)
 			{
-				this.m_ZedGraphChart.BeginInvoke((EventHandler)
+				this.m_ZedGraph.BeginInvoke((EventHandler)
 								 (delegate
 								 {
 									 //---查空操作
-									 if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+									 if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
 									 }
 									 //---增加坐标XY轴的点
-									 IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+									 IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 //---判断曲线是否存在
 									 if (ip == null)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
-										 ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+										 ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 }
 									 //---添加数据
 									 if ((ip != null) && (x.Length == y.Length))
@@ -255,19 +306,19 @@ namespace Harry.LabUserControlPlus
 			else
 			{
 				//---查空操作
-				if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+				if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
 				}
 				//---增加坐标XY轴的点
-				IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+				IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				//---判断曲线是否存在
 				if (ip == null)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
-					ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+					ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				}
 				//---添加数据
 				if ((ip != null) && (x.Length == y.Length))
@@ -288,29 +339,29 @@ namespace Harry.LabUserControlPlus
 		/// <param name="curveName"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
-		public virtual void AddXYPoint(string curveName, PointPair[] xypoint)
+		public override void AddPoint(string curveName, PointPair[] xypoint)
 		{
 			int i = 0;
 			//---异步调用
-			if (this.m_ZedGraphChart.InvokeRequired)
+			if (this.m_ZedGraph.InvokeRequired)
 			{
-				this.m_ZedGraphChart.BeginInvoke((EventHandler)
+				this.m_ZedGraph.BeginInvoke((EventHandler)
 								 (delegate
 								 {
 									 //---查空操作
-									 if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+									 if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
 									 }
 									 //---增加坐标XY轴的点
-									 IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+									 IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 //---判断曲线是否存在
 									 if (ip == null)
 									 {
 										 //---添加曲线
 										 this.AddCurve(curveName);
-										 ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+										 ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 									 }
 									 //---添加数据
 									 if (ip != null)
@@ -328,19 +379,19 @@ namespace Harry.LabUserControlPlus
 			else
 			{
 				//---查空操作
-				if (this.m_ZedGraphChart.GraphPane.CurveList.Count == 0)
+				if (this.m_ZedGraph.GraphPane.CurveList.Count == 0)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
 				}
 				//---增加坐标XY轴的点
-				IPointListEdit ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+				IPointListEdit ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				//---判断曲线是否存在
 				if (ip == null)
 				{
 					//---添加曲线
 					this.AddCurve(curveName);
-					ip = this.m_ZedGraphChart.GraphPane.CurveList[curveName].Points as IPointListEdit;
+					ip = this.m_ZedGraph.GraphPane.CurveList[curveName].Points as IPointListEdit;
 				}
 				//---添加数据
 				if (ip != null)
@@ -354,114 +405,7 @@ namespace Harry.LabUserControlPlus
 				}
 			}
 		}
-
-		/// <summary>
-		/// 添加曲线
-		/// </summary>
-		/// <param name="addCurve"></param>
-		/// <param name="curveColor"></param>
-		/// <param name="curveType"></param>
-		public virtual LineItem AddCurve(string addCurve, Color curveColor, SymbolType curveType, bool isFillColor = false)
-		{
-			LineItem myCurve = this.m_ZedGraphChart.GraphPane.AddCurve(addCurve, null, curveColor, curveType);
-			if (isFillColor)
-			{
-				myCurve.Symbol.Fill = new Fill(curveColor);
-			}
-			return myCurve;
-		}
-
-		/// <summary>
-		/// 显示曲线
-		/// </summary>
-		/// <param name="addCurve"></param>
-		/// <param name="list"></param>
-		/// <param name="curveColor"></param>
-		/// <param name="curveType"></param>
-		/// <returns></returns>
-		public virtual LineItem AddCurve(string addCurve, PointPairList list, Color curveColor, SymbolType curveType, bool isFillColor = false)
-		{
-			LineItem myCurve = this.m_ZedGraphChart.GraphPane.AddCurve(addCurve, list, curveColor, curveType);
-			if (isFillColor)
-			{
-				myCurve.Symbol.Fill = new Fill(curveColor);
-			}
-			return myCurve;
-		}
-
-		/// <summary>
-		/// 显示曲线
-		/// </summary>
-		/// <param name="addCurve"></param>
-		/// <param name="curveColor"></param>
-		/// <returns></returns>
-		public virtual LineItem AddCurve(string addCurve, Color curveColor, bool isFillColor = false)
-		{
-			LineItem myCurve = this.m_ZedGraphChart.GraphPane.AddCurve(addCurve, null, curveColor, SymbolType.Circle);
-			if (isFillColor)
-			{
-				myCurve.Symbol.Fill = new Fill(curveColor);
-			}
-			return myCurve;
-		}
-
-		/// <summary>
-		/// 添加曲线
-		/// </summary>
-		/// <param name="addCurve"></param>
-		/// <param name="isFillColor"></param>
-		/// <returns></returns>
-		public virtual LineItem AddCurve(string addCurve, bool isFillColor = false)
-		{
-			LineItem myCurve = this.m_ZedGraphChart.GraphPane.AddCurve(addCurve, null, Color.Blue, SymbolType.None);
-			if (isFillColor)
-			{
-				myCurve.Symbol.Fill = new Fill(Color.Blue);
-			}
-			return myCurve;
-		}
-
-
-		/// <summary>
-		/// 显示图标
-		/// </summary>
-		/// <param name="addCurve"></param>
-		/// <param name="list"></param>
-		/// <param name="curveColor"></param>
-		/// <returns></returns>
-		public virtual LineItem AddCurve(string addCurve, PointPairList list, Color curveColor, bool isFillColor = false)
-		{
-			LineItem myCurve = this.m_ZedGraphChart.GraphPane.AddCurve(addCurve, list, curveColor, SymbolType.None);
-			if (isFillColor)
-			{
-				myCurve.Symbol.Fill = new Fill(curveColor);
-			}
-			return myCurve;
-		}
-
-
-		#endregion
-
-		#region 克隆函数
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		object ICloneable.Clone()
-		{
-			return this.Clone();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public ZedGraphCurveChart Clone()
-		{
-			return new ZedGraphCurveChart(this);
-		}
-
+		
 		#endregion
 
 	}

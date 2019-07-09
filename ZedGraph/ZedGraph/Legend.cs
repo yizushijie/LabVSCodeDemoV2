@@ -1,6 +1,6 @@
 //============================================================================
 //ZedGraph Class Library - A Flexible Line Graph/Bar Graph Library in C#
-//Copyright © 2004  John Champion
+//Copyright ?2004  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -34,7 +34,7 @@ namespace ZedGraph
 	[Serializable]
 	public class Legend : ICloneable, ISerializable
 	{
-	#region private Fields
+		#region private Fields
 
 		/// <summary> Private field to hold the bounding rectangle around the legend.
 		/// This bounding rectangle varies with the number of legend entries, font sizes,
@@ -128,9 +128,9 @@ namespace ZedGraph
 		/// </summary>
 		private bool _isShowLegendSymbols;
 
-	#endregion
+		#endregion
 
-	#region Defaults
+		#region Defaults
 		/// <summary>
 		/// A simple struct that defines the
 		/// default property values for the <see cref="Legend"/> class.
@@ -570,12 +570,18 @@ namespace ZedGraph
 			float halfGap = _tmpSize / 2.0F;
 
 			// Check for bad data values
-			if ( _hStack <= 0 )
+			if (_hStack <= 0)
+			{
 				_hStack = 1;
-			if ( _legendItemWidth <= 0 )
+			}
+			if (_legendItemWidth <= 0)
+			{
 				_legendItemWidth = 100;
-			if ( _legendItemHeight <= 0 )
+			}
+			if (_legendItemHeight <= 0)
+			{
 				_legendItemHeight = _tmpSize;
+			}
 
 			//float gap = pane.ScaledGap( scaleFactor );
 
@@ -614,7 +620,6 @@ namespace ZedGraph
 							// This is required because, for long labels, the centering can affect the
 							// position in GDI+.
 							tmpFont.StringAlignment = StringAlignment.Near;
-
 							if ( _isShowLegendSymbols )
 							{
 								tmpFont.Draw( g, pane, curve._label._text,
@@ -644,8 +649,11 @@ namespace ZedGraph
 				}
 
 				// Draw a border around the legend if required
-				if ( iEntry > 0 )
-					this.Border.Draw( g, pane, scaleFactor, _rect );
+				//---»æÖÆÇúÏßÃû³ÆµÄÍâ²¿ÊµÌå±ß¿ò
+				if (iEntry > 0)
+				{
+					this.Border.Draw(g, pane, scaleFactor, _rect);
+				}
 			}
 		}
 

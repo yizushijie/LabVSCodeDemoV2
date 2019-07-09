@@ -158,6 +158,7 @@
     <Compile Include="ZedGraph\ImageObj.cs" />
     <Compile Include="ZedGraph\IPointList.cs" />
     <Compile Include="ZedGraph\IPointListEdit.cs" />
+    <Compile Include="ZedGraph\IPointPair.cs" />
     <Compile Include="ZedGraph\JapaneseCandleStick.cs" />
     <Compile Include="ZedGraph\JapaneseCandleStickItem.cs" />
     <Compile Include="ZedGraph\Label.cs" />

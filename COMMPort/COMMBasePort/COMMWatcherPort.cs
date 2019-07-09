@@ -16,14 +16,18 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// USB插入事件监视
 		/// </summary>
-		private ManagementEventWatcher insertWatcher = null;
+		private ManagementEventWatcher defaultInsertWatcher = null;
 
 		/// <summary>
 		/// USB拔出事件监视
 		/// </summary>
-		private ManagementEventWatcher removeWatcher = null;
+		private ManagementEventWatcher defaultRemoveWatcher = null;
 
 		#endregion 变量定义
+
+		#region 属性定义
+
+		#endregion
 
 		#region 函数定义
 
@@ -46,9 +50,9 @@ namespace Harry.LabCOMMPort
 				{
 					WqlEventQuery InsertQuery = new WqlEventQuery("__InstanceCreationEvent", withinInterval, "TargetInstance isa 'Win32_USBControllerDevice'");
 
-					insertWatcher = new ManagementEventWatcher(Scope, InsertQuery);
-					insertWatcher.EventArrived += usbInsertHandler;
-					insertWatcher.Start();
+					defaultInsertWatcher = new ManagementEventWatcher(Scope, InsertQuery);
+					defaultInsertWatcher.EventArrived += usbInsertHandler;
+					defaultInsertWatcher.Start();
 				}
 
 				//---USB拔出监视
@@ -56,9 +60,9 @@ namespace Harry.LabCOMMPort
 				{
 					WqlEventQuery RemoveQuery = new WqlEventQuery("__InstanceDeletionEvent", withinInterval, "TargetInstance isa 'Win32_USBControllerDevice'");
 
-					removeWatcher = new ManagementEventWatcher(Scope, RemoveQuery);
-					removeWatcher.EventArrived += usbRemoveHandler;
-					removeWatcher.Start();
+					defaultRemoveWatcher = new ManagementEventWatcher(Scope, RemoveQuery);
+					defaultRemoveWatcher.EventArrived += usbRemoveHandler;
+					defaultRemoveWatcher.Start();
 				}
 				return true;
 			}
@@ -74,16 +78,16 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public virtual void RemoveWatcherPortEvent()
 		{
-			if (insertWatcher != null)
+			if (defaultInsertWatcher != null)
 			{
-				insertWatcher.Stop();
-				insertWatcher = null;
+				defaultInsertWatcher.Stop();
+				defaultInsertWatcher = null;
 			}
 
-			if (removeWatcher != null)
+			if (defaultRemoveWatcher != null)
 			{
-				removeWatcher.Stop();
-				removeWatcher = null;
+				defaultRemoveWatcher.Stop();
+				defaultRemoveWatcher = null;
 			}
 		}
 

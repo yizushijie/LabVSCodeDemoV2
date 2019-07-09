@@ -45,32 +45,47 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// crc校验值
 		/// </summary>
-		public UInt32 commCRCVal = 0;
+		public UInt32 defaultCRCVal = 0;
 
 		/// <summary>
 		/// 使用的CRC方式
 		/// </summary>
-		public USE_CRC commCRCMode = USE_CRC.CRC_NONE;
+		public USE_CRC defaultCRCMode = USE_CRC.CRC_NONE;
 
 		/// <summary>
 		/// 数据原始长度
 		/// </summary>
-		public int commDefaultLength = 0;
+		public int defaultOriginalLength = 0;
 
 		/// <summary>
 		/// 数据的实际长度
 		/// </summary>
-		public int commLength = 0;
+		public int defaultRealityLength = 0;
 
 		/// <summary>
 		/// 数据的原始格式
 		/// </summary>
-		public List<byte> commDefaultByte = null;
+		public List<byte> defaultOriginalByte = null;
 
 		/// <summary>
 		/// 数据存储
 		/// </summary>
-		public List<byte> commByte = null;
+		public List<byte> defaultRealityByte = null;
+
+		/// <summary>
+		/// 主命令
+		/// </summary>
+		public byte defaultParentCMD = 0;
+
+		/// <summary>
+		/// 子命令
+		/// </summary>
+		public byte defaultChildCMD = 0;
+
+		/// <summary>
+		/// 结果标志位
+		/// </summary>
+		public byte defaultResultFlag = 0;
 
 		#endregion
 
@@ -152,59 +167,67 @@ namespace Harry.LabCOMMPort
 		private int  GetCOMMByte(int bufferSize)
 		{
 			int _return = 0;
-			if ((this.commDefaultByte==null)||(this.commDefaultByte.Count==0))
+			if ((this.defaultOriginalByte==null)||(this.defaultOriginalByte.Count==0))
 			{
 				_return = 1 ;
 			}
 			else
 			{
 				//---数据总长度
-				this.commDefaultLength = this.commDefaultByte.Count;
-				this.commLength = this.commDefaultLength;
+				this.defaultOriginalLength = this.defaultOriginalByte.Count;
+				this.defaultRealityLength = this.defaultOriginalLength;
 				//---解析CRC
-				if ((this.commCRCMode==USE_CRC.CRC_CHECKSUM)||(this.commCRCMode==USE_CRC.CRC_CRC8))
+				if ((this.defaultCRCMode==USE_CRC.CRC_CHECKSUM)||(this.defaultCRCMode==USE_CRC.CRC_CRC8))
 				{
-					this.commLength -= 1;
-					this.commCRCVal = this.commDefaultByte[this.commLength];
+					this.defaultRealityLength -= 1;
+					this.defaultCRCVal = this.defaultOriginalByte[this.defaultRealityLength];
 				}
-				else if (this.commCRCMode==USE_CRC.CRC_CRC16)
+				else if (this.defaultCRCMode==USE_CRC.CRC_CRC16)
 				{
-					this.commLength -= 2;
-					this.commCRCVal = this.commDefaultByte[this.commLength];
-					this.commCRCVal = (this.commCRCVal<<8)+this.commDefaultByte[this.commLength];
+					this.defaultRealityLength -= 2;
+					this.defaultCRCVal = this.defaultOriginalByte[this.defaultRealityLength];
+					this.defaultCRCVal = (this.defaultCRCVal<<8)+this.defaultOriginalByte[this.defaultRealityLength];
 				}
-				else if(this.commCRCMode==USE_CRC.CRC_CRC32)
+				else if(this.defaultCRCMode==USE_CRC.CRC_CRC32)
 				{
-					this.commLength -= 2;
-					this.commCRCVal = this.commDefaultByte[this.commLength];
-					this.commCRCVal = (this.commCRCVal << 8) + this.commDefaultByte[this.commLength + 1];
-					this.commCRCVal = (this.commCRCVal << 8) + this.commDefaultByte[this.commLength + 2];
-					this.commCRCVal = (this.commCRCVal << 8) + this.commDefaultByte[this.commLength + 2];
+					this.defaultRealityLength -= 2;
+					this.defaultCRCVal = this.defaultOriginalByte[this.defaultRealityLength];
+					this.defaultCRCVal = (this.defaultCRCVal << 8) + this.defaultOriginalByte[this.defaultRealityLength + 1];
+					this.defaultCRCVal = (this.defaultCRCVal << 8) + this.defaultOriginalByte[this.defaultRealityLength + 2];
+					this.defaultCRCVal = (this.defaultCRCVal << 8) + this.defaultOriginalByte[this.defaultRealityLength + 2];
 				}
 
 				//---数据缓存区
-				if ((this.commByte==null)||(this.commByte.Count > 0))
+				if ((this.defaultRealityByte==null)||(this.defaultRealityByte.Count > 0))
 				{
-					this.commByte = new List<byte>();
+					this.defaultRealityByte = new List<byte>();
 				}
 				
 				//---数据拷贝
-				for ( _return = 0; _return < this.commLength; _return++)
+				for ( _return = 0; _return < this.defaultRealityLength; _return++)
 				{
-					this.commByte.Add(this.commDefaultByte[_return]);
+					this.defaultRealityByte.Add(this.defaultOriginalByte[_return]);
 				}
 
 				//---数据传输最大缓存区
 				if (bufferSize < 250)
 				{
-					this.commLength -= 2;
-					this.commByte[1] = (byte)(this.commLength);
+					this.defaultRealityLength -= 2;
+					this.defaultRealityByte[1] = (byte)(this.defaultRealityLength);
+
+					this.defaultParentCMD = this.defaultRealityByte[2];
+					this.defaultChildCMD = this.defaultRealityByte[3];
+					this.defaultResultFlag = this.defaultRealityByte[4];
 				}
 				else
 				{
-					this.commLength -= 3;
-					this.commByte[1] = (byte)(this.commLength >> 8);
-					this.commByte[2] = (byte)(this.commLength);
+					this.defaultRealityLength -= 3;
+					this.defaultRealityByte[1] = (byte)(this.defaultRealityLength >> 8);
+					this.defaultRealityByte[2] = (byte)(this.defaultRealityLength);
+
+					this.defaultParentCMD = this.defaultRealityByte[3];
+					this.defaultChildCMD = this.defaultRealityByte[4];
+					this.defaultResultFlag = this.defaultRealityByte[5];
 				}
 				_return = 0;
 			}
@@ -220,11 +243,11 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public int Init()
 		{
-			this.commCRCVal = 0;
-			this.commCRCMode = USE_CRC.CRC_NONE;
-			this.commDefaultLength = 0;
-			this.commDefaultByte = null;
-			this.commByte = null;
+			this.defaultCRCVal = 0;
+			this.defaultCRCMode = USE_CRC.CRC_NONE;
+			this.defaultOriginalLength = 0;
+			this.defaultOriginalByte = null;
+			this.defaultRealityByte = null;
 
 			return 0;
 		}
@@ -234,8 +257,8 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public int  Init(int bufferSize, byte[] commByte)
 		{
-			this.commDefaultByte = new List<byte>();
-			this.commDefaultByte.AddRange(commByte);
+			this.defaultOriginalByte = new List<byte>();
+			this.defaultOriginalByte.AddRange(commByte);
 			return this.GetCOMMByte(bufferSize);
 		}
 
@@ -245,7 +268,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="commByte"></param>
 		public int Init(int bufferSize,List<byte> commByte)
 		{
-			this.commDefaultByte = commByte;
+			this.defaultOriginalByte = commByte;
 			return this.GetCOMMByte(bufferSize);
 		}
 
@@ -254,9 +277,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public int Init(int bufferSize, USE_CRC crcMode, byte[] commByte)
 		{
-			this.commCRCMode = crcMode;
-			this.commDefaultByte = new List<byte>();
-			this.commDefaultByte.AddRange(commByte);
+			this.defaultCRCMode = crcMode;
+			this.defaultOriginalByte = new List<byte>();
+			this.defaultOriginalByte.AddRange(commByte);
 			return this.GetCOMMByte(bufferSize);
 		}
 
@@ -267,10 +290,10 @@ namespace Harry.LabCOMMPort
 		/// <param name="crcMode"></param>
 		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, byte[] commByte)
 		{
-			this.commCRCVal = crcVal;
-			this.commCRCMode = crcMode;
-			this.commDefaultByte = new List<byte>();
-			this.commDefaultByte.AddRange(commByte);
+			this.defaultCRCVal = crcVal;
+			this.defaultCRCMode = crcMode;
+			this.defaultOriginalByte = new List<byte>();
+			this.defaultOriginalByte.AddRange(commByte);
 			return this.GetCOMMByte(bufferSize);
 		}
 
@@ -281,8 +304,8 @@ namespace Harry.LabCOMMPort
 		/// <param name="commByte"></param>
 		public int Init(int bufferSize, USE_CRC crcMode, List<byte> commByte)
 		{
-			this.commCRCMode = crcMode;
-			this.commDefaultByte = commByte;
+			this.defaultCRCMode = crcMode;
+			this.defaultOriginalByte = commByte;
 			return this.GetCOMMByte(bufferSize);
 		}
 
@@ -294,9 +317,9 @@ namespace Harry.LabCOMMPort
 		/// <param name="commByte"></param>
 		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, List<byte> commByte)
 		{
-			this.commCRCVal = crcVal;
-			this.commCRCMode = crcMode;
-			this.commDefaultByte = commByte;
+			this.defaultCRCVal = crcVal;
+			this.defaultCRCMode = crcMode;
+			this.defaultOriginalByte = commByte;
 			return this.GetCOMMByte(bufferSize);
 		}
 		#endregion
@@ -347,97 +370,97 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 通讯端口
 		/// </summary>
-		private string commName = null;
+		private string defaultName = null;
 
 		/// <summary>
 		/// 通讯端口的索引号
 		/// </summary>
-		private int commIndex = 0;
+		private int defaultIndex = 0;
 
 		/// <summary>
 		/// 通讯端口的工作状态
 		/// </summary>
-		private USE_STATE commSTATE = USE_STATE.IDLE;
+		private USE_STATE defaultSTATE = USE_STATE.IDLE;
 
 		/// <summary>
 		/// 写数据的缓存区
 		/// </summary>
-		private int commWriteBufferSize = 64;
+		private int defaultWriteBufferSize = 64;
 
 		/// <summary>
 		/// 写数据的校验方式
 		/// </summary>
-		private USE_CRC commWriteCRC = USE_CRC.CRC_NONE;
+		private USE_CRC defaultWriteCRC = USE_CRC.CRC_NONE;
 
 		/// <summary>
 		/// 写数据的信息
 		/// </summary>
-		private COMMDataType commWriteData = new COMMDataType();
+		private COMMDataType defaultWriteData = new COMMDataType();
 
 		/// <summary>
 		/// 读数据的缓存区
 		/// </summary>
-		private int commReadBufferSize = 64;
+		private int defaultReadBufferSize = 64;
 
 		/// <summary>
 		/// 读数据的校验方式
 		/// </summary>
-		private USE_CRC commReadCRC = USE_CRC.CRC_NONE;
+		private USE_CRC defaultReadCRC = USE_CRC.CRC_NONE;
 
 		/// <summary>
 		/// 读数据的信息
 		/// </summary>
-		private COMMDataType commReadData = new COMMDataType();
+		private COMMDataType defaultReadData = new COMMDataType();
 
 		/// <summary>
 		/// 通信耗时
 		/// </summary>
-		private TimeSpan commTime = TimeSpan.MinValue;
+		private TimeSpan defaultTime = TimeSpan.MinValue;
 
 		/// <summary>
 		/// 通讯错误信息
 		/// </summary>
-		private string commErrMsg = string.Empty;
+		private string defaultErrMsg = string.Empty;
 
 		/// <summary>
 		/// 使用的窗体
 		/// </summary>
-		private Form commForm = null;
+		private Form defaultForm = null;
 
 		/// <summary>
 		/// 通讯写数据报头
 		/// </summary>
-		private byte commWriteID = 0x55;
+		private byte defaultWriteID = 0x55;
 
 		/// <summary>
 		/// 通讯读数据报头
 		/// </summary>
-		private byte commReadID = 0x55;
+		private byte defaultReadID = 0x5A;
 
 		/// <summary>
 		/// 多设备通信是否使能
 		/// </summary>
-		private bool commIsMultiDevice = false;
+		private bool defaultIsMultiDevice = false;
 
 		/// <summary>
 		/// 多设备通讯过程中的设备id号
 		/// </summary>
-		private byte commMultiDeviceID = 0;
+		private byte ddefaultMultiDeviceID = 0;
 
 		/// <summary>
 		/// 消息显示窗口
 		/// </summary>
-		private RichTextBox commRichTextBox = null;
+		private RichTextBox defaultRichTextBox = null;
 
 		/// <summary>
 		/// 端口控件
 		/// </summary>
-		private ComboBox commComboBox = null;
+		private ComboBox defaultComboBox = null;
 
 		/// <summary>
 		/// 串口使用的参数
 		/// </summary>
-		private COMMPortParam commPortParam = new COMMPortParam();
+		private COMMPortParam defaultPortParam = new COMMPortParam();
 
 		#endregion
 
@@ -449,11 +472,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commName;
+				return this.defaultName;
 			}
 			set
 			{
-				this.commName = value;
+				this.defaultName = value;
 			}
 		}
 
@@ -464,11 +487,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commIndex;
+				return this.defaultIndex;
 			}
 			set
 			{
-				this.commIndex = value;
+				this.defaultIndex = value;
 			}
 		}
 
@@ -479,11 +502,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commSTATE;
+				return this.defaultSTATE;
 			}
 			set
 			{
-				this.commSTATE = value;
+				this.defaultSTATE = value;
 			}
 		}
 
@@ -494,11 +517,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commWriteBufferSize;
+				return this.defaultWriteBufferSize;
 			}
 			set
 			{
-				this.commWriteBufferSize = value;
+				this.defaultWriteBufferSize = value;
 			}
 
 		}
@@ -510,11 +533,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commWriteCRC;
+				return this.defaultWriteCRC;
 			}
 			set
 			{
-				this.commWriteCRC = value;
+				this.defaultWriteCRC = value;
 			}
 		}
 
@@ -525,11 +548,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commWriteData;
+				return this.defaultWriteData;
 			}
 			set
 			{
-				this.commWriteData = value;
+				this.defaultWriteData = value;
 			}
 		}
 
@@ -540,11 +563,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commReadBufferSize;
+				return this.defaultReadBufferSize;
 			}
 			set
 			{
-				this.commReadBufferSize = value;
+				this.defaultReadBufferSize = value;
 			}
 		}
 
@@ -555,11 +578,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commReadCRC;
+				return this.defaultReadCRC;
 			}
 			set
 			{
-				this.commReadCRC = value;
+				this.defaultReadCRC = value;
 			}
 		}
 
@@ -570,11 +593,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commReadData;
+				return this.defaultReadData;
 			}
 			set
 			{
-				this.commReadData = value;
+				this.defaultReadData = value;
 			}
 		}
 
@@ -585,11 +608,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commTime;
+				return this.defaultTime;
 			}
 			set
 			{
-				this.commTime = value;
+				this.defaultTime = value;
 			}
 		}
 
@@ -600,11 +623,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commErrMsg;
+				return this.defaultErrMsg;
 			}
 			set
 			{
-				this.commErrMsg = value;
+				this.defaultErrMsg = value;
 			}
 		}
 
@@ -615,15 +638,15 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commForm;
+				return this.defaultForm;
 			}
 			set
 			{
-				if (this.commForm == null)
+				if (this.defaultForm == null)
 				{
-					this.commForm = new Form();
+					this.defaultForm = new Form();
 				}
-				this.commForm = value;
+				this.defaultForm = value;
 			}
 		}
 
@@ -634,11 +657,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commWriteID;
+				return this.defaultWriteID;
 			}
 			set
 			{
-				this.commWriteID = value;
+				this.defaultWriteID = value;
 			}
 		}
 
@@ -649,11 +672,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commReadID;
+				return this.defaultReadID;
 			}
 			set
 			{
-				this.commReadID = value;
+				this.defaultReadID = value;
 			}
 		}
 
@@ -664,11 +687,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commIsMultiDevice;
+				return this.defaultIsMultiDevice;
 			}
 			set
 			{
-				this.commIsMultiDevice = value;
+				this.defaultIsMultiDevice = value;
 			}
 		}
 
@@ -679,11 +702,11 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commMultiDeviceID;
+				return this.ddefaultMultiDeviceID;
 			}
 			set
 			{
-				this.commMultiDeviceID = value;
+				this.ddefaultMultiDeviceID = value;
 			}
 		}
 
@@ -694,15 +717,15 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commRichTextBox;
+				return this.defaultRichTextBox;
 			}
 			set
 			{
-				if (this.commRichTextBox == null)
+				if (this.defaultRichTextBox == null)
 				{
-					this.commRichTextBox = new RichTextBox();
+					this.defaultRichTextBox = new RichTextBox();
 				}
-				this.commRichTextBox = value;
+				this.defaultRichTextBox = value;
 			}
 		}
 
@@ -713,15 +736,15 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commComboBox;
+				return this.defaultComboBox;
 			}
 			set
 			{
-				if (this.commComboBox == null)
+				if (this.defaultComboBox == null)
 				{
-					this.commComboBox = new ComboBox();
+					this.defaultComboBox = new ComboBox();
 				}
-				this.commComboBox = value;
+				this.defaultComboBox = value;
 			}
 		}
 
@@ -732,15 +755,15 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.commPortParam;
+				return this.defaultPortParam;
 			}
 			set
 			{
-				if (this.commPortParam==null)
+				if (this.defaultPortParam==null)
 				{
-					this.commPortParam = new COMMPortParam();
+					this.defaultPortParam = new COMMPortParam();
 				}
-				this.commPortParam = value;
+				this.defaultPortParam = value;
 			}
 		}
 
@@ -1417,6 +1440,38 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		public delegate void COMMEventHandler(object sender, EventArgs e);
 
+		/// <summary>
+		/// 同步事件
+		/// </summary>
+		public delegate void COMMSYNCEventHandler();
+
+		/// <summary>
+		/// 接收事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		[Description("端口状态同步事件"), Category("自定义事件")]
+		private event COMMSYNCEventHandler OnCOMMSYNCEvent = null;
+
+		/// <summary>
+		/// 事件的属性为读写
+		/// </summary>
+		public virtual COMMSYNCEventHandler m_OnCOMMSYNCEvent
+		{
+			get
+			{
+				return this.OnCOMMSYNCEvent;
+			}
+			set
+			{
+				//---判断事件是否为空，避免多次进入
+				if (this.OnCOMMSYNCEvent != null)
+				{
+					this.OnCOMMSYNCEvent = null;
+				}
+				this.OnCOMMSYNCEvent = value;
+			}
+		}
 
 		/// <summary>
 		/// 接收事件

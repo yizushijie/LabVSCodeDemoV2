@@ -1,6 +1,6 @@
 //============================================================================
 //FilteredPointList class
-//Copyright © 2006  John Champion
+//Copyright ?2006  John Champion
 //
 //This library is free software; you can redistribute it and/or
 //modify it under the terms of the GNU Lesser General Public
@@ -20,6 +20,7 @@ using System;
 
 namespace ZedGraph
 {
+	
 	/// <summary>
 	/// An example of an <see cref="IPointList" /> implementation that stores large datasets, and
 	/// selectively filters the output data depending on the displayed range.

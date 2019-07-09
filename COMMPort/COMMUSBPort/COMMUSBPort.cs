@@ -11,6 +11,21 @@ namespace Harry.LabCOMMPort
 	{
 		#region 变量定义
 
+		/// <summary>
+		/// 设备的VIP
+		/// </summary>
+		private int defaultVIP = 0;
+
+		/// <summary>
+		/// 设备的PID
+		/// </summary>
+		private int defaultPID = 0;
+
+		/// <summary>
+		/// 设备在当前设备集合中的索引号
+		/// </summary>
+		private int defaultIndex = -1;
+
 		#endregion
 
 		#region 属性定义
@@ -27,6 +42,24 @@ namespace Harry.LabCOMMPort
 		#endregion
 
 		#region 函数定义
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void Init()
+		{
+
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="vid"></param>
+		/// <param name="pid"></param>
+		public void Init(int vid,int pid)
+		{
+
+		}
 
 		#endregion
 

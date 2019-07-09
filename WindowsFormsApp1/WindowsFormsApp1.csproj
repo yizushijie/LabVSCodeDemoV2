@@ -86,8 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COMMPort\COMMPort.csproj">
-      <Project>{D0CCF96A-1633-46E8-B57D-F2A4E75DF1A9}</Project>
+      <Project>{d0ccf96a-1633-46e8-b57d-f2a4e75df1a9}</Project>
       <Name>COMMPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DigitalPower\DigitalPower.csproj">
+      <Project>{E647A5EA-1C09-4EC7-82CC-B0BF6CC55B15}</Project>
+      <Name>DigitalPower</Name>
     </ProjectReference>
     <ProjectReference Include="..\NPlot\NPlot.csproj">
       <Project>{E4B99177-77A3-4C92-B881-A6CB57E3BF89}</Project>

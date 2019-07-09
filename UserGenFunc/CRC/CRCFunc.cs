@@ -9,7 +9,7 @@ namespace Harry.LabUserGenFunc
 		/// <summary>
 		/// CRC32表
 		/// </summary>
-		private static UInt32[] crc32Tab = new UInt32[256]
+		private static UInt32[] defaultCRC32Tab = new UInt32[256]
 		{
 			0x00000000,0x04C11DB7,0x09823B6E,0x0D4326D9,0x130476DC,0x17C56B6B,0x1A864DB2,0x1E475005,
 			0x2608EDB8,0x22C9F00F,0x2F8AD6D6,0x2B4BCB61,0x350C9B64,0x31CD86D3,0x3C8EA00A,0x384FBDBD,
@@ -67,7 +67,7 @@ namespace Harry.LabUserGenFunc
 				for (byteIndex = 0; byteIndex < 4; byteIndex++)
 				{
 					//---取一个字节，查表
-					nTemp = CRCFunc.crc32Tab[((nReg >> 24) & 0xFF)];
+					nTemp = CRCFunc.defaultCRC32Tab[((nReg >> 24) & 0xFF)];
 
 					//---丢掉计算过的头一个BYTE
 					nReg <<= 8;
@@ -101,7 +101,7 @@ namespace Harry.LabUserGenFunc
 				for (byteIndex = 0; byteIndex < 4; byteIndex++)
 				{
 					//---取一个字节，查表
-					nTemp = CRCFunc.crc32Tab[((nReg >> 24) & 0xFF)];
+					nTemp = CRCFunc.defaultCRC32Tab[((nReg >> 24) & 0xFF)];
 
 					//---丢掉计算过的头一个BYTE
 					nReg <<= 8;
@@ -120,7 +120,7 @@ namespace Harry.LabUserGenFunc
 		/// <summary>
 		/// CRC16表
 		/// </summary>
-		private static UInt16[] crc16Table = new UInt16[256]
+		private static UInt16[] defaultCRC16Table = new UInt16[256]
 		{
 			0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
 			0x8108, 0x9129, 0xa14a, 0xb16b, 0xc18c, 0xd1ad, 0xe1ce, 0xf1ef,
@@ -170,7 +170,7 @@ namespace Harry.LabUserGenFunc
 			for (index = 0; index < length; index++)
 			{
 				nTemp = (byte)((nReg >> 8) ^ cmd[index]);
-				nReg = (nReg << 8) ^ CRCFunc.crc16Table[nTemp];
+				nReg = (nReg << 8) ^ CRCFunc.defaultCRC16Table[nTemp];
 			}
 			return (UInt16)nReg;
 		}
@@ -189,7 +189,7 @@ namespace Harry.LabUserGenFunc
 			for (index = 0; index < length; index++)
 			{
 				nTemp = (byte)((nReg >> 8) ^ cmd[index]);
-				nReg = (nReg << 8) ^ CRCFunc.crc16Table[nTemp];
+				nReg = (nReg << 8) ^ CRCFunc.defaultCRC16Table[nTemp];
 			}
 			return (UInt16)nReg;
 		}
@@ -207,7 +207,7 @@ namespace Harry.LabUserGenFunc
 		/// <summary>
 		/// CRC8表,种子0x07
 		/// </summary>
-		public static byte[] crc8Table07H = new byte[256]
+		public static byte[] defaultCRC8Table07H = new byte[256]
 		{
 			0x00,0x07,0x0E,0x09,0x1C,0x1B,0x12,0x15,0x38,0x3F,0x36,0x31,0x24,0x23,0x2A,0x2D,
 			0x70,0x77,0x7E,0x79,0x6C,0x6B,0x62,0x65,0x48,0x4F,0x46,0x41,0x54,0x53,0x5A,0x5D,
@@ -230,7 +230,7 @@ namespace Harry.LabUserGenFunc
 		/// <summary>
 		/// CRC8表,种子0x31
 		/// </summary>
-		public static byte[]  crc8Table31H = new byte[256]
+		public static byte[]  defaultCRC8Table31H = new byte[256]
 		{
 			0x00,0x31,0x62,0x53,0xc4,0xf5,0xa6,0x97,0xb9,0x88,0xdb,0xea,0x7d,0x4c,0x1f,0x2e,
 			0x43,0x72,0x21,0x10,0x87,0xb6,0xe5,0xd4,0xfa,0xcb,0x98,0xa9,0x3e,0x0f,0x5c,0x6d,
@@ -267,10 +267,10 @@ namespace Harry.LabUserGenFunc
 				switch (crc8Type)
 				{
 					case USE_CRC8_Type.USE_CRC8_07H:
-						nReg = CRCFunc.crc8Table07H[nTemp];
+						nReg = CRCFunc.defaultCRC8Table07H[nTemp];
 						break;
 					case USE_CRC8_Type.USE_CRC8_31H:
-						nReg = CRCFunc.crc8Table31H[nTemp];
+						nReg = CRCFunc.defaultCRC8Table31H[nTemp];
 						break;
 					default:
 						break;
