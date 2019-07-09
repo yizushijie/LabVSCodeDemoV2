@@ -87,6 +87,11 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public byte defaultResultFlag = 0;
 
+		/// <summary>
+		/// 真实数据的索引
+		/// </summary>
+		public int defaultRealityIndex = 0;
+
 		#endregion
 
 		#region 构造函数
@@ -103,18 +108,18 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="commByte"></param>
-		public COMMDataType(int bufferSize, byte[] commByte)
+		public COMMDataType(int bufferSize, byte[] commByte,ref bool isChildCMD)
 		{
-			this.Init(bufferSize,commByte);
+			this.Init(bufferSize,commByte,ref isChildCMD);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="commByte"></param>
-		public COMMDataType(int bufferSize, List<byte> commByte)
+		public COMMDataType(int bufferSize, List<byte> commByte, ref bool isChildCMD)
 		{
-			this.Init(bufferSize,commByte);
+			this.Init(bufferSize,commByte, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -122,9 +127,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcMode"></param>
 		/// <param name="commByte"></param>
-		public COMMDataType(int bufferSize, USE_CRC crcMode, byte[] commByte)
+		public COMMDataType(int bufferSize, USE_CRC crcMode, byte[] commByte, ref bool isChildCMD)
 		{
-			this.Init(bufferSize,crcMode, commByte);
+			this.Init(bufferSize,crcMode, commByte, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -132,9 +137,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcVal"></param>
 		/// <param name="crcMode"></param>
-		public COMMDataType(int bufferSize, UInt32 crcVal, USE_CRC crcMode, byte[] commByte)
+		public COMMDataType(int bufferSize, UInt32 crcVal, USE_CRC crcMode, byte[] commByte, ref bool isChildCMD)
 		{
-			this.Init(bufferSize,crcVal, crcMode, commByte);
+			this.Init(bufferSize,crcVal, crcMode, commByte, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -142,9 +147,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcVal"></param>
 		/// <param name="crcMode"></param>
-		public COMMDataType(int bufferSize, USE_CRC crcMode, List<byte> commByte)
+		public COMMDataType(int bufferSize, USE_CRC crcMode, List<byte> commByte, ref bool isChildCMD)
 		{
-			this.Init(bufferSize, crcMode, commByte);
+			this.Init(bufferSize, crcMode, commByte, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -152,9 +157,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcVal"></param>
 		/// <param name="crcMode"></param>
-		public COMMDataType(int bufferSize, UInt32 crcVal, USE_CRC crcMode, List<byte> commByte)
+		public COMMDataType(int bufferSize, UInt32 crcVal, USE_CRC crcMode, List<byte> commByte, ref bool isChildCMD)
 		{
-			this.Init(bufferSize, crcVal, crcMode, commByte);
+			this.Init(bufferSize, crcVal, crcMode, commByte, ref isChildCMD);
 		}
 
 		#endregion
@@ -164,7 +169,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 获取通讯数据
 		/// </summary>
-		private int  GetCOMMByte(int bufferSize)
+		private int  GetCOMMByte(int bufferSize,ref bool isChildCMD)
 		{
 			int _return = 0;
 			if ((this.defaultOriginalByte==null)||(this.defaultOriginalByte.Count==0))
@@ -216,8 +221,18 @@ namespace Harry.LabCOMMPort
 					this.defaultRealityByte[1] = (byte)(this.defaultRealityLength);
 
 					this.defaultParentCMD = this.defaultRealityByte[2];
-					this.defaultChildCMD = this.defaultRealityByte[3];
-					this.defaultResultFlag = this.defaultRealityByte[4];
+					if (isChildCMD)
+					{
+						this.defaultChildCMD = this.defaultRealityByte[3];
+						this.defaultResultFlag = this.defaultRealityByte[4];
+						this.defaultRealityIndex = 5;
+					}
+					else
+					{
+						this.defaultChildCMD = 0;
+						this.defaultResultFlag = this.defaultRealityByte[3];
+						this.defaultRealityIndex = 4;
+					}
 				}
 				else
 				{
@@ -226,11 +241,22 @@ namespace Harry.LabCOMMPort
 					this.defaultRealityByte[2] = (byte)(this.defaultRealityLength);
 
 					this.defaultParentCMD = this.defaultRealityByte[3];
-					this.defaultChildCMD = this.defaultRealityByte[4];
-					this.defaultResultFlag = this.defaultRealityByte[5];
+					if (isChildCMD)
+					{
+						this.defaultChildCMD = this.defaultRealityByte[4];
+						this.defaultResultFlag = this.defaultRealityByte[5];
+						this.defaultRealityIndex = 6;
+					}
+					else
+					{
+						this.defaultChildCMD = 0;
+						this.defaultResultFlag = this.defaultRealityByte[4];
+						this.defaultRealityIndex = 5;
+					}
 				}
 				_return = 0;
 			}
+			isChildCMD = false;
 			return _return;
 		}
 
@@ -255,32 +281,32 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		public int  Init(int bufferSize, byte[] commByte)
+		public int  Init(int bufferSize, byte[] commByte,ref bool isChildCMD)
 		{
 			this.defaultOriginalByte = new List<byte>();
 			this.defaultOriginalByte.AddRange(commByte);
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="commByte"></param>
-		public int Init(int bufferSize,List<byte> commByte)
+		public int Init(int bufferSize,List<byte> commByte, ref bool isChildCMD)
 		{
 			this.defaultOriginalByte = commByte;
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public int Init(int bufferSize, USE_CRC crcMode, byte[] commByte)
+		public int Init(int bufferSize, USE_CRC crcMode, byte[] commByte,ref bool isChildCMD)
 		{
 			this.defaultCRCMode = crcMode;
 			this.defaultOriginalByte = new List<byte>();
 			this.defaultOriginalByte.AddRange(commByte);
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -288,13 +314,13 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcVal"></param>
 		/// <param name="crcMode"></param>
-		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, byte[] commByte)
+		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, byte[] commByte, ref bool isChildCMD)
 		{
 			this.defaultCRCVal = crcVal;
 			this.defaultCRCMode = crcMode;
 			this.defaultOriginalByte = new List<byte>();
 			this.defaultOriginalByte.AddRange(commByte);
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -302,11 +328,11 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="crcMode"></param>
 		/// <param name="commByte"></param>
-		public int Init(int bufferSize, USE_CRC crcMode, List<byte> commByte)
+		public int Init(int bufferSize, USE_CRC crcMode, List<byte> commByte, ref bool isChildCMD)
 		{
 			this.defaultCRCMode = crcMode;
 			this.defaultOriginalByte = commByte;
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 
 		/// <summary>
@@ -315,12 +341,12 @@ namespace Harry.LabCOMMPort
 		/// <param name="crcVal"></param>
 		/// <param name="crcMode"></param>
 		/// <param name="commByte"></param>
-		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, List<byte> commByte)
+		public int Init(int bufferSize, UInt32 crcVal, USE_CRC crcMode, List<byte> commByte, ref bool isChildCMD)
 		{
 			this.defaultCRCVal = crcVal;
 			this.defaultCRCMode = crcMode;
 			this.defaultOriginalByte = commByte;
-			return this.GetCOMMByte(bufferSize);
+			return this.GetCOMMByte(bufferSize,ref isChildCMD);
 		}
 		#endregion
 	};
@@ -461,6 +487,11 @@ namespace Harry.LabCOMMPort
 		/// 串口使用的参数
 		/// </summary>
 		private COMMPortParam defaultPortParam = new COMMPortParam();
+
+		/// <summary>
+		/// 是否主命令加子命令结构
+		/// </summary>
+		public bool defaultIsChildCMD = false;
 
 		#endregion
 
@@ -764,6 +795,21 @@ namespace Harry.LabCOMMPort
 					this.defaultPortParam = new COMMPortParam();
 				}
 				this.defaultPortParam = value;
+			}
+		}
+
+		/// <summary>
+		/// 复合命令的属性为读写
+		/// </summary>
+		public virtual bool m_COMMIsChildCMD
+		{
+			get
+			{
+				return this.defaultIsChildCMD;
+			}
+			set
+			{
+				this.defaultIsChildCMD = value;
 			}
 		}
 

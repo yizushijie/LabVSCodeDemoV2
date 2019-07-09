@@ -20,7 +20,7 @@ namespace Harry.LabMcuProject
 		#region 属性定义
 
 		/// <summary>
-		/// 
+		/// 通讯端口属性为读写
 		/// </summary>
 		public virtual COMMBasePort m_COMMPort
 		{
@@ -54,7 +54,7 @@ namespace Harry.LabMcuProject
 		/// 
 		/// </summary>
 		/// <param name="usedCOMMPort"></param>
-		public LabMcuBase(ref COMMBasePort usedCOMMPort)
+		public LabMcuBase( COMMBasePort usedCOMMPort)
 		{
 			if (this.defaultCOMMPort==null)
 			{

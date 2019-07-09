@@ -235,17 +235,17 @@ namespace Harry.LabMcuForm
 			{
 				//---读取ADC的电压参考电压
 				case "button_ReadADCVREFMode":
-					this.comboBoxEx_SelectADCVREFMode.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCSelectVREFMode(this.comboBoxEx_SelectADCVREFMode.SelectedIndex, this.richTextBoxEx_Msg);
+					this.comboBoxEx_SelectADCVREFMode.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCVREFMode(this.comboBoxEx_SelectADCVREFMode.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				//---写入ADC的电压参考电压
 				case "button_WriteADCVREFMode":
-					this.defaultLabMcuDevice.ADC_WriteADCSelectVREFMode(this.comboBoxEx_SelectADCVREFMode.SelectedIndex, this.richTextBoxEx_Msg);
+					this.defaultLabMcuDevice.ADC_WriteADCVREFMode(this.comboBoxEx_SelectADCVREFMode.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				case "button_ReadADCChannel":
-					this.comboBoxEx_SelectADCChannel.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCSelectChannel(0, this.richTextBoxEx_Msg);
+					this.comboBoxEx_SelectADCChannel.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCChannel(0, this.richTextBoxEx_Msg);
 					break;
 				case "button_WriteADCChannel":
-					this.defaultLabMcuDevice.ADC_WriteADCSelectChannel(this.comboBoxEx_SelectADCChannel.SelectedIndex, this.richTextBoxEx_Msg);
+					this.defaultLabMcuDevice.ADC_WriteADCChannel(this.comboBoxEx_SelectADCChannel.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				case "button_ReadADCSampleNum":
 					this.numericUpDownPlus_SampleNum.Value = (decimal)(this.defaultLabMcuDevice.ADC_ReadADCSampleNum((this.comboBoxEx_SelectADCVREFMode.Items.Count+this.m_ComboBoxSelectADCChannel.Items.Count),this.richTextBoxEx_Msg));

@@ -905,7 +905,7 @@ namespace Harry.LabCOMMPort
 					}
 				}
 				//---重新构建发送函数
-				this.m_COMMWriteData = new COMMDataType(this.m_COMMWriteBufferSize,this.m_COMMWriteCRC, tempCMD);
+				this.m_COMMWriteData = new COMMDataType(this.m_COMMWriteBufferSize,this.m_COMMWriteCRC, tempCMD,ref this.defaultIsChildCMD);
 			}
 			return _return;
 		}
@@ -1029,11 +1029,11 @@ namespace Harry.LabCOMMPort
 				//---数据整理
 				if (this.m_COMMReadData==null)
 				{
-					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize,this.m_COMMReadCRC, cmd);
+					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize,this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
 				}
 				else
 				{
-					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd);
+					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd,ref this.defaultIsChildCMD);
 				}
 				//---计算CRC的值
 				if (this.m_COMMReadCRC==USE_CRC.CRC_CHECKSUM)
@@ -1207,11 +1207,11 @@ namespace Harry.LabCOMMPort
 				//---数据整理
 				if (this.m_COMMReadData == null)
 				{
-					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd);
+					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
 				}
 				else
 				{
-					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd);
+					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
 				}
 				//---计算CRC的值
 				if (this.m_COMMReadCRC == USE_CRC.CRC_CHECKSUM)
