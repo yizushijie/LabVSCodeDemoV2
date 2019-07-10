@@ -73,153 +73,153 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		public override COMMBasePort m_COMMPort
+		public override COMMBasePort m_COMM
 		{
 			get
 			{
-				return base.m_COMMPort;
+				return base.m_COMM;
 			}
 
 			set
 			{
-				base.m_COMMPort = value;
+				base.m_COMM = value;
 			}
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public override PictureBox m_PictureBoxCOMMState
+		public override PictureBox m_COMMPictureBox
 		{
 			get
 			{
-				return base.m_PictureBoxCOMMState;
+				return base.m_COMMPictureBox;
 			}
 			set
 			{
-				base.m_PictureBoxCOMMState = value;
+				base.m_COMMPictureBox = value;
 			}
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public override Button m_ButtonCOMMInit
+		public override Button m_COMMButton
 		{
 			get
 			{
-				return base.m_ButtonCOMMInit;
+				return base.m_COMMButton;
 			}
 			set
 			{
-				base.m_ButtonCOMMInit = value;
+				base.m_COMMButton = value;
 			}
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public override GroupBox m_GroupBoxCOMMName
+		public override GroupBox m_COMMGroupBox
 		{
 			get
 			{
-				return base.m_GroupBoxCOMMName;
+				return base.m_COMMGroupBox;
 			}
 			set
 			{
-				base.m_GroupBoxCOMMName = value;
+				base.m_COMMGroupBox = value;
 			}
 		}
 
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public virtual new COMMSerialPortParam m_COMMPortParam
+		public virtual new COMMSerialPortParam m_COMMParam
 		{
 			get
 			{
-				COMMSerialPortParam _return = base.m_COMMPortParam as COMMSerialPortParam;
+				COMMSerialPortParam _return = base.m_COMMParam as COMMSerialPortParam;
 				if (_return == null)
 				{
-					_return = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text, this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
+					_return = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text, this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
 				}
 				else
 				{
 					_return.defaultName = this.m_COMMComboBox.Text;
-					_return.defaultBaudRate = this.comboBox_COMMPortBaudRate.Text;
-					_return.defaultParity = this.comboBox_COMMPortParity.Text;
-					_return.defaultDataBits = this.comboBox_COMMPortDataBits.Text;
-					_return.defaultStopBits = this.comboBox_COMMPortStopBits.Text;
+					_return.defaultBaudRate = this.comboBox_COMMBaudRate.Text;
+					_return.defaultParity = this.comboBox_COMMParity.Text;
+					_return.defaultDataBits = this.comboBox_COMMDataBits.Text;
+					_return.defaultStopBits = this.comboBox_COMMStopBits.Text;
 				}
 				return _return;
 			}
 			set
 			{
-				if (base.m_COMMPortParam == null)
+				if (base.m_COMMParam == null)
 				{
-					base.m_COMMPortParam = new COMMSerialPortParam();
+					base.m_COMMParam = new COMMSerialPortParam();
 				}
-				base.m_COMMPortParam = value;
+				base.m_COMMParam = value;
 			}
 		}
 		
 		/// <summary>
 		/// 配置波特率
 		/// </summary>
-		public virtual ComboBox m_ComboBoxCOMMPortBaudRate
+		public virtual ComboBox m_COMMBaudRateComboBox
 		{
 			get
 			{
-				return this.comboBox_COMMPortBaudRate;
+				return this.comboBox_COMMBaudRate;
 			}
 			set
 			{
-				this.comboBox_COMMPortBaudRate = value;
+				this.comboBox_COMMBaudRate = value;
 			}
 		}
 
 		/// <summary>
 		/// 配置数据位
 		/// </summary>
-		public virtual ComboBox m_ComboBoxCOMMPortDataBits
+		public virtual ComboBox m_COMMDataBitsComboBox
 		{
 			get
 			{
-				return this.comboBox_COMMPortDataBits;
+				return this.comboBox_COMMDataBits;
 			}
 			set
 			{
-				this.comboBox_COMMPortDataBits = value;
+				this.comboBox_COMMDataBits = value;
 			}
 		}
 
 		/// <summary>
 		/// 配置停止位
 		/// </summary>
-		public virtual ComboBox m_ComboBoxCOMMPortStopBits
+		public virtual ComboBox m_COMMStopBitsComboBox
 		{
 			get
 			{
-				return this.comboBox_COMMPortStopBits;
+				return this.comboBox_COMMStopBits;
 			}
 			set
 			{
-				this.comboBox_COMMPortStopBits = value;
+				this.comboBox_COMMStopBits = value;
 			}
 		}
 
 		/// <summary>
 		/// 配置校验
 		/// </summary>
-		public virtual ComboBox m_ComboBoxCOMMPortParity
+		public virtual ComboBox m_COMMParityComboBox
 		{
 			get
 			{
-				return this.comboBox_COMMPortParity;
+				return this.comboBox_COMMParity;
 			}
 			set
 			{
-				this.comboBox_COMMPortParity = value;
+				this.comboBox_COMMParity = value;
 			}
 		}
 
@@ -293,7 +293,7 @@ namespace Harry.LabCOMMPort
 		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox)
 		{
 			base.m_COMMForm = argForm;
-			this.m_COMMPort = (COMMSerialPort)argCOMM;
+			this.m_COMM = (COMMSerialPort)argCOMM;
 			base.m_COMMRichTextBox = argRichTextBox;
 		}
 
@@ -307,12 +307,12 @@ namespace Harry.LabCOMMPort
 		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice)
 		{
 			base.m_COMMForm = argForm;
-			this.m_COMMPort = (COMMSerialPort)argCOMM;
+			this.m_COMM = (COMMSerialPort)argCOMM;
 			base.m_COMMRichTextBox = argRichTextBox;
 			//---判断是否属性设备
 			if (isRefreshDevice)
 			{
-				this.m_COMMPort.GetPortNames(this.m_COMMComboBox, argRichTextBox);
+				this.m_COMM.GetPortNames(this.m_COMMComboBox, argRichTextBox);
 			}
 		}
 
@@ -327,14 +327,14 @@ namespace Harry.LabCOMMPort
 		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice, bool isAddWatcherPort)
 		{
 			base.m_COMMForm = argForm;
-			this.m_COMMPort = (COMMSerialPort)argCOMM;
+			this.m_COMM = (COMMSerialPort)argCOMM;
 			base.m_COMMRichTextBox = argRichTextBox;
 			//---判断是否属性设备
 			if (isRefreshDevice == true)
 			{
-				if (this.m_COMMPort != null)
+				if (this.m_COMM != null)
 				{
-					this.m_COMMPort.GetPortNames(this.m_COMMComboBox, argRichTextBox);
+					this.m_COMM.GetPortNames(this.m_COMMComboBox, argRichTextBox);
 				}
 			}
 			if (isAddWatcherPort == true)
@@ -353,16 +353,16 @@ namespace Harry.LabCOMMPort
 			{
 				return;
 			}
-			int index = this.comboBox_COMMPortBaudRate.Items.IndexOf(commSerialPortParam.defaultBaudRate);
+			int index = this.comboBox_COMMBaudRate.Items.IndexOf(commSerialPortParam.defaultBaudRate);
 			if (index<0)
 			{
-				this.comboBox_COMMPortBaudRate.SelectedIndex = 0;
-				if (comboBox_COMMPortBaudRate.DropDownStyle != System.Windows.Forms.ComboBoxStyle.DropDown)
+				this.comboBox_COMMBaudRate.SelectedIndex = 0;
+				if (comboBox_COMMBaudRate.DropDownStyle != System.Windows.Forms.ComboBoxStyle.DropDown)
 				{
-					comboBox_COMMPortBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
+					comboBox_COMMBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
 				}
 			}
-			this.comboBox_COMMPortBaudRate.Text = commSerialPortParam.defaultBaudRate;
+			this.comboBox_COMMBaudRate.Text = commSerialPortParam.defaultBaudRate;
 		}
 
 		/// <summary>
@@ -375,11 +375,13 @@ namespace Harry.LabCOMMPort
 		{
 			base.AddWatcherPortRemove(sender, e);
 
-			base.RefreshComboBox(this.comboBox_COMMPortBaudRate);
-			base.RefreshComboBox(this.comboBox_COMMPortDataBits);
-			base.RefreshComboBox(this.comboBox_COMMPortStopBits);
-			base.RefreshComboBox(this.comboBox_COMMPortParity);
+			base.RefreshComboBox(this.comboBox_COMMBaudRate);
+			base.RefreshComboBox(this.comboBox_COMMDataBits);
+			base.RefreshComboBox(this.comboBox_COMMStopBits);
+			base.RefreshComboBox(this.comboBox_COMMParity);
 		}
+
+		/*
 
 		/// <summary>
 		/// 
@@ -393,71 +395,23 @@ namespace Harry.LabCOMMPort
 
 			switch (btn.Name)
 			{
-				case "button_COMMInit":
+				case "button_COMM":
 					
 					if (btn.Text == "打开设备")
 					{
-						//---更新端口参数
-						this.m_COMMPortParam.Init(this.m_COMMComboBox.Text,
-							this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text,
-							this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
-						//---准备操作端口
-						if ((this.m_COMMPort != null) &&
-						    (this.m_COMMPort.OpenDevice(this.m_COMMPortParam, this.m_COMMRichTextBox) == 0))
-						{
-							btn.Text = "关闭设备";
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.open;
-
-							//---消息显示
-							if (this.m_COMMRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
-									Color.Black, false);
-							}
-
-							this.COMMControl(false);
-							//---加载设备移除处理
-							if (this.m_COMMPort.m_OnRemoveDeviceEvent == null)
-							{
-								this.m_COMMPort.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
-							}
-						}
-						else
-						{
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.error;
-							if (this.m_COMMComboBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开失败!\r\n",
-									Color.Red, false);
-							}
-						}
+						this.OpenDevice();
 					}
 					else if (btn.Text == "关闭设备")
 					{
-						if (this.m_COMMPort != null)
-						{
-							this.m_COMMPort.CloseDevice();
-							btn.Text = "打开设备";
-							this.m_PictureBoxCOMMState.Image = Properties.Resources.lost;
-							this.COMMControl(true);
-							//---消息显示
-							if (this.m_COMMRichTextBox != null)
-							{
-								RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
-									Color.Black, false);
-							}
-						}
+						this.CloseDevice();
 					}
 					else if (btn.Text == "配置设备")
 					{
-						//---更新端口参数
-						this.m_COMMPortParam.Init(this.m_COMMComboBox.Text,
-							this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text,
-							this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
+						this.ConfigDevice();
 					}
 					else
 					{
-						MessageBoxPlus.Show(this.m_COMMForm, "设备操作异常！错误操作：" + btn.Text, "错误提示");
+						this.ErrMsgDevice();
 					}
 					
 					break;
@@ -467,7 +421,8 @@ namespace Harry.LabCOMMPort
 			}
 			btn.Enabled = true;
 		}
-		
+		*/
+
 		/// <summary>
 		/// 通信控件的状态
 		/// </summary>
@@ -475,10 +430,82 @@ namespace Harry.LabCOMMPort
 		public override void COMMControl(bool isEnable)
 		{
 			base.COMMControl(isEnable);
-			this.comboBox_COMMPortBaudRate.Enabled = isEnable;
-			this.comboBox_COMMPortDataBits.Enabled = isEnable;
-			this.comboBox_COMMPortStopBits.Enabled = isEnable;
-			this.comboBox_COMMPortParity.Enabled = isEnable;
+			this.comboBox_COMMBaudRate.Enabled = isEnable;
+			this.comboBox_COMMDataBits.Enabled = isEnable;
+			this.comboBox_COMMStopBits.Enabled = isEnable;
+			this.comboBox_COMMParity.Enabled = isEnable;
+		}
+
+		/// <summary>
+		/// 打开端口
+		/// </summary>
+		public override void OpenDevice()
+		{
+			//---更新端口参数
+			this.m_COMMParam.Init(this.m_COMMComboBox.Text,
+				this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text,
+				this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
+			//---准备操作端口
+			if ((this.m_COMM != null) &&
+				(this.m_COMM.OpenDevice(this.m_COMMParam, this.m_COMMRichTextBox) == 0))
+			{
+				this.button_COMM.Text = "关闭设备";
+				this.m_COMMPictureBox.Image = Properties.Resources.open;
+
+				//---消息显示
+				if (this.m_COMMRichTextBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
+						Color.Black, false);
+				}
+
+				this.COMMControl(false);
+				//---加载设备移除处理
+				if (this.m_COMM.m_OnRemoveDeviceEvent == null)
+				{
+					this.m_COMM.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
+				}
+			}
+			else
+			{
+				this.m_COMMPictureBox.Image = Properties.Resources.error;
+				if (this.m_COMMComboBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开失败!\r\n",
+						Color.Red, false);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 关闭端口
+		/// </summary>
+		public override void CloseDevice()
+		{
+			if (this.m_COMM != null)
+			{
+				this.m_COMM.CloseDevice();
+				this.button_COMM.Text = "打开设备";
+				this.m_COMMPictureBox.Image = Properties.Resources.lost;
+				this.COMMControl(true);
+				//---消息显示
+				if (this.m_COMMRichTextBox != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
+						Color.Black, false);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 配置端口
+		/// </summary>
+		public override void ConfigDevice()
+		{
+			//---更新端口参数
+			this.m_COMMParam.Init(this.m_COMMComboBox.Text,
+				this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text,
+				this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
 		}
 
 		#endregion
@@ -490,23 +517,23 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		private void InitControl()
 		{
-			this.comboBox_COMMPortBaudRate.SelectedIndex = 7;
-			this.comboBox_COMMPortDataBits.SelectedIndex = 0;
-			this.comboBox_COMMPortStopBits.SelectedIndex = 0;
-			this.comboBox_COMMPortParity.SelectedIndex = 0;
+			this.comboBox_COMMBaudRate.SelectedIndex = 7;
+			this.comboBox_COMMDataBits.SelectedIndex = 0;
+			this.comboBox_COMMStopBits.SelectedIndex = 0;
+			this.comboBox_COMMParity.SelectedIndex = 0;
 
-			if (this.m_COMMPortParam==null)
+			if (this.m_COMMParam==null)
 			{
-				this.m_COMMPortParam = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text, this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
+				this.m_COMMParam = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text, this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
 			}
 			else
 			{
-				this.m_COMMPortParam.Init(this.m_COMMComboBox.Text, this.comboBox_COMMPortBaudRate.Text, this.comboBox_COMMPortParity.Text, this.comboBox_COMMPortDataBits.Text, this.comboBox_COMMPortStopBits.Text);
+				this.m_COMMParam.Init(this.m_COMMComboBox.Text, this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text, this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
 			}
 
-			this.comboBox_COMMPortBaudRate.SelectedIndexChanged += new EventHandler(this.ComboBox_SelectedIndexChanged);
+			this.comboBox_COMMBaudRate.SelectedIndexChanged += new EventHandler(this.ComboBox_SelectedIndexChanged);
 
-			this.defaultSerialPortBaudRateMaxNum = this.comboBox_COMMPortBaudRate.Items.Count;
+			this.defaultSerialPortBaudRateMaxNum = this.comboBox_COMMBaudRate.Items.Count;
 
 		}
 
@@ -523,9 +550,9 @@ namespace Harry.LabCOMMPort
 				case "comboBox_COMMPortBaudRate":
 					if (cbb.Text=="自定义")
 					{
-						if (this.m_ComboBoxCOMMPortBaudRate.DropDownStyle != System.Windows.Forms.ComboBoxStyle.DropDown)
+						if (this.m_COMMBaudRateComboBox.DropDownStyle != System.Windows.Forms.ComboBoxStyle.DropDown)
 						{
-							this.m_ComboBoxCOMMPortBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
+							this.m_COMMBaudRateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
 						}
 						cbb.SelectedValue = "";
 						cbb.SelectedText = "";
@@ -540,11 +567,11 @@ namespace Harry.LabCOMMPort
 					}
 					else
 					{
-						if (this.m_ComboBoxCOMMPortBaudRate.DropDownStyle == System.Windows.Forms.ComboBoxStyle.DropDown)
+						if (this.m_COMMBaudRateComboBox.DropDownStyle == System.Windows.Forms.ComboBoxStyle.DropDown)
 						{
-							this.m_ComboBoxCOMMPortBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+							this.m_COMMBaudRateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 						}
-						if (this.m_ComboBoxCOMMPortBaudRate.Items.IndexOf(cbb.Text)<0)
+						if (this.m_COMMBaudRateComboBox.Items.IndexOf(cbb.Text)<0)
 						{
 							//---判断是否添加了新数据，如果添加，去除新添加的数据
 							if (cbb.Items.Count > this.defaultSerialPortBaudRateMaxNum)

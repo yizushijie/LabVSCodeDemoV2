@@ -38,8 +38,8 @@
 			// 
 			this.commSerialPortPlus1.Location = new System.Drawing.Point(13, 13);
 			this.commSerialPortPlus1.m_COMMForm = null;
-			this.commSerialPortPlus1.m_COMMPort = null;
-			this.commSerialPortPlus1.m_COMMPortParam = commSerialPortParam2;
+			this.commSerialPortPlus1.m_COMM = null;
+			this.commSerialPortPlus1.m_COMMParam = commSerialPortParam2;
 			this.commSerialPortPlus1.m_COMMRichTextBox = null;
 			this.commSerialPortPlus1.Margin = new System.Windows.Forms.Padding(4);
 			this.commSerialPortPlus1.Name = "commSerialPortPlus1";

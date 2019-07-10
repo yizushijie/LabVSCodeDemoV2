@@ -16,27 +16,27 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		public override COMMBasePort m_COMMPort
+		public override COMMBasePort m_COMM
 		{
 			get
 			{
-				return base.m_COMMPort;
+				return base.m_COMM;
 			}
 
 			set
 			{
-				base.m_COMMPort = value;
+				base.m_COMM = value;
 			}
 		}
 
 		/// <summary>
 		/// 端口参数信息
 		/// </summary>
-		public new COMMUSBPortParam m_COMMPortParam
+		public virtual new COMMUSBPortParam m_COMMParam
 		{
 			get
 			{
-				COMMUSBPortParam _return = base.m_COMMPortParam as COMMUSBPortParam;
+				COMMUSBPortParam _return = base.m_COMMParam as COMMUSBPortParam;
 				if (_return == null)
 				{
 					_return = new COMMUSBPortParam();
@@ -49,11 +49,11 @@ namespace Harry.LabCOMMPort
 			}
 			set
 			{
-				if (base.m_COMMPortParam==null)
+				if (base.m_COMMParam==null)
 				{
-					base.m_COMMPortParam = new COMMUSBPortParam();
+					base.m_COMMParam = new COMMUSBPortParam();
 				}
-				base.m_COMMPortParam = value;
+				base.m_COMMParam = value;
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace Harry.LabCOMMPort
 		public override void Init(Form argForm, COMMBasePort argCOMM,RichTextBox argRichTextBox)
 		{
 			base.m_COMMForm = argForm;
-			this.m_COMMPort = (COMMUSBPort)argCOMM;
+			this.m_COMM = (COMMUSBPort)argCOMM;
 			base.m_COMMRichTextBox = argRichTextBox;
 		}
 

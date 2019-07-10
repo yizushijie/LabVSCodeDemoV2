@@ -86,7 +86,7 @@ namespace Harry.LabMcuForm
 			{
 				if (this.defaultLabMcuDevice==null)
 				{
-					this.defaultLabMcuDevice = new LabMcuBase(ref defaultDeviceCOMMPort);
+					this.defaultLabMcuDevice = new LabMcuBase( defaultDeviceCOMMPort);
 				}
 				this.defaultLabMcuDevice = value;
 			}
@@ -314,7 +314,7 @@ namespace Harry.LabMcuForm
 
 			if (this.defaultLabMcuDevice==null)
 			{
-				this.defaultLabMcuDevice = new LabMcuBase(ref this.defaultDeviceCOMMPort);
+				this.defaultLabMcuDevice = new LabMcuBase( this.defaultDeviceCOMMPort);
 			}
 			else
 			{

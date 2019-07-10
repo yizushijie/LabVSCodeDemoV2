@@ -35,7 +35,7 @@
 			// 
 			this.commSerialPortPlusFullParam.Location = new System.Drawing.Point(0, 0);
 			this.commSerialPortPlusFullParam.m_COMMForm = null;
-			this.commSerialPortPlusFullParam.m_COMMPort = null;
+			this.commSerialPortPlusFullParam.m_COMM = null;
 			this.commSerialPortPlusFullParam.m_COMMRichTextBox = null;
 			this.commSerialPortPlusFullParam.Margin = new System.Windows.Forms.Padding(5);
 			this.commSerialPortPlusFullParam.Name = "commSerialPortPlusFullParam";

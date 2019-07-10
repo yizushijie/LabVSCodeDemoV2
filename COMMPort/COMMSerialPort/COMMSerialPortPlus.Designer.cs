@@ -29,14 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.panel_COMMName.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMMState)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMM)).BeginInit();
 			this.panel_COMM.SuspendLayout();
-			this.groupBox_COMMName.SuspendLayout();
+			this.groupBox_COMM.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// comboBox_COMMName
 			// 
-			this.comboBox_COMMName.IntegralHeight = false;
+			this.comboBox_COMM.IntegralHeight = false;
 			// 
 			// COMMSerialPortPlus
 			// 
@@ -45,9 +45,9 @@
 			this.Name = "COMMSerialPortPlus";
 			this.panel_COMMName.ResumeLayout(false);
 			this.panel_COMMName.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMMState)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMM)).EndInit();
 			this.panel_COMM.ResumeLayout(false);
-			this.groupBox_COMMName.ResumeLayout(false);
+			this.groupBox_COMM.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

@@ -22,12 +22,12 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 端口
 		/// </summary>
-		private COMMBasePort defaultCOMMPort = null;
+		private COMMBasePort defaultCOMM = null;
 
 		/// <summary>
 		/// 端口的配置参数
 		/// </summary>
-		private COMMPortParam defaultCOMMPortParam = new COMMPortParam();
+		private COMMPortParam defaultCOMMParam = new COMMPortParam();
 
 
 		#endregion
@@ -79,13 +79,13 @@ namespace Harry.LabCOMMPort
 		{
 			get
 			{
-				return this.comboBox_COMMName;
+				return this.comboBox_COMM;
 			}
 			set
 			{
 				if (value != null)
 				{
-					this.comboBox_COMMName = value;
+					this.comboBox_COMM = value;
 				}
 			}
 		}
@@ -93,61 +93,61 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 端口
 		/// </summary>
-		public virtual COMMBasePort m_COMMPort
+		public virtual COMMBasePort m_COMM
 		{
 			get
 			{
-				return this.defaultCOMMPort;
+				return this.defaultCOMM;
 			}
 			set
 			{
-				if (this.defaultCOMMPort == null)
+				if (this.defaultCOMM == null)
 				{
-					this.defaultCOMMPort = new COMMBasePort();
+					this.defaultCOMM = new COMMBasePort();
 				}
-				this.defaultCOMMPort = value;
+				this.defaultCOMM = value;
 			}
 		}
 
 		/// <summary>
 		/// 状态图片
 		/// </summary>
-		public virtual PictureBox m_PictureBoxCOMMState
+		public virtual PictureBox m_COMMPictureBox
 		{
 			get
 			{
-				return this.pictureBox_COMMState;
+				return this.pictureBox_COMM;
 			}
 			set
 			{
-				this.pictureBox_COMMState=value;
+				this.pictureBox_COMM=value;
 			}
 		}
 
 		/// <summary>
 		/// 设备初始化按钮
 		/// </summary>
-		public virtual Button m_ButtonCOMMInit
+		public virtual Button m_COMMButton
 		{
 			get
 			{
-				return this.button_COMMInit;
+				return this.button_COMM;
 			}
 			set
 			{
-				this.button_COMMInit = value;
+				this.button_COMM = value;
 			}
 		}
 
-		public virtual GroupBox m_GroupBoxCOMMName
+		public virtual GroupBox m_COMMGroupBox
 		{
 			get
 			{
-				return this.groupBox_COMMName;
+				return this.groupBox_COMM;
 			}
 			set
 			{
-				this.groupBox_COMMName = value;
+				this.groupBox_COMM = value;
 
 			}
 		}
@@ -155,19 +155,19 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		public virtual COMMPortParam m_COMMPortParam
+		public virtual COMMPortParam m_COMMParam
 		{
 			get
 			{
-				return this.defaultCOMMPortParam;
+				return this.defaultCOMMParam;
 			}
 			set
 			{
-				if (this.defaultCOMMPortParam == null)
+				if (this.defaultCOMMParam == null)
 				{
-					this.defaultCOMMPortParam = new COMMPortParam();
+					this.defaultCOMMParam = new COMMPortParam();
 				}
-				this.defaultCOMMPortParam = value;
+				this.defaultCOMMParam = value;
 			}
 		}
 
@@ -230,7 +230,7 @@ namespace Harry.LabCOMMPort
 		{
 			this.defaultForm = null;
 			this.defaultRichTextBox = null;
-			this.defaultCOMMPort = null;
+			this.defaultCOMM = null;
 		}
 
 		/// <summary>
@@ -273,7 +273,7 @@ namespace Harry.LabCOMMPort
 		public virtual void Init(Form argForm, COMMBasePort argCOMM,RichTextBox argRichTextBox)
 		{
 			this.defaultForm = argForm;
-			this.defaultCOMMPort = argCOMM;
+			this.defaultCOMM = argCOMM;
 			this.defaultRichTextBox = argRichTextBox;
 		}
 
@@ -286,7 +286,7 @@ namespace Harry.LabCOMMPort
 		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice)
 		{
 			this.defaultForm = argForm;
-			this.defaultCOMMPort = argCOMM;
+			this.defaultCOMM = argCOMM;
 			this.defaultRichTextBox = argRichTextBox;
 		}
 
@@ -301,7 +301,7 @@ namespace Harry.LabCOMMPort
 		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice,bool isAddWatcherPort)
 		{
 			this.m_COMMForm = argForm;
-			this.defaultCOMMPort = argCOMM;
+			this.defaultCOMM = argCOMM;
 			this.m_COMMRichTextBox = argRichTextBox;
 		}
 
@@ -310,15 +310,15 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public virtual void AddWatcherPort()
 		{
-			if (this.defaultCOMMPort != null)
+			if (this.defaultCOMM != null)
 			{
 				if (this.defaultForm!=null)
 				{
-					this.defaultCOMMPort.AddWatcherPort(this.comboBox_COMMName, this.defaultRichTextBox);
+					this.defaultCOMM.AddWatcherPort(this.comboBox_COMM, this.defaultRichTextBox);
 				}
 				else
 				{
-					this.defaultCOMMPort.AddWatcherPort(this.defaultForm,this.comboBox_COMMName, this.defaultRichTextBox);
+					this.defaultCOMM.AddWatcherPort(this.defaultForm,this.comboBox_COMM, this.defaultRichTextBox);
 				}
 			}
 		}
@@ -331,45 +331,45 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		public virtual void AddWatcherPortRemove(object sender, System.EventArgs e)
 		{
-			if ((this.defaultCOMMPort.IsAttached() == false) && (this.button_COMMInit.Text == "关闭设备"))
+			if ((this.defaultCOMM.IsAttached() == false) && (this.button_COMM.Text == "关闭设备"))
 			{
-				if (this.button_COMMInit.InvokeRequired)
+				if (this.button_COMM.InvokeRequired)
 				{
-					this.button_COMMInit.BeginInvoke((EventHandler)
+					this.button_COMM.BeginInvoke((EventHandler)
 						//this.m_Button_COMMInit.Invoke((EventHandler)
 						(delegate
 						{
-							this.button_COMMInit.Text = "打开设备";
+							this.button_COMM.Text = "打开设备";
 						}));
 				}
 				else
 				{
-					this.button_COMMInit.Text = "打开设备";
+					this.button_COMM.Text = "打开设备";
 				}
 				//---执行端口关闭
-				this.defaultCOMMPort.CloseDevice();
+				this.defaultCOMM.CloseDevice();
 				//---刷新端口的只是ICO图标
-				if (this.pictureBox_COMMState.InvokeRequired)
+				if (this.pictureBox_COMM.InvokeRequired)
 				{
-					this.pictureBox_COMMState.BeginInvoke((EventHandler)
+					this.pictureBox_COMM.BeginInvoke((EventHandler)
 						//this.m_PictureBox_COMMState.Invoke((EventHandler)
 						(delegate
 						{
-							this.pictureBox_COMMState.Image = Properties.Resources.lost;
+							this.pictureBox_COMM.Image = Properties.Resources.lost;
 						}));
 				}
 				else
 				{
-					this.pictureBox_COMMState.Image = Properties.Resources.lost;
+					this.pictureBox_COMM.Image = Properties.Resources.lost;
 				}
 
 				//---执行端口同步函数
-				if (this.defaultCOMMPort.m_OnCOMMSYNCEvent!=null)
+				if (this.defaultCOMM.m_OnCOMMSYNCEvent!=null)
 				{
-					this.defaultCOMMPort.m_OnCOMMSYNCEvent();
+					this.defaultCOMM.m_OnCOMMSYNCEvent();
 				}
 
-				this.RefreshComboBox(this.comboBox_COMMName);
+				this.RefreshComboBox(this.comboBox_COMM);
 			}
 		}
 
@@ -378,9 +378,9 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public virtual void AddWatcherPortRemoveEvent()
 		{
-			if (this.defaultCOMMPort != null)
+			if (this.defaultCOMM != null)
 			{
-				this.defaultCOMMPort.m_OnRemoveDeviceEvent = AddWatcherPortRemove;
+				this.defaultCOMM.m_OnRemoveDeviceEvent = AddWatcherPortRemove;
 			}
 		}
 		
@@ -391,7 +391,33 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		public virtual void Button_Click(object sender, System.EventArgs e)
 		{
-			
+			Button btn = (Button)sender;
+			btn.Enabled = false;
+			switch (btn.Name)
+			{
+				case "button_COMM":
+					if (btn.Text == "打开设备")
+					{
+						this.OpenDevice();
+					}
+					else if (btn.Text == "关闭设备")
+					{
+						this.CloseDevice();
+					}
+					else if (btn.Text == "配置设备")
+					{
+						this.ConfigDevice();
+					}
+					else
+					{
+						this.ErrMsgDevice();
+					}
+					break;
+
+				default:
+					break;
+			}
+			btn.Enabled = true;
 		}
 
 		/// <summary>
@@ -405,13 +431,13 @@ namespace Harry.LabCOMMPort
 			ptb.Enabled = false;
 			switch (ptb.Name)
 			{
-				case "pictureBox_COMMState":
-					if (this.button_COMMInit.Text == "打开设备")
+				case "pictureBox_COMM":
+					if (this.button_COMM.Text == "打开设备")
 					{
-						if (this.defaultCOMMPort!=null)
+						if (this.defaultCOMM!=null)
 						{
 							//---刷新设备
-							this.defaultCOMMPort.RefreshDevice(this.comboBox_COMMName, this.defaultRichTextBox);
+							this.defaultCOMM.RefreshDevice(this.comboBox_COMM, this.defaultRichTextBox);
 						}
 					}
 					break;
@@ -427,7 +453,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="isEnable"></param>
 		public virtual void COMMControl(bool isEnable)
 		{
-			this.comboBox_COMMName.Enabled = isEnable;
+			this.comboBox_COMM.Enabled = isEnable;
 		}
 
 		/// <summary>
@@ -480,6 +506,39 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
+		/// <summary>
+		/// 打开端口
+		/// </summary>
+		public virtual void OpenDevice()
+		{
+
+		}
+
+
+		/// <summary>
+		/// 关闭端口
+		/// </summary>
+		public virtual void CloseDevice()
+		{
+
+		}
+
+		/// <summary>
+		/// 配置设备
+		/// </summary>
+		public virtual void ConfigDevice()
+		{
+
+		}
+
+		/// <summary>
+		/// 错误信息
+		/// </summary>
+		public virtual void ErrMsgDevice()
+		{
+			MessageBoxPlus.Show(this.m_COMMForm, "设备操作异常！错误操作：" + this.m_COMMButton.Text, "错误提示");
+		}
+
 		#endregion
 
 		#region 私有函数
@@ -487,9 +546,9 @@ namespace Harry.LabCOMMPort
 		private void AddEventHandler()
 		{
 			//---button 点击事件
-			this.button_COMMInit.Click += new System.EventHandler(this.Button_Click);
+			this.button_COMM.Click += new System.EventHandler(this.Button_Click);
 			//---端口状态刷新事件
-			this.pictureBox_COMMState.Click += new EventHandler(this.PictureBox_Click);
+			this.pictureBox_COMM.Click += new EventHandler(this.PictureBox_Click);
 			//---端口移除事件
 			this.AddWatcherPortRemoveEvent();
 		}

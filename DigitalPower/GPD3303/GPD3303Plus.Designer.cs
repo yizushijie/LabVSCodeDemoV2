@@ -52,9 +52,9 @@
 			this.numericUpDownPlus_CH2Voltage = new Harry.LabUserControlPlus.NumericUpDownPlus();
 			this.label_CH2Voltage = new System.Windows.Forms.Label();
 			this.panel_COMMName.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMMState)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMM)).BeginInit();
 			this.panel_COMM.SuspendLayout();
-			this.groupBox_COMMName.SuspendLayout();
+			this.groupBox_COMM.SuspendLayout();
 			this.groupBox_PowerCH1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPlus_CH1Current)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPlus_CH1Voltage)).BeginInit();
@@ -69,14 +69,14 @@
 			this.panel_COMMName.Controls.Add(this.groupBox_PowerCH1);
 			this.panel_COMMName.Size = new System.Drawing.Size(284, 172);
 			this.panel_COMMName.Controls.SetChildIndex(this.groupBox_PowerCH1, 0);
-			this.panel_COMMName.Controls.SetChildIndex(this.comboBox_COMMName, 0);
-			this.panel_COMMName.Controls.SetChildIndex(this.button_COMMInit, 0);
-			this.panel_COMMName.Controls.SetChildIndex(this.pictureBox_COMMState, 0);
+			this.panel_COMMName.Controls.SetChildIndex(this.comboBox_COMM, 0);
+			this.panel_COMMName.Controls.SetChildIndex(this.button_COMM, 0);
+			this.panel_COMMName.Controls.SetChildIndex(this.pictureBox_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.groupBox_CH2, 0);
 			// 
 			// button_COMMInit
 			// 
-			this.button_COMMInit.Location = new System.Drawing.Point(187, 2);
+			this.button_COMM.Location = new System.Drawing.Point(187, 2);
 			// 
 			// panel_COMM
 			// 
@@ -84,7 +84,7 @@
 			// 
 			// groupBox_COMMName
 			// 
-			this.groupBox_COMMName.Size = new System.Drawing.Size(290, 192);
+			this.groupBox_COMM.Size = new System.Drawing.Size(290, 192);
 			// 
 			// groupBox_PowerCH1
 			// 
@@ -322,14 +322,14 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.m_COMMPortParam = commSerialPortParam1;
+			this.m_COMMParam = commSerialPortParam1;
 			this.Name = "GPD3303Plus";
 			this.Size = new System.Drawing.Size(296, 200);
 			this.panel_COMMName.ResumeLayout(false);
 			this.panel_COMMName.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMMState)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_COMM)).EndInit();
 			this.panel_COMM.ResumeLayout(false);
-			this.groupBox_COMMName.ResumeLayout(false);
+			this.groupBox_COMM.ResumeLayout(false);
 			this.groupBox_PowerCH1.ResumeLayout(false);
 			this.groupBox_PowerCH1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPlus_CH1Current)).EndInit();

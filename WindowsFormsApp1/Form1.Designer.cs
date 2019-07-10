@@ -104,8 +104,8 @@
 			// 
 			this.commSerialPortPlus1.Location = new System.Drawing.Point(29, 29);
 			this.commSerialPortPlus1.m_COMMForm = null;
-			this.commSerialPortPlus1.m_COMMPort = null;
-			this.commSerialPortPlus1.m_COMMPortParam = commSerialPortParam1;
+			this.commSerialPortPlus1.m_COMM = null;
+			this.commSerialPortPlus1.m_COMMParam = commSerialPortParam1;
 			this.commSerialPortPlus1.m_COMMRichTextBox = null;
 			this.commSerialPortPlus1.Margin = new System.Windows.Forms.Padding(4);
 			this.commSerialPortPlus1.Name = "commSerialPortPlus1";
@@ -117,8 +117,8 @@
 			// 
 			this.gpD3303Plus1.Location = new System.Drawing.Point(380, 50);
 			this.gpD3303Plus1.m_COMMForm = null;
-			this.gpD3303Plus1.m_COMMPort = null;
-			this.gpD3303Plus1.m_COMMPortParam = commSerialPortParam2;
+			this.gpD3303Plus1.m_COMM = null;
+			this.gpD3303Plus1.m_COMMParam = commSerialPortParam2;
 			this.gpD3303Plus1.m_COMMRichTextBox = null;
 			this.gpD3303Plus1.Name = "gpD3303Plus1";
 			this.gpD3303Plus1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);

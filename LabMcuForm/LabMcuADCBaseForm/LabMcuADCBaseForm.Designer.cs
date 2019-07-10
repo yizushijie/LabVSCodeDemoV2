@@ -434,9 +434,9 @@
 			// 
 			this.GPD3303Plus_DigitalPower.Location = new System.Drawing.Point(6, 20);
 			this.GPD3303Plus_DigitalPower.m_COMMForm = null;
-			this.GPD3303Plus_DigitalPower.m_COMMPort = null;
+			this.GPD3303Plus_DigitalPower.m_COMM = null;
 			this.GPD3303Plus_DigitalPower.m_COMMPortBaudRate = 115200;
-			this.GPD3303Plus_DigitalPower.m_COMMPortParam = commSerialPortParam2;
+			this.GPD3303Plus_DigitalPower.m_COMMParam = commSerialPortParam2;
 			this.GPD3303Plus_DigitalPower.m_COMMRichTextBox = null;
 			this.GPD3303Plus_DigitalPower.m_COMMShowParamMenu = true;
 			this.GPD3303Plus_DigitalPower.Name = "GPD3303Plus_DigitalPower";
@@ -448,9 +448,9 @@
 			// 
 			this.commSerialPortPlus_Device.Location = new System.Drawing.Point(6, 20);
 			this.commSerialPortPlus_Device.m_COMMForm = null;
-			this.commSerialPortPlus_Device.m_COMMPort = null;
+			this.commSerialPortPlus_Device.m_COMM = null;
 			this.commSerialPortPlus_Device.m_COMMPortBaudRate = 115200;
-			this.commSerialPortPlus_Device.m_COMMPortParam = commSerialPortParam1;
+			this.commSerialPortPlus_Device.m_COMMParam = commSerialPortParam1;
 			this.commSerialPortPlus_Device.m_COMMRichTextBox = null;
 			this.commSerialPortPlus_Device.m_COMMShowParamMenu = true;
 			this.commSerialPortPlus_Device.Name = "commSerialPortPlus_Device";

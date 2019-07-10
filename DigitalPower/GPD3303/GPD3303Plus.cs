@@ -21,19 +21,19 @@ namespace Harry.LabDigitalPower
 
 		#region 属性定义
 
-		public virtual new COMMSerialPort m_COMMPort
+		public virtual new COMMSerialPort m_COMM
 		{
 			get
 			{
-				return (COMMSerialPort)base.m_COMMPort;
+				return (COMMSerialPort)base.m_COMM;
 			}
 			set
 			{
-				if (base.m_COMMPort==null)
+				if (base.m_COMM==null)
 				{
-					base.m_COMMPort = new COMMSerialPort();
+					base.m_COMM = new COMMSerialPort();
 				}
-				base.m_COMMPort =value;
+				base.m_COMM =value;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace Harry.LabDigitalPower
 			InitializeComponent();
 			this.StartUpInit();
 
-			this.m_COMMPort = (COMMSerialPort)commSerialPort;
+			this.m_COMM = (COMMSerialPort)commSerialPort;
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace Harry.LabDigitalPower
 			InitializeComponent();
 			this.StartUpInit();
 
-			this.m_COMMPort = (COMMSerialPort)commSerialPort;
+			this.m_COMM = (COMMSerialPort)commSerialPort;
 			if (this.defaultGPD3303==null)
 			{
 				this.defaultGPD3303 = new GPD3303();
@@ -288,11 +288,11 @@ namespace Harry.LabDigitalPower
 		public override void OpenDevice()
 		{
 			base.OpenDevice();
-			if ((this.m_COMMPort!=null)&&(this.m_COMMPort.IsAttached()==true)&&(this.m_COMMPort.m_COMMIndex!=0))
+			if ((this.m_COMM!=null)&&(this.m_COMM.IsAttached()==true)&&(this.m_COMM.m_COMMIndex!=0))
 			{
 				if (this.defaultGPD3303==null)
 				{
-					this.defaultGPD3303 = new GPD3303(this.m_COMMPort);
+					this.defaultGPD3303 = new GPD3303(this.m_COMM);
 				}
 				//---检验是否和数字电源通讯成功
 				if(this.defaultGPD3303.Init()==false)
