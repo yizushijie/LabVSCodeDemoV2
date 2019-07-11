@@ -324,7 +324,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		/// <param name="isRefreshDevice"></param>
 		/// <param name="isAddWatcherPort"></param>
-		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice, bool isAddWatcherPort)
+		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice=true, bool isAddWatcherPort=true)
 		{
 			base.m_COMMForm = argForm;
 			this.m_COMM = (COMMSerialPort)argCOMM;

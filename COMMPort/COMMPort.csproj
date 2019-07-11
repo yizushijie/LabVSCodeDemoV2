@@ -51,6 +51,7 @@
       <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
     </Compile>
     <Compile Include="COMMBasePort\COMMWatcherPort.cs" />
+    <Compile Include="COMMDataType\COMMDataType.cs" />
     <Compile Include="COMMPortForm\COMMBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>

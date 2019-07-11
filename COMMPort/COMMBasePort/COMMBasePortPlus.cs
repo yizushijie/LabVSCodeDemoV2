@@ -298,7 +298,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		/// <param name="isRefreshDevice"></param>
 		/// <param name="isAddWatcherPort"></param>
-		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice,bool isAddWatcherPort)
+		public virtual void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice=true,bool isAddWatcherPort=true)
 		{
 			this.m_COMMForm = argForm;
 			this.defaultCOMM = argCOMM;

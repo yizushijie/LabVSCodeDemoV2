@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LabIData\IDataADC.cs" />
     <Compile Include="LabMcuBase\LabMcuBase.cs" />
     <Compile Include="LabMcuBase\LabMcuBaseADC.cs" />
     <Compile Include="LabMcuFMD9009\LabMcuFMD9009.cs" />

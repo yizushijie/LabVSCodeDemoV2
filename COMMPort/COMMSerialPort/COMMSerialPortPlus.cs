@@ -170,15 +170,30 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 通讯端口的波特率
 		/// </summary>
-		public virtual int m_COMMPortBaudRate
+		public virtual int m_COMMBaudRate
 		{
 			get
 			{
-				return Convert.ToInt32(this.m_COMMParam.defaultBaudRate);
+				if (this.m_COMM != null)
+				{
+					return ((COMMSerialPort)this.m_COMM).m_COMMBaudRate;
+				}
+				else
+				{
+
+					return Convert.ToInt32(this.m_COMMParam.defaultBaudRate);
+				}
 			}
 			set
 			{
-				this.m_COMMParam.defaultBaudRate = value.ToString();
+				if (this.m_COMM!=null)
+				{
+					((COMMSerialPort)this.m_COMM).m_COMMBaudRate = value;
+				}
+				else
+				{
+					this.m_COMMParam.defaultBaudRate = value.ToString();
+				}
 				//---检查端口是否打开
 				if ((this.m_COMM!=null)&&(this.m_COMM.IsAttached())&&(this.m_COMM.m_COMMIndex!=0))
 				{
@@ -298,7 +313,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="argRichTextBox"></param>
 		/// <param name="isRefreshDevice"></param>
 		/// <param name="isAddWatcherPort"></param>
-		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice, bool isAddWatcherPort)
+		public override void Init(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice=true, bool isAddWatcherPort=true)
 		{
 			base.m_COMMForm = argForm;
 			this.m_COMM = (COMMSerialPort)argCOMM;

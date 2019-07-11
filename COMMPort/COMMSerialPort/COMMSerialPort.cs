@@ -245,6 +245,32 @@ namespace Harry.LabCOMMPort
 			}
 		}
 
+		/// <summary>
+		/// 通讯串口的波特率
+		/// </summary>
+		public virtual int m_COMMBaudRate
+		{
+			get
+			{
+				if ((this.defaultSerialPort != null) && (this.defaultSerialPort.IsOpen))
+				{
+					return this.defaultSerialPort.BaudRate;
+				}
+				else
+				{
+					return Convert.ToInt32(this.m_COMMPortParam.defaultBaudRate);
+				}
+			}
+			set
+			{
+				if (this.defaultSerialPort != null)
+				{
+					this.defaultSerialPort.BaudRate = value;
+				}
+				this.m_COMMPortParam.defaultBaudRate = value.ToString();
+			}
+		}
+
 		#endregion
 
 		#region 重载属性
@@ -546,6 +572,35 @@ namespace Harry.LabCOMMPort
 					base.m_COMMPortParam = new COMMSerialPortParam();
 				}
 				base.m_COMMPortParam = value;
+			}
+		}
+
+		/// <summary>
+		/// 数据接收校验结果
+		/// </summary>
+		public override bool m_COMMReceVerifyPass
+		{
+			get
+			{
+				int _return= -1;
+				if ((this.m_COMMReadData!=null)&&(this.m_COMMReadData.defaultOriginalByte!=null)&&(this.m_COMMReadData.defaultOriginalByte[0]==this.m_COMMReadID)
+					&&(this.m_COMMReadData.defaultParentCMD==this.m_COMMWriteData.defaultParentCMD)
+					&&(this.m_COMMReadData.defaultResultFlag==0))
+				{
+					_return = 0;
+				}
+				return (_return == 0);
+			}
+		}
+
+		/// <summary>
+		/// 端口开启状态
+		/// </summary>
+		public override bool m_COMMIsOpen
+		{
+			get
+			{
+				return ((this.IsAttached()) && (this.m_COMMIndex != 0));
 			}
 		}
 
@@ -905,7 +960,7 @@ namespace Harry.LabCOMMPort
 					}
 				}
 				//---重新构建发送函数
-				this.m_COMMWriteData = new COMMDataType(this.m_COMMWriteBufferSize,this.m_COMMWriteCRC, tempCMD,ref this.defaultIsChildCMD);
+				this.m_COMMWriteData = new COMMDataType(this.m_COMMWriteBufferSize,this.m_COMMWriteCRC, tempCMD);
 			}
 			return _return;
 		}
@@ -2196,6 +2251,26 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int ReadFromDevice(int timeout = 200, RichTextBox msg = null)
+		{
+			int _return = 0;
+			if (this.m_COMMReadBufferSize < 250)
+			{
+				_return = this.ProcesseReceivedData8BitsLength(timeout, msg);
+			}
+			else
+			{
+				_return = this.ProcesseReceivedData16BitsLength(timeout, msg);
+			}
+			return _return;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="argIndex"></param>
 		/// <param name="cmd"></param>
 		/// <param name="timeout"></param>
@@ -2268,6 +2343,26 @@ namespace Harry.LabCOMMPort
 			}
 			return _return;
 		}
+
+		/// <summary>
+		/// 发送并读取响应函数
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int SendCmdAndReadResponse(byte[] cmd,int timeout = 200, RichTextBox msg = null)
+		{
+			int _return = 0;
+			_return = this.WriteToDevice(cmd, msg);
+			if (_return == 0)
+			{
+				_return = this.ReadFromDevice(timeout, msg);
+			}
+			return _return;
+		}
+
 
 		/// <summary>
 		/// 

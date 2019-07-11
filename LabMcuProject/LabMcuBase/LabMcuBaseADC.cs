@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace Harry.LabMcuProject
 {
+
 	public partial  class LabMcuBase
 	{
 		#region 变量定义
@@ -46,9 +47,14 @@ namespace Harry.LabMcuProject
 		private int defaultADCSampleNum = 1;
 
 		/// <summary>
+		/// 选择的ADC通道号
+		/// </summary>
+		private int defaultADCChannelIndex = 0;
+
+		/// <summary>
 		/// 参考电压的值
 		/// </summary>
-		private int defaultADCVREF = 0;
+		private float defaultADCVREF = 0;
 
 		/// <summary>
 		/// ADC的增益配置
@@ -69,7 +75,13 @@ namespace Harry.LabMcuProject
 		/// 通讯主命令
 		/// </summary>
 		private byte DEFAULT_ADC_CMD_PARENT = 0xA3;
-		
+
+		/// <summary>
+		/// ADC结果
+		/// </summary>
+
+		private IDataADC defaultADCResult = new IDataADC();
+
 		#endregion
 
 		#region 属性定义
@@ -130,7 +142,7 @@ namespace Harry.LabMcuProject
 		/// <summary>
 		/// ADC参考电压
 		/// </summary>
-		public virtual int m_ADCVREF
+		public virtual float m_ADCVREF
 		{
 			get
 			{
@@ -187,6 +199,17 @@ namespace Harry.LabMcuProject
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual IDataADC m_ADCResult
+		{
+			get
+			{
+				return this.defaultADCResult;
+			}
+		}
+
 		#endregion
 
 		#region 构造函数
@@ -202,20 +225,20 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCVREFMode(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort!=null)&&(this.defaultCOMMPort.IsAttached())&&(this.defaultCOMMPort.m_COMMIndex!=0))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD,0x01};
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
 				this.defaultCOMMPort.m_COMMIsChildCMD = true;
 
-				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
-				if ((res != null) && (this.defaultCOMMPort.m_COMMReadData.defaultParentCMD == cmd[2]) && (this.defaultCOMMPort.m_COMMReadData.defaultChildCMD == cmd[3]) && (this.defaultCOMMPort.m_COMMReadData.defaultResultFlag == 0))
+				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd,ref res);
+				if(this.defaultCOMMPort.m_COMMReceVerifyPass)
 				{
-					_return = res[res.Length - 1];
+					_return = res[this.defaultCOMMPort.m_COMMReadData.defaultRealityIndex];
 					if (msg != null)
 					{
-						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "读取参考电压是" + this.defaultADCVREFMode[childCMD] + "\r\n", Color.Black, false);
+						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "读取参考电压是" + this.defaultADCVREFMode[_return] + "\r\n", Color.Black, false);
 					}
 				}
 			}
@@ -229,7 +252,7 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCVREFMode(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.IsAttached()) && (this.defaultCOMMPort.m_COMMIndex != 0))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00 };
 				cmd[1] = (byte)(cmd.Length - 2);
@@ -237,9 +260,9 @@ namespace Harry.LabMcuProject
 				this.defaultCOMMPort.m_COMMIsChildCMD = true;
 
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
-				if ((res != null) && (this.defaultCOMMPort.m_COMMReadData.defaultParentCMD == cmd[2]) && (this.defaultCOMMPort.m_COMMReadData.defaultChildCMD == cmd[3]) && (this.defaultCOMMPort.m_COMMReadData.defaultResultFlag == 0))
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
 				{
-					_return = res[res.Length - 1];
+					_return = res[this.defaultCOMMPort.m_COMMReadData.defaultRealityIndex];
 					if (msg != null)
 					{
 						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "写入参考电压是" + this.defaultADCVREFMode[childCMD] + "\r\n", Color.Black, false);
@@ -257,6 +280,23 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCChannel(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			{
+				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x01 };
+				cmd[1] = (byte)(cmd.Length - 2);
+				byte[] res = null;
+				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+
+				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
+				{
+					_return = res[this.defaultCOMMPort.m_COMMReadData.defaultRealityIndex];
+					if (msg != null)
+					{
+						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "读取ADC通道是" + this.defaultADCChannel[_return] + "\r\n", Color.Black, false);
+					}
+				}
+			}
 			return _return;
 		}
 
@@ -267,6 +307,23 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCChannel(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			{
+				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00 };
+				cmd[1] = (byte)(cmd.Length - 2);
+				byte[] res = null;
+				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+
+				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
+				{
+					_return = this.defaultCOMMPort.m_COMMReadData.defaultResultFlag;
+					if (msg != null)
+					{
+						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "写入ADC通道是" + this.defaultADCChannel[childCMD - this.defaultADCVREFMode.Length] + "\r\n", Color.Black, false);
+					}
+				}
+			}
 			return _return;
 		}
 
@@ -277,7 +334,7 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCSampleNum(int childCMD,RichTextBox msg=null)
 		{
 			int _return = 0;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.IsAttached()) && (this.defaultCOMMPort.m_COMMIndex != 0))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD,0x01 };
 				cmd[1] = (byte)(cmd.Length - 2);
@@ -285,9 +342,9 @@ namespace Harry.LabMcuProject
 				this.defaultCOMMPort.m_COMMIsChildCMD = true;
 
 				_return =this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
-				if ((res!=null)&&(this.defaultCOMMPort.m_COMMReadData.defaultParentCMD==cmd[2])&&(this.defaultCOMMPort.m_COMMReadData.defaultChildCMD==cmd[3])&&(this.defaultCOMMPort.m_COMMReadData.defaultResultFlag==0))
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
 				{
-					_return = res[res.Length - 1];
+					_return = res[this.defaultCOMMPort.m_COMMReadData.defaultRealityIndex];
 					//---ADC采样的次数
 					this.defaultADCSampleNum = _return;
 					if (msg!=null)
@@ -306,7 +363,7 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCSampleNum(int childCMD, int num,RichTextBox msg= null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.IsAttached()) && (this.defaultCOMMPort.m_COMMIndex != 0))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00,(byte)num };
 				cmd[1] = (byte)(cmd.Length - 2);
@@ -314,11 +371,11 @@ namespace Harry.LabMcuProject
 				this.defaultCOMMPort.m_COMMIsChildCMD = true;
 
 				this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
-				if ((res != null) && (this.defaultCOMMPort.m_COMMReadData.defaultParentCMD == cmd[2]) && (this.defaultCOMMPort.m_COMMReadData.defaultChildCMD == cmd[3]) && (this.defaultCOMMPort.m_COMMReadData.defaultResultFlag == 0))
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
 				{
 					//---ADC采样的次数
 					this.defaultADCSampleNum = num;
-					_return = res[res.Length - 1];
+					_return = this.defaultCOMMPort.m_COMMReadData.defaultResultFlag;
 					if (msg != null)
 					{
 						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "ADC采样次数设置成功，采样次数是：" + ((byte)num).ToString() + "\r\n", Color.Black, false);
@@ -328,10 +385,67 @@ namespace Harry.LabMcuProject
 			return _return;
 		}
 
+		/// <summary>
+		/// 读取ADC的采样结果
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ADC_ReadADCResult(RichTextBox msg = null)
+		{
+			int _return = -1;
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			{
+				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)(this.defaultADCVREFMode.Length+this.defaultADCChannel.Length+1)};
+				cmd[1] = (byte)(cmd.Length - 2);
+				byte[] res = null;
+				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+
+				this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
+				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
+				{
+					_return = this.defaultCOMMPort.m_COMMReadData.defaultResultFlag;
+
+					if (this.defaultADCResult==null)
+					{
+						this.defaultADCResult = new IDataADC();
+					}
+					//---通道号
+					this.defaultADCChannelIndex = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[0];
+					//---采样次数
+					this.defaultADCSampleNum = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[1];
+					//---增益选择
+					this.defaultADCGain = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[2];
+					//---计算ADC的采样结果
+					this.defaultADCResult.Init(this.defaultCOMMPort.m_COMMReadData.defaultDataByte, 3);
+
+					if (msg != null)
+					{
+						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "ADC采样次数设置成功，采样次数是：" + "\r\n", Color.Black, false);
+					}
+				}
+			}
+			return _return;
+		}
+
+		/// <summary>
+		/// 读取ADC的采样结果
+		/// </summary>
+		/// <param name="startMV"></param>
+		/// <param name="stepMV"></param>
+		/// <param name="stopMV"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ADC_ReadADCScanResult(float startMV, float stepMV, float stopMV,RichTextBox msg = null)
+		{
+			int _return = -1;
+			return _return;
+		}
+
 		#endregion
 
 		#region 私有函数
 
 		#endregion
+
 	}
 }

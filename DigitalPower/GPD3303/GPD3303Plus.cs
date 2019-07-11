@@ -21,6 +21,9 @@ namespace Harry.LabDigitalPower
 
 		#region 属性定义
 
+		/// <summary>
+		/// 通讯端口，使用的串口
+		/// </summary>
 		public virtual new COMMSerialPort m_COMM
 		{
 			get

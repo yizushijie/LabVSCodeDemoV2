@@ -242,10 +242,10 @@ namespace Harry.LabMcuForm
 					this.defaultLabMcuDevice.ADC_WriteADCVREFMode(this.comboBoxEx_SelectADCVREFMode.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				case "button_ReadADCChannel":
-					this.comboBoxEx_SelectADCChannel.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCChannel(0, this.richTextBoxEx_Msg);
+					this.comboBoxEx_SelectADCChannel.SelectedIndex = this.defaultLabMcuDevice.ADC_ReadADCChannel(this.comboBoxEx_SelectADCVREFMode.Items.Count+ this.comboBoxEx_SelectADCChannel.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				case "button_WriteADCChannel":
-					this.defaultLabMcuDevice.ADC_WriteADCChannel(this.comboBoxEx_SelectADCChannel.SelectedIndex, this.richTextBoxEx_Msg);
+					this.defaultLabMcuDevice.ADC_WriteADCChannel(this.comboBoxEx_SelectADCVREFMode.Items.Count + this.comboBoxEx_SelectADCChannel.SelectedIndex, this.richTextBoxEx_Msg);
 					break;
 				case "button_ReadADCSampleNum":
 					this.numericUpDownPlus_SampleNum.Value = (decimal)(this.defaultLabMcuDevice.ADC_ReadADCSampleNum((this.comboBoxEx_SelectADCVREFMode.Items.Count+this.m_ComboBoxSelectADCChannel.Items.Count),this.richTextBoxEx_Msg));
@@ -254,22 +254,44 @@ namespace Harry.LabMcuForm
 					this.defaultLabMcuDevice.ADC_WriteADCSampleNum((this.comboBoxEx_SelectADCVREFMode.Items.Count + this.m_ComboBoxSelectADCChannel.Items.Count), (int)this.numericUpDownPlus_SampleNum.Value, this.richTextBoxEx_Msg);
 					break;
 				case "button_DoADCFunc":
-					this.Button_DoADCFunc((float)this.numericUpDownPlus_StartPower.Value, (float)this.numericUpDownPlus_StepPower.Value, (float)this.numericUpDownPlus_StopPower.Value);
+					if ((int)(this.numericUpDownPlus_DigitalPowerChannel.Value) == 0)
+					{
+						this.defaultLabMcuDevice.ADC_ReadADCResult(this.richTextBoxEx_Msg);
+					}
+					else
+					{
+						this.defaultLabMcuDevice.ADC_ReadADCScanResult((float)this.numericUpDownPlus_StartPower.Value, (float)this.numericUpDownPlus_StepPower.Value, (float)this.numericUpDownPlus_StopPower.Value, this.richTextBoxEx_Msg);
+					}
 					break;
 				default:
 					break;
 			}
 			btn.Enabled = true;
 		}
-		
+
 		/// <summary>
-		/// 
+		/// NumericUpDown控件的值发生变化
 		/// </summary>
-		/// <returns></returns>
-		public virtual int Button_DoADCFunc(float startMV,float stepMV,float stopMV)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		public virtual void NumericUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			int _return = -1;
-			return _return;
+			NumericUpDown nun = (NumericUpDown)sender;
+			switch (nun.Name)
+			{
+				case "numericUpDownPlus_DigitalPowerChannel":
+					if ((int)(this.numericUpDownPlus_DigitalPowerChannel.Value)==0)
+					{
+						this.button_DoADCFunc.Text = "读取ADC";
+					}
+					else
+					{
+						this.button_DoADCFunc.Text = "开始扫描";
+					}
+					break;
+				default:
+					break;
+			}
 		}
 
 		/// <summary>
@@ -304,7 +326,7 @@ namespace Harry.LabMcuForm
 		private void StartUpInit()
 		{
 
-			this.commSerialPortPlus_Device.m_COMMPortBaudRate = 9600;
+			this.commSerialPortPlus_Device.m_COMMBaudRate = 9600;
 
 			//---注册端口同步事件
 			this.defaultDeviceCOMMPort.m_OnCOMMSYNCEvent = new COMMBasePort.COMMSYNCEventHandler(this.SYNCCOMMPortEvent);
@@ -321,6 +343,15 @@ namespace Harry.LabMcuForm
 				this.defaultLabMcuDevice.m_COMMPort = this.defaultDeviceCOMMPort;
 			}
 
+			if ((int)(this.numericUpDownPlus_DigitalPowerChannel.Value) == 0)
+			{
+				this.button_DoADCFunc.Text = "读取ADC";
+			}
+			else
+			{
+				this.button_DoADCFunc.Text = "开始扫描";
+			}
+
 			this.button_ReadADCVREFMode.Click += new EventHandler(this.Button_Click);
 			this.button_WriteADCVREFMode.Click += new EventHandler(this.Button_Click);
 			this.button_ReadADCChannel.Click += new EventHandler(this.Button_Click);
@@ -329,6 +360,8 @@ namespace Harry.LabMcuForm
 			this.button_WriteADCSampleNum.Click += new EventHandler(this.Button_Click);
 			this.button_DoADCFunc.Click += new EventHandler(this.Button_Click);
 
+			this.numericUpDownPlus_DigitalPowerChannel.ValueChanged += new EventHandler(this.NumericUpDown_ValueChanged)
+;
 			this.Init();
 
 			this.FormControl(false);
