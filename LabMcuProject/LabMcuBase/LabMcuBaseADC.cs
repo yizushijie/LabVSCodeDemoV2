@@ -27,8 +27,20 @@ namespace Harry.LabMcuProject
 		};
 
 		/// <summary>
-		/// ADC通道选择
+		/// ADC的增益配置
 		/// </summary>
+
+		private int[] defaultADCGain =
+		{
+			1,
+			1,
+			10,
+			200,
+		};
+
+	/// <summary>
+	/// ADC通道选择
+	/// </summary>
 		private string[] defaultADCChannel =
 		{
 			"ADC0",
@@ -61,7 +73,7 @@ namespace Harry.LabMcuProject
 		/// <summary>
 		/// ADC的增益配置
 		/// </summary>
-		private int defaultADCGain = 0;
+		private int defaultADCGainIndex = 0;
 
 		/// <summary>
 		/// 内部参考电压1
@@ -77,6 +89,11 @@ namespace Harry.LabMcuProject
 		/// 通讯主命令
 		/// </summary>
 		private byte DEFAULT_ADC_CMD_PARENT = 0xA3;
+
+		/// <summary>
+		/// ADC的位数
+		/// </summary>
+		private int defaultADCBitsNum = 10;
 
 		/// <summary>
 		/// ADC结果
@@ -104,6 +121,21 @@ namespace Harry.LabMcuProject
 					this.defaultADCVREFMode = new string[] { };
 				}
 				this.defaultADCVREFMode = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual int[] m_ADCGain
+		{
+			get
+			{
+				return this.defaultADCGain;
+			}
+			set
+			{
+				this.defaultADCGain = value;
 			}
 		}
 
@@ -170,15 +202,15 @@ namespace Harry.LabMcuProject
 		/// <summary>
 		/// ADC增益配置
 		/// </summary>
-		public virtual int m_ADCGain
+		public virtual int m_ADCGainIndex
 		{
 			get
 			{
-				return this.defaultADCGain;
+				return this.defaultADCGainIndex;
 			}
 			set
 			{
-				this.defaultADCGain = value;
+				this.defaultADCGainIndex = value;
 			}
 		}
 
@@ -209,6 +241,21 @@ namespace Harry.LabMcuProject
 			set
 			{
 				this.defaultADCBandGap2 = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual int m_ADCBitsNum
+		{
+			get
+			{
+				return this.defaultADCBitsNum;
+			}
+			set
+			{
+				this.defaultADCBitsNum = value;
 			}
 		}
 
@@ -418,19 +465,7 @@ namespace Harry.LabMcuProject
 				{
 					_return = this.defaultCOMMPort.m_COMMReadData.defaultResultFlag;
 
-					if (this.defaultADCResult==null)
-					{
-						this.defaultADCResult = new IDataADC(this.defaultADCVREF);
-					}
-					this.defaultADCResult.defaultVREF = this.defaultADCVREF;
-					//---通道号
-					this.defaultADCChannelIndex = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[0];
-					//---采样次数
-					this.defaultADCSampleNum = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[1];
-					//---增益选择
-					this.defaultADCGain = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[2];
-					//---计算ADC的采样结果
-					this.defaultADCResult.Init(this.defaultCOMMPort.m_COMMReadData.defaultDataByte, 3);
+					this.AnalyseIDataADC();
 
 					if (msg != null)
 					{
@@ -466,6 +501,52 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCScanResult(float startMV, float stepMV, float stopMV,RichTextBox msg = null)
 		{
 			int _return = -1;
+			return _return;
+		}
+
+
+		/// <summary>
+		/// 分析ADC的采样数据
+		/// </summary>
+		/// <returns></returns>
+		public virtual bool AnalyseIDataADC()
+		{
+			bool _return = true;
+			int i = 0;
+			if (this.defaultADCResult == null)
+			{
+				this.defaultADCResult = new IDataADC(this.defaultADCVREF,this.defaultADCBitsNum);
+			}
+			this.defaultADCResult.defaultVREF = this.defaultADCVREF;
+			//---通道号
+			this.defaultADCChannelIndex = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[0];
+			//---采样次数
+			this.defaultADCSampleNum = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[1];
+			//---增益选择
+			this.defaultADCGainIndex = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[2];
+			//---增益等级配置
+			if (this.defaultADCGainIndex>0)
+			{
+				this.defaultADCResult.defaultGain = 1.0f / (this.defaultADCGain[this.defaultADCGainIndex]);
+			}
+			else
+			{
+				this.defaultADCResult.defaultGain = 1.0f;
+			}
+			//---计算ADC的采样结果
+			this.defaultADCResult.Init(this.defaultCOMMPort.m_COMMReadData.defaultDataByte, 3);
+			if (this.defaultADCGainIndex > 0)
+			{
+				if ((this.defaultADCResult.m_ADCAVGResult&(1<<(this.defaultADCBitsNum-1)))!=0)
+				{
+					//---ADC采样结果
+					for ( i= 0; i < this.defaultADCResult.defaultADCResult.Count; i++)
+					{
+						this.defaultADCResult.defaultADCResult[i] = ((1 << this.defaultADCBitsNum) - this.defaultADCResult.defaultADCResult[i]);
+					}
+					this.defaultADCResult.Init(this.defaultADCResult.defaultADCResult, 2,true);
+				}
+			}
 			return _return;
 		}
 

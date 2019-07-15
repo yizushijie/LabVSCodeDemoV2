@@ -38,6 +38,11 @@ namespace Harry.LabMcuProject
 		/// </summary>
 		public float defaultVREF = 5.0F;
 
+		/// <summary>
+		/// 增益配置
+		/// </summary>
+		public float defaultGain = 1.0F;
+
 		#endregion
 
 		#region 属性定义
@@ -103,7 +108,7 @@ namespace Harry.LabMcuProject
 					{
 						_return += this.defaultPowerResult[i];
 					}
-					return (_return / (i - index));
+					return (_return / (i - index))*this.defaultGain;
 				}
 				else
 				{
@@ -224,6 +229,7 @@ namespace Harry.LabMcuProject
 			for ( i = 0; i < this.defaultADCResult.Count; i++)
 			{
 				adcPower = (this.defaultVREF * this.defaultADCResult[i]) / (1 << this.defaultADCBits);
+				adcPower *= this.defaultGain;
 				this.defaultPowerResult.Add(adcPower);
 			}
 		}
@@ -237,6 +243,51 @@ namespace Harry.LabMcuProject
 		public virtual void Init(List<byte> adcResult, int position = 0, bool isHighFirst = true)
 		{
 			this.Init(adcResult.ToArray(), position, isHighFirst);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="adcResult"></param>
+		/// <param name="adcBitsGain"></param>
+		/// <param name="isNegative"></param>
+		public virtual void Init(List<int> adcResult, int adcBitsGain = 1,bool isNegative=false)
+		{
+			int i = 0;
+			float defaultTemp = 1.0f;
+			if (isNegative==true)
+			{
+				defaultTemp=-1.0F;
+			}
+			if (this.defaultADCResult == null)
+			{
+				this.defaultADCResult = new List<int>();
+			}
+			else
+			{
+				this.defaultADCResult.Clear();
+			}
+			for (i = 0; i < adcResult.Count; i += 1)
+			{
+				//---保存数据
+				this.defaultADCResult.Add(adcResult[i]);
+			}
+			//---计算转换结果的电压值
+			if (this.defaultPowerResult == null)
+			{
+				this.defaultPowerResult = new List<float>();
+			}
+			else
+			{
+				this.defaultPowerResult.Clear();
+			}
+			float adcPower = 0;
+			for (i = 0; i < this.defaultADCResult.Count; i++)
+			{
+				adcPower = (this.defaultVREF * this.defaultADCResult[i]*adcBitsGain) / (1 << this.defaultADCBits);
+				adcPower *= this.defaultGain;
+				this.defaultPowerResult.Add(adcPower*defaultTemp);
+			}
 		}
 
 		#endregion
