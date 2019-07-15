@@ -8,7 +8,9 @@ using System.Windows.Forms;
 
 namespace Harry.LabMcuProject
 {
-
+	/// <summary>
+	/// ADC测试相关的信息
+	/// </summary>
 	public partial  class LabMcuBase
 	{
 		#region 变量定义
@@ -54,7 +56,7 @@ namespace Harry.LabMcuProject
 		/// <summary>
 		/// 参考电压的值
 		/// </summary>
-		private float defaultADCVREF = 0;
+		private float defaultADCVREF = 5.0F;
 
 		/// <summary>
 		/// ADC的增益配置
@@ -80,7 +82,7 @@ namespace Harry.LabMcuProject
 		/// ADC结果
 		/// </summary>
 
-		private IDataADC defaultADCResult = new IDataADC();
+		private IDataADC defaultADCResult = null;
 
 		#endregion
 
@@ -121,6 +123,17 @@ namespace Harry.LabMcuProject
 					this.defaultADCChannel = new string[] { };
 				}
 				this.defaultADCChannel = value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual int m_ADCChannelIndex
+		{
+			get
+			{
+				return this.defaultADCChannelIndex;
 			}
 		}
 
@@ -262,7 +275,7 @@ namespace Harry.LabMcuProject
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
 				{
-					_return = res[this.defaultCOMMPort.m_COMMReadData.defaultRealityIndex];
+					_return = this.defaultCOMMPort.m_COMMReadData.defaultResultFlag;
 					if (msg != null)
 					{
 						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "写入参考电压是" + this.defaultADCVREFMode[childCMD] + "\r\n", Color.Black, false);
@@ -407,8 +420,9 @@ namespace Harry.LabMcuProject
 
 					if (this.defaultADCResult==null)
 					{
-						this.defaultADCResult = new IDataADC();
+						this.defaultADCResult = new IDataADC(this.defaultADCVREF);
 					}
+					this.defaultADCResult.defaultVREF = this.defaultADCVREF;
 					//---通道号
 					this.defaultADCChannelIndex = this.defaultCOMMPort.m_COMMReadData.defaultDataByte[0];
 					//---采样次数
@@ -420,7 +434,21 @@ namespace Harry.LabMcuProject
 
 					if (msg != null)
 					{
-						RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, "ADC采样次数设置成功，采样次数是：" + "\r\n", Color.Black, false);
+						RichTextBoxPlus.AppendTextInfoWithDataTime(msg, "ADC通道选择："+this.m_ADCChannel[this.defaultADCChannelIndex] +
+																		";采样次数是"+ this.defaultADCSampleNum .ToString()+ "\r\n", Color.Black, false);
+
+						for (int i = 0; i < this.defaultADCSampleNum; i++)
+						{
+							RichTextBoxPlus.AppendTextInfoWithDataTime(msg, "第"+(i+1).ToString()+"次采样结果:\r\n\t"+
+																			"数字量是："+this.defaultADCResult.defaultADCResult[i].ToString()+
+																			"\t模拟量是："+this.defaultADCResult.defaultPowerResult[i].ToString()+"V\r\n", Color.Black, false);
+						}
+						if (this.defaultADCSampleNum>1)
+						{
+							RichTextBoxPlus.AppendTextInfoWithDataTime(msg, "平均采样结果:\r\n\t" +
+																			"数字量是：" + this.defaultADCResult.m_ADCAVGResult.ToString() +
+																			"\t模拟量是：" + this.defaultADCResult.m_PowerAVGResult.ToString() + "V\r\n", Color.Black, false);
+						}
 					}
 				}
 			}

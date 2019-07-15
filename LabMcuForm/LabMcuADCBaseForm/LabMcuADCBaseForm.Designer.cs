@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam1 = new Harry.LabCOMMPort.COMMSerialPortParam();
 			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam2 = new Harry.LabCOMMPort.COMMSerialPortParam();
+			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam3 = new Harry.LabCOMMPort.COMMSerialPortParam();
 			this.groupBox_TestDevice = new System.Windows.Forms.GroupBox();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.numericUpDownPlus_SampleNum = new Harry.LabUserControlPlus.NumericUpDownPlus();
@@ -38,6 +38,7 @@
 			this.button_WriteADCSampleNum = new System.Windows.Forms.Button();
 			this.button_ReadADCSampleNum = new System.Windows.Forms.Button();
 			this.groupBox_ScanADCFunc = new System.Windows.Forms.GroupBox();
+			this.button_STOPFunc = new System.Windows.Forms.Button();
 			this.button_DoADCFunc = new System.Windows.Forms.Button();
 			this.label_StopPowerUnite = new System.Windows.Forms.Label();
 			this.label_StepPowerUnite = new System.Windows.Forms.Label();
@@ -144,6 +145,7 @@
 			// 
 			// groupBox_ScanADCFunc
 			// 
+			this.groupBox_ScanADCFunc.Controls.Add(this.button_STOPFunc);
 			this.groupBox_ScanADCFunc.Controls.Add(this.button_DoADCFunc);
 			this.groupBox_ScanADCFunc.Controls.Add(this.label_StopPowerUnite);
 			this.groupBox_ScanADCFunc.Controls.Add(this.label_StepPowerUnite);
@@ -163,9 +165,18 @@
 			this.groupBox_ScanADCFunc.TabStop = false;
 			this.groupBox_ScanADCFunc.Text = "ADC功能扫描";
 			// 
+			// button_STOPFunc
+			// 
+			this.button_STOPFunc.Location = new System.Drawing.Point(220, 99);
+			this.button_STOPFunc.Name = "button_STOPFunc";
+			this.button_STOPFunc.Size = new System.Drawing.Size(73, 23);
+			this.button_STOPFunc.TabIndex = 18;
+			this.button_STOPFunc.Text = "结束";
+			this.button_STOPFunc.UseVisualStyleBackColor = true;
+			// 
 			// button_DoADCFunc
 			// 
-			this.button_DoADCFunc.Location = new System.Drawing.Point(219, 93);
+			this.button_DoADCFunc.Location = new System.Drawing.Point(220, 66);
 			this.button_DoADCFunc.Name = "button_DoADCFunc";
 			this.button_DoADCFunc.Size = new System.Drawing.Size(73, 23);
 			this.button_DoADCFunc.TabIndex = 17;
@@ -239,7 +250,7 @@
 			this.numericUpDownPlus_StepPower.TabIndex = 5;
 			this.numericUpDownPlus_StepPower.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.numericUpDownPlus_StepPower.Value = new decimal(new int[] {
-            1,
+            16,
             0,
             0,
             0});
@@ -408,7 +419,7 @@
 			this.commSerialPortPlus_Device.m_COMM = null;
 			this.commSerialPortPlus_Device.m_COMMBaudRate = 115200;
 			this.commSerialPortPlus_Device.m_COMMForm = null;
-			this.commSerialPortPlus_Device.m_COMMParam = commSerialPortParam1;
+			this.commSerialPortPlus_Device.m_COMMParam = commSerialPortParam2;
 			this.commSerialPortPlus_Device.m_COMMRichTextBox = null;
 			this.commSerialPortPlus_Device.m_COMMShowParamMenu = true;
 			this.commSerialPortPlus_Device.Name = "commSerialPortPlus_Device";
@@ -432,7 +443,7 @@
 			this.GPD3303Plus_DigitalPower.m_COMM = null;
 			this.GPD3303Plus_DigitalPower.m_COMMBaudRate = 115200;
 			this.GPD3303Plus_DigitalPower.m_COMMForm = null;
-			this.GPD3303Plus_DigitalPower.m_COMMParam = commSerialPortParam2;
+			this.GPD3303Plus_DigitalPower.m_COMMParam = commSerialPortParam3;
 			this.GPD3303Plus_DigitalPower.m_COMMRichTextBox = null;
 			this.GPD3303Plus_DigitalPower.m_COMMShowParamMenu = true;
 			this.GPD3303Plus_DigitalPower.Name = "GPD3303Plus_DigitalPower";
@@ -514,5 +525,6 @@
 		private System.Windows.Forms.Label label_ADCSampleNum;
 		private System.Windows.Forms.Button button_WriteADCSampleNum;
 		private System.Windows.Forms.Button button_ReadADCSampleNum;
+		private System.Windows.Forms.Button button_STOPFunc;
 	}
 }

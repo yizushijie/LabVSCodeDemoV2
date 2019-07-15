@@ -1,5 +1,6 @@
 ﻿using Harry.LabCOMMPort;
 using Harry.LabUserControlPlus;
+using Harry.LabUserGenFunc;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -32,7 +33,7 @@ namespace Harry.LabDigitalPower
 		/// <summary>
 		/// 定义延时等待时间
 		/// </summary>
-		private int defaultDelayTime = 200;
+		private int defaultDelayTime =400;
 
 		#endregion
 
@@ -112,13 +113,21 @@ namespace Harry.LabDigitalPower
 		/// <returns></returns>
 		public virtual bool SetChannelDefaultVoltage(int channel, float voltage,string unite="V")
 		{
-			if (unite=="mV")
+			if ((unite.ToUpper()=="MV"))
 			{
 				voltage /= (float)1000.0;
 			}
-			else if (unite=="uV")
+			else if (unite.ToUpper() == "UV")
 			{
 				voltage/= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "V")
+			{
+				voltage *= (float)1.0;
+			}
+			else
+			{
+				voltage = 0.0F;
 			}
 			if (voltage >30.00)
 			{
@@ -128,7 +137,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort!=null)&&(this.m_COMMPort.IsAttached()==true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime+100);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
@@ -151,7 +161,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
 				{
 					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -169,13 +180,21 @@ namespace Harry.LabDigitalPower
 				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			if (unite == "mV")
+			if ((unite.ToUpper() == "MV"))
 			{
 				voltage *= (float)1000.0;
 			}
-			else if (unite == "uV")
+			else if (unite.ToUpper() == "UV")
 			{
 				voltage *= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "V")
+			{
+				voltage *= (float)1.0;
+			}
+			else
+			{
+				voltage = 0.0F;
 			}
 			if (voltage > 30.00)
 			{
@@ -198,7 +217,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
 				{
 					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -216,13 +236,21 @@ namespace Harry.LabDigitalPower
 				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			if (unite == "mV")
+			if ((unite.ToUpper() == "MV"))
 			{
 				voltage *= (float)1000.0;
 			}
-			else if (unite == "uV")
+			else if (unite.ToUpper() == "UV")
 			{
 				voltage *= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "V")
+			{
+				voltage *= (float)1.0;
+			}
+			else
+			{
+				voltage = 0.0F;
 			}
 			if (voltage > 30.00)
 			{
@@ -240,13 +268,21 @@ namespace Harry.LabDigitalPower
 		/// <returns></returns>
 		public virtual bool SetChannelDefaultCurrent(int channel, float current, string unite = "A")
 		{
-			if (unite == "mA")
+			if ((unite.ToUpper() == "MA"))
 			{
 				current /= (float)1000.0;
 			}
-			else if (unite == "uA")
+			else if (unite.ToUpper() == "UA")
 			{
 				current /= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "A")
+			{
+				current *= (float)1.0;
+			}
+			else
+			{
+				current = 0.1F;
 			}
 			if (current > 3.00)
 			{
@@ -256,7 +292,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
@@ -279,7 +316,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
 				{
 					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -297,13 +335,21 @@ namespace Harry.LabDigitalPower
 				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			if (unite == "mA")
+			if ((unite.ToUpper() == "MA"))
 			{
 				current *= (float)1000.0;
 			}
-			else if (unite == "uA")
+			else if (unite.ToUpper() == "UA")
 			{
 				current *= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "A")
+			{
+				current *= (float)1.0;
+			}
+			else
+			{
+				current = 0.0F;
 			}
 			if (current > 3.00)
 			{
@@ -325,7 +371,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
 				{
 					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -343,13 +390,21 @@ namespace Harry.LabDigitalPower
 				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			if (unite == "mA")
+			if ((unite.ToUpper() == "MA"))
 			{
 				current *= (float)1000.0;
 			}
-			else if (unite == "uA")
+			else if (unite.ToUpper() == "UA")
 			{
 				current *= (float)100000.0;
+			}
+			else if (unite.ToUpper() == "A")
+			{
+				current *= (float)1.0;
+			}
+			else
+			{
+				current = 0.0F;
 			}
 			if (current > 3.00)
 			{
@@ -436,7 +491,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
@@ -456,7 +512,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
@@ -476,7 +533,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
 				{
 					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -511,7 +569,8 @@ namespace Harry.LabDigitalPower
 					this.m_COMMPort.m_COMMSerialPort.BaudRate = baudRate[i];
 					//---获取设备的识别信息，厂家，型号，序列号及软件版本
 					this.m_COMMPort.m_COMMSerialPort.Write("*IDN?\r\n");
-					Thread.Sleep(this.defaultDelayTime);
+					//Thread.Sleep(this.defaultDelayTime);
+					DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 					if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 6)
 					{
 						string idn = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
@@ -544,7 +603,8 @@ namespace Harry.LabDigitalPower
 			if ((this.m_COMMPort != null) && (this.m_COMMPort.m_COMMSerialPort.IsOpen) && (this.m_COMMPort.m_COMMIndex != 0))
 			{
 				this.m_COMMPort.m_COMMSerialPort.Write(string.Format("BAUD{0}\r\n", baudRate));
-				Thread.Sleep(this.defaultDelayTime);
+				//Thread.Sleep(this.defaultDelayTime);
+				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				_return = 0;
 			}
 			return _return;

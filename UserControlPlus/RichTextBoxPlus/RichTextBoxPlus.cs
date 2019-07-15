@@ -190,7 +190,7 @@ namespace Harry.LabUserControlPlus
         /// <param name="text"></param>
         /// <param name="textColor"></param>
         /// <param name="newLine"></param>
-        public static void AppendTextInfoWithDateTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
+        public static void AppendTextInfoWithDataTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
         {
             string str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
 
@@ -248,7 +248,7 @@ namespace Harry.LabUserControlPlus
         /// <param name="text"></param>
         /// <param name="textColor"></param>
         /// <param name="newLine"></param>
-        public static void AppendTextInfoWithoutDateTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
+        public static void AppendTextInfoWithoutDataTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
         {
 
 			//---检查对象控件
@@ -356,7 +356,7 @@ namespace Harry.LabUserControlPlus
         /// <param name="text"></param>
         /// <param name="textColor"></param>
         /// <param name="newLine"></param>
-        public static void AppendTextInfoTopWithoutDateTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
+        public static void AppendTextInfoTopWithoutDataTime(RichTextBox rtBox, string text, Color textColor, bool newLine = true)
         {
             string temp = string.Empty;
 

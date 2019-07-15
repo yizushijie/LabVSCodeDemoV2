@@ -855,8 +855,12 @@ namespace Harry.LabCOMMPort
 				{
 					//---去除字符串中非数字字符
 					string str = Regex.Replace(argNames[index], @"[^\d]*", "");
-					//---将字符串转换成数字
-					temp.Add((byte)(int.Parse(str)));
+					//---不获取COM1，一般为系统使用，不可被外部调用操作
+					//if (str!="1")
+					{
+						//---将字符串转换成数字
+						temp.Add((byte)(int.Parse(str)));
+					}
 				}
 			}
 			//---从到大小排列数据
@@ -2878,23 +2882,31 @@ namespace Harry.LabCOMMPort
 					//---更新端口参数
 					this.m_COMMPortParam = (COMMSerialPortParam)commSerialPortParam;
 
-					//---打开端口
-					this.defaultSerialPort.Open();
-
-					//---判断端口打开是否成功
-					if (this.defaultSerialPort.IsOpen == false)
+					try
 					{
-						//---端口状态，错误状态
-						this.m_COMMSTATE = USE_STATE.ERROR;
-						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开失败!\r\n";
-						_return = 3;
+						//---打开端口
+						this.defaultSerialPort.Open();
+
+						//---判断端口打开是否成功
+						if (this.defaultSerialPort.IsOpen == false)
+						{
+							//---端口状态，错误状态
+							this.m_COMMSTATE = USE_STATE.ERROR;
+							this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开失败!\r\n";
+							_return = 3;
+						}
+						else
+						{
+							this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
+
+							//---注册事件接收函数
+							this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						}
 					}
-					else
+					catch 
 					{
-						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
-
-						//---注册事件接收函数
-						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						_return = 4;
+						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "初始化异常!\r\n";
 					}
 				}
 

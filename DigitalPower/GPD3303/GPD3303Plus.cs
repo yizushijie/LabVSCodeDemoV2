@@ -51,6 +51,28 @@ namespace Harry.LabDigitalPower
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual float m_CH1Voltage
+		{
+			get
+			{
+				return (float)this.numericUpDownPlus_CH1Voltage.Value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public virtual float m_CH2Voltage
+		{
+			get
+			{
+				return (float)this.numericUpDownPlus_CH2Voltage.Value;
+			}
+		}
+
 		#endregion
 
 		#region 构造函数
@@ -175,7 +197,7 @@ namespace Harry.LabDigitalPower
 			switch (btn.Name)
 			{
 				//---端口初始化
-				case "button_COMMInit":
+				case "button_COMM":
 					if (btn.Text == "打开设备")
 					{
 						this.OpenDevice();

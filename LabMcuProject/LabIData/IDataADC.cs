@@ -68,7 +68,7 @@ namespace Harry.LabMcuProject
 					{
 						_return += this.defaultADCResult[i];
 					}
-					return (_return / i);
+					return (_return / (i-index));
 				}
 				else
 				{
@@ -103,7 +103,7 @@ namespace Harry.LabMcuProject
 					{
 						_return += this.defaultPowerResult[i];
 					}
-					return (_return / i);
+					return (_return / (i - index));
 				}
 				else
 				{
@@ -122,6 +122,16 @@ namespace Harry.LabMcuProject
 		public IDataADC()
 		{
 
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="vrefPower"></param>
+		public IDataADC(float adcVREF,int adcBits=10)
+		{
+			this.defaultVREF = adcVREF;
+			this.defaultADCBits = adcBits;
 		}
 
 		#endregion
@@ -185,8 +195,8 @@ namespace Harry.LabMcuProject
 				{
 					for (j = 0; j < byteToADCResultNum; j++)
 					{
+						adcVal <<= 8;
 						adcVal += adcResult[i+j];
-						adcVal <<=8;
 					}
 					
 				}
@@ -194,8 +204,8 @@ namespace Harry.LabMcuProject
 				{
 					for (j = 0; j < byteToADCResultNum; j++)
 					{
-						adcVal += adcResult[i + byteToADCResultNum-1-j];
 						adcVal <<= 8;
+						adcVal += adcResult[i + byteToADCResultNum-1-j];						
 					}
 				}
 				//---保存数据

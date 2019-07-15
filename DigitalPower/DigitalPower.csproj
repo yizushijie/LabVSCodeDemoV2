@@ -71,6 +71,10 @@
       <Project>{E54A51A6-A054-4F21-AC22-A827B5EF4D36}</Project>
       <Name>UserControlPlus</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserGenFunc\UserGenFunc.csproj">
+      <Project>{C64AEEA0-7A08-4786-9F1E-BD66608E190E}</Project>
+      <Name>UserGenFunc</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GPD3303\GPD3303Plus.resx">
