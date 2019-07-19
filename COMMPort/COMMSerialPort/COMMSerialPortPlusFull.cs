@@ -134,24 +134,23 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public virtual new COMMSerialPortParam m_COMMParam
+		public override COMMPortParam m_COMMParam
 		{
 			get
 			{
-				COMMSerialPortParam _return = base.m_COMMParam as COMMSerialPortParam;
-				if (_return == null)
+				if (base.m_COMMParam==null)
 				{
-					_return = new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text, this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
+					base.m_COMMParam=new COMMSerialPortParam(this.m_COMMComboBox.Text, this.comboBox_COMMBaudRate.Text, this.comboBox_COMMParity.Text, this.comboBox_COMMDataBits.Text, this.comboBox_COMMStopBits.Text);
 				}
 				else
 				{
-					_return.defaultName = this.m_COMMComboBox.Text;
-					_return.defaultBaudRate = this.comboBox_COMMBaudRate.Text;
-					_return.defaultParity = this.comboBox_COMMParity.Text;
-					_return.defaultDataBits = this.comboBox_COMMDataBits.Text;
-					_return.defaultStopBits = this.comboBox_COMMStopBits.Text;
+					base.m_COMMParam.defaultName = this.m_COMMComboBox.Text;
+					base.m_COMMParam.defaultBaudRate = this.comboBox_COMMBaudRate.Text;
+					base.m_COMMParam.defaultParity = this.comboBox_COMMParity.Text;
+					base.m_COMMParam.defaultDataBits = this.comboBox_COMMDataBits.Text;
+					base.m_COMMParam.defaultStopBits = this.comboBox_COMMStopBits.Text;
 				}
-				return _return;
+				return base.m_COMMParam;
 			}
 			set
 			{

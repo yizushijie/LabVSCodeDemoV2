@@ -24,11 +24,11 @@ namespace Harry.LabDigitalPower
 		/// <summary>
 		/// 通讯端口，使用的串口
 		/// </summary>
-		public virtual new COMMSerialPort m_COMM
+		public override COMMBasePort m_COMM
 		{
 			get
 			{
-				return (COMMSerialPort)base.m_COMM;
+				return base.m_COMM;
 			}
 			set
 			{
@@ -70,6 +70,25 @@ namespace Harry.LabDigitalPower
 			get
 			{
 				return (float)this.numericUpDownPlus_CH2Voltage.Value;
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public override COMMPortParam m_COMMParam
+		{
+			get
+			{
+				return base.m_COMMParam;
+			}
+			set
+			{
+				if (base.m_COMMParam == null)
+				{
+					base.m_COMMParam = new COMMSerialPortParam();
+				}
+				base.m_COMMParam = value;
 			}
 		}
 
@@ -178,6 +197,10 @@ namespace Harry.LabDigitalPower
 			this.button_ReadCH2.Click += new EventHandler(this.Button_Click);
 			this.button_WriteCH2.Click += new EventHandler(this.Button_Click);
 
+
+			this.comboBoxEx_CH1Mode.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEx_SelectedIndexChanged);
+			this.comboBoxEx_CH2Mode.SelectedIndexChanged += new System.EventHandler(this.ComboBoxEx_SelectedIndexChanged);
+
 		}
 
 		#endregion
@@ -269,7 +292,37 @@ namespace Harry.LabDigitalPower
 			btn.Enabled = true;
 		}
 
-
+		private void ComboBoxEx_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox cbb = (ComboBox)sender;
+			cbb.Enabled = false;
+			switch (cbb.Name)
+			{
+				case "comboBoxEx_CH1Mode":
+					if ((cbb.Items[cbb.SelectedIndex].ToString() == "打开输出") || (cbb.Items[cbb.SelectedIndex].ToString() == "关闭输出"))
+					{
+						this.button_ReadCH1.Visible = false;
+					}
+					else
+					{
+						this.button_ReadCH1.Visible = true;
+					}
+					break;
+				case "comboBoxEx_CH2Mode":
+					if ((cbb.Items[cbb.SelectedIndex].ToString() == "打开输出") || (cbb.Items[cbb.SelectedIndex].ToString() == "关闭输出"))
+					{
+						this.button_ReadCH2.Visible = false;
+					}
+					else
+					{
+						this.button_ReadCH2.Visible = true;
+					}
+					break;
+				default:
+					break;
+			}
+			cbb.Enabled = true;
+		}
 		#endregion
 
 		#region 私有函数
@@ -317,7 +370,7 @@ namespace Harry.LabDigitalPower
 			{
 				if (this.defaultGPD3303==null)
 				{
-					this.defaultGPD3303 = new GPD3303(this.m_COMM);
+					this.defaultGPD3303 = new GPD3303((COMMSerialPort)this.m_COMM);
 				}
 				//---检验是否和数字电源通讯成功
 				if(this.defaultGPD3303.Init()==false)
@@ -328,5 +381,7 @@ namespace Harry.LabDigitalPower
 		}
 
 		#endregion
+
+		
 	}
 }

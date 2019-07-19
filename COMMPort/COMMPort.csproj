@@ -64,6 +64,9 @@
     <Compile Include="COMMPortForm\COMMSerialPortParamForm.Designer.cs">
       <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="COMMPortParam\COMMPortParam.cs" />
+    <Compile Include="COMMPortParam\COMMSerialPortParam.cs" />
+    <Compile Include="COMMPortParam\COMMUSBPortParam.cs" />
     <Compile Include="COMMSerialPort\COMMSerialPort.cs" />
     <Compile Include="COMMSerialPort\COMMSerialPortPlus.cs">
       <SubType>UserControl</SubType>
@@ -103,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="COMMBasePort\COMMBasePortPlus.zh.resx">
       <DependentUpon>COMMBasePortPlus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COMMPortForm\COMMBaseForm.resx">
+      <DependentUpon>COMMBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="COMMPortForm\COMMSerialPortParamForm.resx">
       <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>

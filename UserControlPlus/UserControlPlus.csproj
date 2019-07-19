@@ -77,6 +77,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UserGenFunc\UserGenFunc.csproj">
+      <Project>{C64AEEA0-7A08-4786-9F1E-BD66608E190E}</Project>
+      <Name>UserGenFunc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WinAPI\WinAPI.csproj">
       <Project>{b928595d-a068-47d0-9d31-89d592258d32}</Project>
       <Name>WinAPI</Name>

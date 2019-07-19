@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Harry.LabMdiForm
+namespace Harry.LabMainForm
 {
     public partial class LabMdiForm : Form
     {
@@ -24,9 +24,8 @@ namespace Harry.LabMdiForm
 		public LabMdiForm()
         {
 			InitializeComponent();
-
-            //---注册船体加载事件
-            this.Load += new System.EventHandler(this.MdiForm_FormLoad);
+			//---窗体初始化
+			this.StartUpInit();
         }
         
         /// <summary>
@@ -36,10 +35,9 @@ namespace Harry.LabMdiForm
         public LabMdiForm(Form argForm)
         {
             InitializeComponent();
-
-            //---注册船体加载事件
-            this.Load += new System.EventHandler(this.MdiForm_FormLoad);
-        }
+			//---窗体初始化
+			this.StartUpInit();
+		}
 
         #endregion
 
@@ -48,7 +46,7 @@ namespace Harry.LabMdiForm
         /// <summary>
         /// 船体初始化函数
         /// </summary>
-        private void MdiForm_Init()
+        private void StartUpInit()
         {
             //---事件注册
             this.FormClosing += new FormClosingEventHandler(this.MdiForm_FormClosing);
@@ -69,17 +67,6 @@ namespace Harry.LabMdiForm
         #endregion
 
         #region 事件处理
-
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-
-        private void MdiForm_FormLoad(object sender, System.EventArgs e)
-        {
-            this.MdiForm_Init();
-		}
 		
         /// <summary>
         /// 
@@ -139,7 +126,9 @@ namespace Harry.LabMdiForm
             tsm.Enabled = false;
 			int i = 0;
 			string exePatch = null;
-            switch (tsm.Name)
+			EmbeddedProcessForm txtForm = null;
+
+			switch (tsm.Name)
             {
                 //---退出操作
                 case "ToolStripMenuItem_Exit":
@@ -157,9 +146,38 @@ namespace Harry.LabMdiForm
                     break;
                 //---调用计算器，只能调用，不能嵌套
                 case "ToolStripMenuItem_Calc":
-					System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo();
-					Info.FileName = "calc.exe ";//"calc.exe"为计算器，"notepad.exe"为记事本
-					System.Diagnostics.Process Proc = System.Diagnostics.Process.Start(Info);
+					//System.Diagnostics.ProcessStartInfo Info = new System.Diagnostics.ProcessStartInfo();
+					//Info.FileName = "calc.exe ";//"calc.exe"为计算器，"notepad.exe"为记事本
+					//System.Diagnostics.Process Proc = System.Diagnostics.Process.Start(Info);
+					for (i = 0; i < this.MdiChildren.Length; i++)
+					{
+						if (this.MdiChildren[i].Text == "计算器")
+						{
+							//---判断当前窗体是否处于最小化状态，
+							if (this.MdiChildren[i].WindowState == FormWindowState.Minimized)
+							{
+								this.MdiChildren[i].WindowState = FormWindowState.Normal;
+							}
+							this.MdiChildren[i].Activate();
+							return;
+						}
+					}
+					exePatch = ExeFunc.GetExeNamePatch("calc.exe");
+					//---检查应用是否存在
+					if (exePatch == null)
+					{
+						exePatch = @"C:\Windows\system32\calc.exe";
+					}
+					//---将外部应用嵌套当前窗体
+					if (txtForm == null)
+					{
+						txtForm = new EmbeddedProcessForm(exePatch, "计算器");
+					}
+					//EmbeddedProcessForm txtForm = new EmbeddedProcessForm(exePatch,"记事本");
+					txtForm.MdiParent = this;
+					txtForm.StartPosition = FormStartPosition.CenterScreen;
+					txtForm.Show();
+					txtForm.Focus();
 					break;
                 //---调用文本编辑器
                 case "ToolStripMenuItem_TXT":
@@ -177,14 +195,18 @@ namespace Harry.LabMdiForm
 							return;
 						}
 					}
-					exePatch = ExeFunc.GetExeNamePatch("notepad++.exe");
+					exePatch = ExeFunc.GetExeNamePatch("notepad.exe");
 					//---检查应用是否存在
 					if (exePatch==null)
 					{
 						exePatch = @"C:\Windows\system32\notepad.exe";
 					}
 					//---将外部应用嵌套当前窗体
-					EmbeddedProcessForm txtForm = new EmbeddedProcessForm(exePatch,"记事本");
+					if (txtForm == null)
+					{
+						txtForm = new EmbeddedProcessForm(exePatch, "记事本");
+					}
+					//EmbeddedProcessForm txtForm = new EmbeddedProcessForm(exePatch,"记事本");
 					txtForm.MdiParent = this;
 					txtForm.StartPosition = FormStartPosition.CenterScreen;
 					txtForm.Show();
@@ -234,7 +256,7 @@ namespace Harry.LabMdiForm
 				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
 				this.Controls.Clear();
 				InitializeComponent();
-				this.MdiForm_Init();
+				this.StartUpInit();
 			}
 		}
 
@@ -248,7 +270,7 @@ namespace Harry.LabMdiForm
 			System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
 			this.Controls.Clear();
 			InitializeComponent();
-			this.MdiForm_Init();
+			this.StartUpInit();
 		}
 
 		#endregion

@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam1 = new Harry.LabCOMMPort.COMMSerialPortParam();
+			Harry.LabCOMMPort.COMMSerialPortParam commSerialPortParam4 = new Harry.LabCOMMPort.COMMSerialPortParam();
 			this.groupBox_PowerCH1 = new System.Windows.Forms.GroupBox();
 			this.label_CH1Mode = new System.Windows.Forms.Label();
 			this.comboBoxEx_CH1Mode = new Harry.LabUserControlPlus.ComboBoxEx();
@@ -74,7 +74,7 @@
 			this.panel_COMMName.Controls.SetChildIndex(this.pictureBox_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.groupBox_CH2, 0);
 			// 
-			// button_COMMInit
+			// button_COMM
 			// 
 			this.button_COMM.Location = new System.Drawing.Point(187, 2);
 			// 
@@ -82,7 +82,7 @@
 			// 
 			this.panel_COMM.Size = new System.Drawing.Size(296, 198);
 			// 
-			// groupBox_COMMName
+			// groupBox_COMM
 			// 
 			this.groupBox_COMM.Size = new System.Drawing.Size(290, 192);
 			// 
@@ -322,7 +322,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.m_COMMParam = commSerialPortParam1;
+			this.m_COMMParam = commSerialPortParam4;
 			this.Name = "GPD3303Plus";
 			this.Size = new System.Drawing.Size(296, 200);
 			this.panel_COMMName.ResumeLayout(false);

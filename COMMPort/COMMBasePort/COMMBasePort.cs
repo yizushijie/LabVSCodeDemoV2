@@ -32,41 +32,7 @@ namespace Harry.LabCOMMPort
         ERROR = 4,              //---错误状态
     };
 	#endregion
-
-	#region 通信端口的参数配置
-
-	/// <summary>
-	/// 通讯端口的配置
-	/// </summary>
-	public class COMMPortParam
-	{
-		#region 变量定义
-
-		#endregion
-
-		#region 属性定义
-
-		#endregion
-
-		#region 构造函数
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public COMMPortParam()
-		{
-
-		}
-
-		#endregion
-
-		#region 函数定义
-
-		#endregion
-
-	}
-	#endregion
-
+	
 	#region 通讯端口的基类
 
 	public partial class COMMBasePort : IDisposable
@@ -462,7 +428,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 通讯端口的参数
 		/// </summary>
-		public virtual COMMPortParam m_COMMPortParam
+		public virtual COMMPortParam m_COMMParam
 		{
 			get
 			{

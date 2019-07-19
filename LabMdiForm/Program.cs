@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Harry.LabMdiForm
+namespace Harry.LabMainForm
 {
     static class Program
     {
@@ -13,7 +13,12 @@ namespace Harry.LabMdiForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new LabMdiForm());
-        }
+			//Application.Run(new LabLoginForm());
+			LabLoginForm frmLogin = new LabLoginForm();
+			if (frmLogin.ShowDialog() == DialogResult.OK)
+			{
+				Application.Run(new LabMdiForm());
+			}
+		}
     }
 }

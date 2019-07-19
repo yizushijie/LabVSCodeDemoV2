@@ -24,7 +24,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置参数
 		/// </summary>
-		public virtual COMMSerialPortParam m_COMMPortParam
+		public virtual COMMPortParam m_COMMPortParam
 		{
 			get
 			{
@@ -68,14 +68,14 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="argName"></param>
 		/// <param name="commSerialPortParam"></param>
-		public COMMSerialPortParamForm(string argName, COMMSerialPortParam commSerialPortParam)
+		public COMMSerialPortParamForm(string argName, COMMPortParam commPortParam)
 		{
 			InitializeComponent();
 			//---限定最小尺寸
 			this.MinimumSize = this.Size;
 			this.MaximumSize = this.Size;
 			//---
-			this.Init(argName, commSerialPortParam);
+			this.Init(argName, commPortParam);
 
 		}
 
@@ -85,7 +85,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="argName"></param>
 		/// <param name="commSerialPortParam"></param>
-		public COMMSerialPortParamForm(ComboBox argName, COMMSerialPortParam commSerialPortParam)
+		public COMMSerialPortParamForm(ComboBox argName, COMMPortParam commSerialPortParam)
 		{
 			InitializeComponent();
 			//---限定最小尺寸
@@ -150,7 +150,7 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="argName"></param>
-		public virtual void Init(string argName,COMMSerialPortParam commSerialPortParam)
+		public virtual void Init(string argName,COMMPortParam commSerialPortParam)
 		{
 			this.Init(argName);
 			if (commSerialPortParam==null)
@@ -204,7 +204,7 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="argName"></param>
-		public virtual void Init(ComboBox argName, COMMSerialPortParam commSerialPortParam)
+		public virtual void Init(ComboBox argName, COMMPortParam commSerialPortParam)
 		{
 			this.Init(argName);
 			if (commSerialPortParam == null)

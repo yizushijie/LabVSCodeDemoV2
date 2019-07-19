@@ -1,4 +1,4 @@
-﻿namespace Harry.LabMdiForm
+﻿namespace Harry.LabMainForm
 {
     partial class LabMdiForm
     {

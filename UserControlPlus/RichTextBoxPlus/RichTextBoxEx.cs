@@ -31,8 +31,11 @@ namespace Harry.LabUserControlPlus
 			ToolStripItem tsItem;
 			this.ContextMenuStrip=this.userContextMenuStrip;
 
-			//---添加清楚消息的功能
-			tsItem= ContextMenuPlus.AddContextMenu("清除", this.userContextMenuStrip.Items, new EventHandler(this.Clear_Click));
+			//---添加清除消息的功能
+			tsItem = ContextMenuPlus.AddContextMenu("清除", this.userContextMenuStrip.Items, new EventHandler(this.Delete_Click));
+			tsItem = ContextMenuPlus.AddContextMenu("复制", this.userContextMenuStrip.Items, new EventHandler(this.Copy_Click));
+			tsItem = ContextMenuPlus.AddContextMenu("粘贴", this.userContextMenuStrip.Items, new EventHandler(this.Paste_Click));
+			tsItem = ContextMenuPlus.AddContextMenu("剪切", this.userContextMenuStrip.Items, new EventHandler(this.Cut_Click));
 
 			this.ContextMenuStrip.Width=64;
 		}
@@ -46,10 +49,58 @@ namespace Harry.LabUserControlPlus
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Clear_Click(object sender, EventArgs e)
+		private void Delete_Click(object sender, EventArgs e)
 		{
 			this.Clear();
         }
+
+		/// <summary>
+		/// 复制操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Copy_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Clipboard.SetDataObject(this.SelectedText, true);
+			}
+			catch
+			{
+				return;
+			}
+		}
+
+		/// <summary>
+		/// 粘贴操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Paste_Click(object sender, EventArgs e)
+		{
+			if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+			{
+				this.Paste();
+			}
+		}
+
+		/// <summary>
+		/// 剪切操作
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Cut_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Clipboard.SetDataObject(this.SelectedText);
+				this.SelectedText = "";
+			}
+			catch
+			{
+				return;
+			}
+		}
 
 		#endregion 事件定义
 	}

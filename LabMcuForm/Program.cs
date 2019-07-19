@@ -17,8 +17,9 @@ namespace Harry.LabMcuForm
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			//Application.Run(new LabMcuADCBaseForm());
-			Application.Run(new LabMcuADCFMD9009Form());
-			
+			//Application.Run(new LabMcuADCFMD9009Form());
+			Application.Run(new LabMcuRCBaseForm());
+
 		}
 	}
 }

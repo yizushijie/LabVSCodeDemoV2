@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using Harry.LabWinAPI;
 using System.Runtime.InteropServices;
+using Harry.LabUserGenFunc;
 
 namespace Harry.LabUserControlPlus
 {
@@ -26,7 +27,7 @@ namespace Harry.LabUserControlPlus
 		/// <summary>
 		/// 
 		/// </summary>
-		private ManualResetEvent _eventDone = new ManualResetEvent(false);
+		private readonly ManualResetEvent _eventDone = new ManualResetEvent(false);
 
 		/// <summary>
 		/// 
@@ -36,7 +37,7 @@ namespace Harry.LabUserControlPlus
 		/// <summary>
 		/// 
 		/// </summary>
-		private IntPtr defaultEmbededWindowHandle = (IntPtr)0;
+		private IntPtr defaultEmbededWindowHandle= (IntPtr)0;
 
 		#endregion
 
@@ -102,10 +103,23 @@ namespace Harry.LabUserControlPlus
 			}
 			ProcessStartInfo info = new ProcessStartInfo(appPath)
 			{
-				UseShellExecute = true,
+				//UseShellExecute = true,
+				//CreateNoWindow = true,
+				UseShellExecute = false,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				RedirectStandardInput= true,
+				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Minimized
 			};
 			Process process = Process.Start(info);
+
+			//if ((process==null)||(process.HasExited==true))
+			//{
+			//	///process = new Process();
+			//	//process.StartInfo.FileName = appPath;
+			//	process.Kill();
+			//}
 
 			return process;
 		}
@@ -143,7 +157,8 @@ namespace Harry.LabUserControlPlus
 				while (!isEmbedSuccess && setTime < 10)
 				{
 					isEmbedSuccess = (Win32API.SetParent(processHwnd, panelHwnd) != 0);
-					Thread.Sleep(100);
+					DelayFunc.DelayFuncDelayms(150);
+					//Thread.Sleep(100);
 					setTime++;
 				}
 				//---设置初始尺寸和位置
@@ -161,6 +176,9 @@ namespace Harry.LabUserControlPlus
 			return isEmbedSuccess;
 		}
 
+
+		
+
 		#endregion
 
 		#region 公有函数定义
@@ -177,14 +195,14 @@ namespace Harry.LabUserControlPlus
 
 			//---启动进程
 			this.defaulProcess = this.Start(processPath);
-
-			//---等待新进程完成它的初始化并等待用户输入
-			this.defaulProcess.WaitForInputIdle();
-
+			
 			if (this.defaulProcess == null)
 			{
 				return false;
 			}
+
+			//---等待新进程完成它的初始化并等待用户输入
+			this.defaulProcess.WaitForInputIdle();
 
 			//---确保可获取到句柄
 			Thread thread = new Thread(new ThreadStart(() =>
@@ -196,7 +214,9 @@ namespace Harry.LabUserControlPlus
 						this._eventDone.Set();
 						break;
 					}
-					Thread.Sleep(10);
+					//---
+					DelayFunc.DelayFuncDelayms(20);
+					//Thread.Sleep(10);
 				}
 			}));
 			thread.Start();
@@ -233,6 +253,34 @@ namespace Harry.LabUserControlPlus
 			this.defaulProcess = process;
 
 			return this.EmbeddedProcess(process);
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="strProcessesByName"></param>
+		public  void Kill(string strProcessesByName)//关闭线程
+		{
+			foreach (Process p in Process.GetProcesses())
+			{
+				if (p.ProcessName.ToUpper().Contains(strProcessesByName))
+				{
+					try
+					{
+						p.Kill();
+						p.WaitForExit(); // possibly with a timeout
+					}
+					catch (Win32Exception e)
+					{
+						MessageBox.Show(e.Message.ToString());   // process was terminating or can't be terminated - deal with it
+					}
+					catch (InvalidOperationException e)
+					{
+						MessageBox.Show(e.Message.ToString()); // process has already exited - might be able to let this one go
+					}
+				}
+			}
 		}
 
 		#endregion

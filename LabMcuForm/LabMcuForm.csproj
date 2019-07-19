@@ -57,6 +57,12 @@
     <Compile Include="LabMcuADCBaseForm\LabMcuADCBaseForm.Designer.cs">
       <DependentUpon>LabMcuADCBaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LabMcuRCBaseForm\LabMcuRCBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LabMcuRCBaseForm\LabMcuRCBaseForm.Designer.cs">
+      <DependentUpon>LabMcuRCBaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="LabMcuADCFMD9009Form\LabMcuADCFMD9009Form.cs">
       <SubType>Form</SubType>
@@ -70,6 +76,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LabMcuADCFMD9009Form\LabMcuADCFMD9009Form.resx">
       <DependentUpon>LabMcuADCFMD9009Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabMcuRCBaseForm\LabMcuRCBaseForm.resx">
+      <DependentUpon>LabMcuRCBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -105,5 +114,6 @@
       <Name>LabMcuProject</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

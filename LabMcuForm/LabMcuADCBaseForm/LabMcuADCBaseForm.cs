@@ -283,6 +283,19 @@ namespace Harry.LabMcuForm
 					this.defaultLabMcuDevice.ADC_WriteADCSampleNum((this.comboBoxEx_SelectADCVREFMode.Items.Count + this.m_ComboBoxSelectADCChannel.Items.Count), (int)this.numericUpDownPlus_SampleNum.Value, this.richTextBoxEx_Msg);
 					break;
 				case "button_DoADCFunc":
+					//---配置VREF
+					if (this.comboBoxEx_SelectADCVREFMode.SelectedIndex == 0)
+					{
+						if ((this.numericUpDownPlus_DigitalPowerChannel.Value == 0) || (this.numericUpDownPlus_DigitalPowerChannel.Value == 2))
+						{
+							this.defaultLabMcuDevice.m_ADCVREF = this.GPD3303Plus_DigitalPower.m_CH1Voltage;
+						}
+						else
+						{
+							this.defaultLabMcuDevice.m_ADCVREF = this.GPD3303Plus_DigitalPower.m_CH2Voltage;
+						}
+					}
+					//---功能执行操作
 					if ((int)(this.numericUpDownPlus_DigitalPowerChannel.Value) == 0)
 					{
 						this.defaultLabMcuDevice.ADC_ReadADCResult(this.richTextBoxEx_Msg);
@@ -363,9 +376,11 @@ namespace Harry.LabMcuForm
 			int stepMV = (int)this.numericUpDownPlus_StepPower.Value;
 			//---终止电压
 			int stopMV = (int)this.numericUpDownPlus_StopPower.Value;
-			int i = 0;
+			int i;//= 0;
 			this.defaultSTOP = false;
-			float setVoltage = 0.0f;
+			float setVoltage;
+			//---通道电压归零
+			this.GPD3303Plus_DigitalPower.m_GPD3303.SetChannelDefaultVoltage((int)this.numericUpDownPlus_DigitalPowerChannel.Value, 0);
 			for ( i = startMV; i <=stopMV; i+=stepMV)
 			{
 				//---设置通道电压
@@ -373,11 +388,6 @@ namespace Harry.LabMcuForm
 				if (i==startMV)
 				{
 					DelayFunc.DelayFuncDelayms(700);
-					RichTextBoxPlus.AppendTextInfoWithDataTime(this.richTextBoxEx_Msg,	"ADC通道选择：" + this.defaultLabMcuDevice.m_ADCChannel[this.defaultLabMcuDevice.m_ADCChannelIndex] +
-																						";采样次数是" + this.defaultLabMcuDevice.m_ADCSampleNum.ToString() + "\r\n", Color.Black, false);
-					RichTextBoxPlus.AppendTextInfoWithDataTime(this.richTextBoxEx_Msg,	"采样电压值: V" +
-																						";数字量是：" +
-																						";模拟量是：" +"V\r\n", Color.Black, false);
 				}
 				else
 				{
@@ -387,7 +397,15 @@ namespace Harry.LabMcuForm
 				setVoltage /= (float)1000.0;
 				//---读取ADC的结果
 				this.defaultLabMcuDevice.ADC_ReadADCResult(null);
-				RichTextBoxPlus.AppendTextInfoWithDataTime(this.richTextBoxEx_Msg,	setVoltage.ToString("f4")+
+				if (i==startMV)
+				{
+					RichTextBoxPlus.AppendTextInfoWithDataTime(this.richTextBoxEx_Msg, "ADC通道选择：" + this.defaultLabMcuDevice.m_ADCChannel[this.defaultLabMcuDevice.m_ADCChannelIndex] +
+																						";采样次数是" + this.defaultLabMcuDevice.m_ADCSampleNum.ToString() + "\r\n", Color.Black, false);
+					RichTextBoxPlus.AppendTextInfoWithDataTime(this.richTextBoxEx_Msg, "\r\n采样电压值: V" +
+																						";数字量是：" +
+																						";模拟量是：" + "V\r\n", Color.Black, false);
+				}
+				RichTextBoxPlus.AppendTextInfoWithoutDataTime(this.richTextBoxEx_Msg,	setVoltage.ToString("f4")+
 																					";" + this.defaultLabMcuDevice.m_ADCResult.defaultADCResult[0].ToString() +
 																					";" + this.defaultLabMcuDevice.m_ADCResult.defaultPowerResult[0].ToString("f4") + "\r\n", Color.Black, false);
 				//---检查退出操作指令
@@ -395,8 +413,9 @@ namespace Harry.LabMcuForm
 				{
 					break;
 				}
-
 			}
+			//---通道电压归零
+			this.GPD3303Plus_DigitalPower.m_GPD3303.SetChannelDefaultVoltage((int)this.numericUpDownPlus_DigitalPowerChannel.Value, 0);
 		}
 
 
@@ -448,8 +467,16 @@ namespace Harry.LabMcuForm
 			this.button_DoADCFunc.Click += new EventHandler(this.Button_Click);
 			this.button_STOPFunc.Click += new EventHandler(this.Button_Click);
 
-			this.numericUpDownPlus_DigitalPowerChannel.ValueChanged += new EventHandler(this.NumericUpDown_ValueChanged)
-;
+			this.numericUpDownPlus_DigitalPowerChannel.ValueChanged += new EventHandler(this.NumericUpDown_ValueChanged);
+
+			//---注册窗体关闭事件
+			this.FormClosing += new FormClosingEventHandler(this.Form_FormClosing);
+
+
+			this.ControlInit();
+
+			this.SizeChanged += new EventHandler(this.Form_SizeChanged);
+
 			this.Init();
 
 			this.FormControl(false);
@@ -464,8 +491,20 @@ namespace Harry.LabMcuForm
 			{
 				this.defaultLabMcuDevice.m_COMMPort = this.defaultDeviceCOMMPort;
 			}
+			if (this.InvokeRequired)
+			{
+				this.BeginInvoke((EventHandler)
+								 //cbb.Invoke((EventHandler)
+								 (delegate
+								 {
+									 this.FormControl(this.defaultDeviceCOMMPort.IsAttached());
+								 }));
+			}
+			else
+			{
 
-			this.FormControl(this.defaultDeviceCOMMPort.IsAttached());
+				this.FormControl(this.defaultDeviceCOMMPort.IsAttached());
+			}
 		}
 
 		/// <summary>
@@ -482,6 +521,136 @@ namespace Harry.LabMcuForm
 			this.button_WriteADCChannel.Enabled = isEnable;
 			this.button_WriteADCSampleNum.Enabled = isEnable;
 			this.button_WriteADCVREFMode.Enabled = isEnable;
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Form_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			switch (e.CloseReason)
+			{
+				case CloseReason.None:
+					break;
+				case CloseReason.WindowsShutDown:
+					break;
+				case CloseReason.MdiFormClosing:
+				case CloseReason.UserClosing:
+					if (DialogResult.OK == MessageBoxPlus.Show(this, "你确定要关闭应用程序吗？", "关闭提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
+					{
+						if (this.IsMdiContainer)
+						{
+							//----为保证Application.Exit();时不再弹出提示，所以将FormClosing事件取消
+							this.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(this.Form_FormClosing);
+						}
+
+						//---确认关闭事件
+						e.Cancel = false;
+
+						//---退出当前窗体
+						this.Dispose();
+					}
+					else
+					{
+						//---取消关闭事件
+						e.Cancel = true;
+					}
+					break;
+				case CloseReason.TaskManagerClosing:
+					break;
+				case CloseReason.FormOwnerClosing:
+					break;
+				case CloseReason.ApplicationExitCall:
+					break;
+				default:
+					break;
+			}
+		}
+
+
+
+		#endregion
+
+		#region 窗体自适应大小
+
+		private float defaultWidth=0.0F;
+		private float defaultHeight=0.0F;
+		private bool defaultSize = false;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private void ControlInit()
+		{
+			this.defaultWidth = this.Width;
+			this.defaultHeight = this.Height;
+			this.defaultSize = false;
+			this.ControlTag(this);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cons"></param>
+		private void ControlTag(Control cons)
+		{
+			foreach (Control con in cons.Controls)
+			{
+				con.Tag = con.Width + ":" + con.Height + ":" + con.Left + ":" + con.Top + ":" + con.Font.Size;
+				if (con.Controls.Count > 0)
+				{
+					ControlTag(con);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="newWidth"></param>
+		/// <param name="newHeight"></param>
+		/// <param name="cons"></param>
+		private void ControlResize(float newWidth, float newHeight, Control cons)
+		{
+			foreach (Control con in cons.Controls)
+			{
+				string[] myControlTag = con.Tag.ToString().Split(new char[] { ':' });
+				float a = Convert.ToSingle(myControlTag[0]) * newWidth;
+				con.Width = (int)a;
+				a = Convert.ToSingle(myControlTag[1]) * newHeight;
+				con.Height = (int)a;
+				a = Convert.ToSingle(myControlTag[2]) * newWidth;
+				con.Left = (int)a;
+				a = Convert.ToSingle(myControlTag[3]) * newHeight;
+				con.Top = (int)a;
+				Single currentsize = Convert.ToSingle(myControlTag[4]) * Math.Min(newWidth, newHeight);
+				con.Font = new Font(con.Font.Name, currentsize, con.Font.Style, con.Font.Unit);
+				if (con.Controls.Count > 0)
+				{
+					this.ControlResize(newWidth, newHeight, con);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Form_SizeChanged(object sender, EventArgs e)
+		{
+			if (this.defaultSize==false)
+			{
+				this.defaultSize = true;
+				return;
+			}
+			float newWidth = (this.Width) / this.defaultWidth;
+			float newHeight = (this.Height) / this.defaultHeight;
+			this.ControlResize(newWidth, newHeight, this);
+			//this.Text = this.Width.ToString() + "" + this.Height.ToString();
 		}
 
 		#endregion

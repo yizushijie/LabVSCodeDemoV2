@@ -25,11 +25,14 @@ namespace Harry.LabUserGenFunc
 			RegistryKey regKey = Registry.LocalMachine;
 			RegistryKey regSubKey = regKey.OpenSubKey(softPath + softName, false);
 
-			object objResult = regSubKey.GetValue(strKeyName);
-			RegistryValueKind regValueKind = regSubKey.GetValueKind(strKeyName);
-			if (regValueKind == Microsoft.Win32.RegistryValueKind.String)
+			if (regSubKey!=null)
 			{
-				_return = objResult.ToString();
+				object objResult = regSubKey.GetValue(strKeyName);
+				RegistryValueKind regValueKind = regSubKey.GetValueKind(strKeyName);
+				if (regValueKind == Microsoft.Win32.RegistryValueKind.String)
+				{
+					_return = objResult.ToString();
+				}
 			}
 			return _return;
 		}

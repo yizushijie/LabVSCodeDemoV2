@@ -18,22 +18,22 @@ namespace Harry.LabDigitalPower
 		/// <summary>
 		/// 最大输出电压30V
 		/// </summary>
-		private float defaultMaxVoltage =(float) 30.00;
+		private readonly float defaultMaxVoltage =(float) 30.00;
 
 		/// <summary>
 		/// 最大输出电流3A
 		/// </summary>
-		private float defaultMaxCurrent = (float)3.00;
+		private readonly float defaultMaxCurrent = (float)3.00;
 
 		/// <summary>
 		/// 通讯端口
 		/// </summary>
-		private COMMSerialPort defaultCOMMPort = null;
+		private COMMSerialPort defaultCOMM = null;
 
 		/// <summary>
 		/// 定义延时等待时间
 		/// </summary>
-		private int defaultDelayTime =400;
+		private readonly int defaultDelayTime =400;
 
 		#endregion
 
@@ -42,19 +42,19 @@ namespace Harry.LabDigitalPower
 		/// <summary>
 		/// 通讯端口属性为读写
 		/// </summary>
-		public virtual COMMSerialPort m_COMMPort
+		public virtual COMMSerialPort m_COMM
 		{
 			get
 			{
-				return this.defaultCOMMPort;
+				return this.defaultCOMM;
 			}
 			set
 			{
-				if (this.defaultCOMMPort==null)
+				if (this.defaultCOMM==null)
 				{
-					this.defaultCOMMPort = new COMMSerialPort();
+					this.defaultCOMM = new COMMSerialPort();
 				}
-				this.defaultCOMMPort = value;
+				this.defaultCOMM = value;
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Harry.LabDigitalPower
 		/// <summary>
 		/// 
 		/// </summary>
-		public  GPD3303()
+		public GPD3303()
 		{
 
 		}
@@ -76,7 +76,7 @@ namespace Harry.LabDigitalPower
 		/// <param name="usePort"></param>
 		public GPD3303(COMMSerialPort usePort,int delayTime=200)
 		{
-			this.m_COMMPort = usePort;
+			this.m_COMM = usePort;
 			this.defaultDelayTime = delayTime;
 		}
 
@@ -94,12 +94,12 @@ namespace Harry.LabDigitalPower
 			{
 				this.SetCOMMBaudRate(0); 
 				//---设置波特率为115200
-				this.m_COMMPort.m_COMMSerialPort.BaudRate = 115200;
-				this.m_COMMPort.m_COMMPortParam.defaultBaudRate =115200.ToString();
+				this.m_COMM.m_COMMSerialPort.BaudRate = 115200;
+				this.m_COMM.m_COMMParam.defaultBaudRate =115200.ToString();
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm,"GPD3303电源通信控制失败!\r\n","错误提示",MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm,"GPD3303电源通信控制失败!\r\n","错误提示",MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			return true;
@@ -134,15 +134,15 @@ namespace Harry.LabDigitalPower
 				voltage = this.defaultMaxVoltage;
 			}
 			string cmd = string.Format("VSET{0}:{1:f3}\r\n", channel, voltage);
-			if ((this.m_COMMPort!=null)&&(this.m_COMMPort.IsAttached()==true))
+			if ((this.m_COMM!=null)&&(this.m_COMM.IsAttached()==true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime+100);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			return true;
@@ -158,18 +158,18 @@ namespace Harry.LabDigitalPower
 		public virtual bool GetChannelDefaultVoltage(int channel, ref float voltage,  string unite = "V")
 		{
 			string cmd = string.Format("VSET{0}?\r\n", channel);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
+				if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 2)
 				{
-					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+					cmd = this.m_COMM.m_COMMSerialPort.ReadExisting();
 					string[] res = cmd.Split('V');
 					if ((res==null)||(res.Length<2))
 					{
-						MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "读取通道"+channel.ToString()+"电压值失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "读取通道"+channel.ToString()+"电压值失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return false;
 					}
 					voltage = Convert.ToSingle(res[0]);
@@ -177,7 +177,7 @@ namespace Harry.LabDigitalPower
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			if ((unite.ToUpper() == "MV"))
@@ -214,18 +214,18 @@ namespace Harry.LabDigitalPower
 		{
 			//---获取通道实际实际输出的电压值
 			string cmd = string.Format("VOUT{0}?\r\n", channel);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
+				if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 2)
 				{
-					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+					cmd = this.m_COMM.m_COMMSerialPort.ReadExisting();
 					string[] res = cmd.Split('V');
 					if ((res == null) || (res.Length < 2))
 					{
-						MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "读取通道" + channel.ToString() + "电压值失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "读取通道" + channel.ToString() + "电压值失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return false;
 					}
 					voltage = Convert.ToSingle(res[0]);
@@ -233,7 +233,7 @@ namespace Harry.LabDigitalPower
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			if ((unite.ToUpper() == "MV"))
@@ -289,15 +289,15 @@ namespace Harry.LabDigitalPower
 				current = this.defaultMaxCurrent;
 			}
 			string cmd = string.Format("ISET{0}:{1:f3}\r\n", channel, current);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			return true;
@@ -313,18 +313,18 @@ namespace Harry.LabDigitalPower
 		public virtual bool GetChannelDefaultCurrent(int channel, ref float current, string unite = "A")
 		{
 			string cmd = string.Format("ISET{0}?\r\n", channel);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
+				if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 2)
 				{
-					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+					cmd = this.m_COMM.m_COMMSerialPort.ReadExisting();
 					string[] res = cmd.Split('A');
 					if ((res == null) || (res.Length < 2))
 					{
-						MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "读取通道" + channel.ToString() + "电流失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "读取通道" + channel.ToString() + "电流失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return false;
 					}
 					current = Convert.ToSingle(res[0]);
@@ -332,7 +332,7 @@ namespace Harry.LabDigitalPower
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			if ((unite.ToUpper() == "MA"))
@@ -368,18 +368,18 @@ namespace Harry.LabDigitalPower
 		public virtual bool GetChannelActionCurrent(int channel, ref float current, string unite = "V")
 		{
 			string cmd = string.Format("IOUT{0}?\r\n", channel);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
+				if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 2)
 				{
-					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+					cmd = this.m_COMM.m_COMMSerialPort.ReadExisting();
 					string[] res = cmd.Split('A');
 					if ((res == null) || (res.Length < 2))
 					{
-						MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "读取通道" + channel.ToString() + "电流失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "读取通道" + channel.ToString() + "电流失败!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return false;
 					}
 					current = Convert.ToSingle(res[0]);
@@ -387,7 +387,7 @@ namespace Harry.LabDigitalPower
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			if ((unite.ToUpper() == "MA"))
@@ -488,15 +488,15 @@ namespace Harry.LabDigitalPower
 		public virtual bool EnableOutPutVoltage()
 		{
 			string cmd = string.Format("OUT{0}\r\n", 1);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			return true;
@@ -509,15 +509,15 @@ namespace Harry.LabDigitalPower
 		public virtual bool DisableOutPutVoltage()
 		{
 			string cmd = string.Format("OUT{0}\r\n", 0);
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			return true;
@@ -530,21 +530,21 @@ namespace Harry.LabDigitalPower
 		public virtual bool GetFlagOutPutVoltage()
 		{
 			string cmd = string.Format("STATUS?\r\n");
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.IsAttached() == true))
+			if ((this.m_COMM != null) && (this.m_COMM.IsAttached() == true))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(cmd);
+				this.m_COMM.m_COMMSerialPort.Write(cmd);
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-				if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 2)
+				if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 2)
 				{
-					cmd = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+					cmd = this.m_COMM.m_COMMSerialPort.ReadExisting();
 				}
 				int val = Convert.ToInt32(cmd);
 				return ((val&0x04)!=0);
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 		}
@@ -560,24 +560,24 @@ namespace Harry.LabDigitalPower
 		private int AutoGetCOMMBaudRate()
 		{
 			int[] baudRate = new int[] { 115200, 57600, 9600 };
-			int i = 0;
+			int i;
 			int _return = -1;
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.m_COMMSerialPort.IsOpen) && (this.m_COMMPort.m_COMMIndex != 0))
+			if ((this.m_COMM != null) && (this.m_COMM.m_COMMSerialPort.IsOpen) && (this.m_COMM.m_COMMIndex != 0))
 			{
 				for (i = 0; i < baudRate.Length; i++)
 				{
-					this.m_COMMPort.m_COMMSerialPort.BaudRate = baudRate[i];
+					this.m_COMM.m_COMMSerialPort.BaudRate = baudRate[i];
 					//---获取设备的识别信息，厂家，型号，序列号及软件版本
-					this.m_COMMPort.m_COMMSerialPort.Write("*IDN?\r\n");
+					this.m_COMM.m_COMMSerialPort.Write("*IDN?\r\n");
 					//Thread.Sleep(this.defaultDelayTime);
 					DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
-					if (this.m_COMMPort.m_COMMSerialPort.BytesToRead >= 6)
+					if (this.m_COMM.m_COMMSerialPort.BytesToRead >= 6)
 					{
-						string idn = this.m_COMMPort.m_COMMSerialPort.ReadExisting();
+						string idn = this.m_COMM.m_COMMSerialPort.ReadExisting();
 						if (idn.Contains("GW INSTEK"))
 						{
 							//---保存参数的波特率
-							this.m_COMMPort.m_COMMPortParam.defaultBaudRate = baudRate[i].ToString();
+							this.m_COMM.m_COMMParam.defaultBaudRate = baudRate[i].ToString();
 
 							_return = i;
 							break;
@@ -587,7 +587,7 @@ namespace Harry.LabDigitalPower
 			}
 			else
 			{
-				MessageBoxPlus.Show(this.m_COMMPort.m_COMMForm, "GPD3303电源通信端口异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBoxPlus.Show(this.m_COMM.m_COMMForm, "GPD3303电源通信端口异常!\r\n", "错误提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			return _return;
 		}
@@ -600,9 +600,9 @@ namespace Harry.LabDigitalPower
 		private int SetCOMMBaudRate(int baudRate)
 		{
 			int _return = -1;
-			if ((this.m_COMMPort != null) && (this.m_COMMPort.m_COMMSerialPort.IsOpen) && (this.m_COMMPort.m_COMMIndex != 0))
+			if ((this.m_COMM != null) && (this.m_COMM.m_COMMSerialPort.IsOpen) && (this.m_COMM.m_COMMIndex != 0))
 			{
-				this.m_COMMPort.m_COMMSerialPort.Write(string.Format("BAUD{0}\r\n", baudRate));
+				this.m_COMM.m_COMMSerialPort.Write(string.Format("BAUD{0}\r\n", baudRate));
 				//Thread.Sleep(this.defaultDelayTime);
 				DelayFunc.DelayFuncDelayms(this.defaultDelayTime);
 				_return = 0;

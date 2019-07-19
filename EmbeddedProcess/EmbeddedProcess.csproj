@@ -52,7 +52,7 @@
     <Compile Include="EmbeddedProcessForm\EmbeddedProcessForm.Designer.cs">
       <DependentUpon>EmbeddedProcessForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmbeddedProcessForm\Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EmbeddedProcessForm\EmbeddedProcessForm.resx">
       <DependentUpon>EmbeddedProcessForm.cs</DependentUpon>

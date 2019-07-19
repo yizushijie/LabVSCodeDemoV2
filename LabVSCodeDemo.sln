@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabMdiForm", "LabMdiForm\LabMdiForm.csproj", "{B5E21FB5-FE41-42D4-99ED-B1C1553CFBC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabMainForm", "LabMdiForm\LabMainForm.csproj", "{B5E21FB5-FE41-42D4-99ED-B1C1553CFBC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZedGraph", "ZedGraph\ZedGraph.csproj", "{B99650EE-AF46-47B4-A4A9-212ADE7809B7}"
 EndProject
@@ -30,6 +30,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabMcuForm", "LabMcuForm\LabMcuForm.csproj", "{B52D735B-616C-47A5-A490-835090E8C2B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabMcuProject", "LabMcuProject\LabMcuProject.csproj", "{08D243AD-3A8C-45D9-83F2-09859479817D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSVFile", "CSVFile\CSVFile.csproj", "{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFile", "ExcelFile\ExcelFile.csproj", "{F708C820-BA4E-4F3D-8078-D107412D8D56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -209,6 +213,30 @@ Global
 		{08D243AD-3A8C-45D9-83F2-09859479817D}.Release|x64.Build.0 = Release|Any CPU
 		{08D243AD-3A8C-45D9-83F2-09859479817D}.Release|x86.ActiveCfg = Release|Any CPU
 		{08D243AD-3A8C-45D9-83F2-09859479817D}.Release|x86.Build.0 = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|x64.Build.0 = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|x64.ActiveCfg = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|x64.Build.0 = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{42079EFC-0826-4AA7-8AF7-9FDCBB5F40C2}.Release|x86.Build.0 = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|x64.Build.0 = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Debug|x86.Build.0 = Debug|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|x64.ActiveCfg = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|x64.Build.0 = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|x86.ActiveCfg = Release|Any CPU
+		{F708C820-BA4E-4F3D-8078-D107412D8D56}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

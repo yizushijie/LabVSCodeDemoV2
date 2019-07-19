@@ -141,22 +141,20 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 配置端口参数
 		/// </summary>
-		public virtual new COMMSerialPortParam m_COMMParam
+		public override COMMPortParam m_COMMParam
 		{
 			get
 			{
-				COMMSerialPortParam _return = base.m_COMMParam as COMMSerialPortParam;
-				if (_return == null)
+				if (base.m_COMMParam == null)
 				{
-					_return = new COMMSerialPortParam(this.m_COMMComboBox.Text);
+					base.m_COMMParam = new COMMSerialPortParam(this.m_COMMComboBox.Text);
 				}
 				else
 				{
-					_return.defaultName = this.m_COMMComboBox.Text;
-			
+					base.m_COMMParam.defaultName = this.m_COMMComboBox.Text;
 				}
-				return _return;
-			} 
+				return base.m_COMMParam;
+			}
 			set
 			{
 				if (base.m_COMMParam == null)
@@ -164,9 +162,8 @@ namespace Harry.LabCOMMPort
 					base.m_COMMParam = new COMMSerialPortParam();
 				}
 				base.m_COMMParam = value;
-			} 
+			}
 		}
-
 		/// <summary>
 		/// 通讯端口的波特率
 		/// </summary>
@@ -324,7 +321,7 @@ namespace Harry.LabCOMMPort
 				if (this.m_COMM != null)
 				{
 					this.m_COMM.GetPortNames(this.m_COMMComboBox, argRichTextBox);
-					this.m_COMM.m_COMMPortParam = new COMMSerialPortParam(this.m_COMMComboBox.Text);
+					this.m_COMM.m_COMMParam = new COMMSerialPortParam(this.m_COMMComboBox.Text);
 				}
 			}
 			if (isAddWatcherPort == true)
@@ -412,7 +409,7 @@ namespace Harry.LabCOMMPort
 		private void ComboBoxMouseDown_Click(object sender, MouseEventArgs e)
 		{
 			ComboBox cbb = (ComboBox)sender;
-			int index = 0;
+			int index;
 			switch (cbb.Name)
 			{
 				case "comboBox_COMM":
@@ -459,10 +456,7 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
 						Color.Black, false);
 				}
-				if (this.m_COMM.m_OnCOMMSYNCEvent != null)
-				{
-					this.m_COMM.m_OnCOMMSYNCEvent();
-				}
+				this.m_COMM.m_OnCOMMSYNCEvent?.Invoke();
 
 				this.COMMControl(false);
 
@@ -500,10 +494,7 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
 						Color.Black, false);
 				}
-				if (this.m_COMM.m_OnCOMMSYNCEvent != null)
-				{
-					this.m_COMM.m_OnCOMMSYNCEvent();
-				}
+				this.m_COMM.m_OnCOMMSYNCEvent?.Invoke();
 				this.COMMControl(true);
 			}
 		}

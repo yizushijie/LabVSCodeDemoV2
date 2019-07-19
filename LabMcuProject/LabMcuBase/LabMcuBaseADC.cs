@@ -533,6 +533,7 @@ namespace Harry.LabMcuProject
 			{
 				this.defaultADCResult.defaultGain = 1.0f;
 			}
+			bool isNegative = false;
 			//---计算ADC的采样结果
 			this.defaultADCResult.Init(this.defaultCOMMPort.m_COMMReadData.defaultDataByte, 3);
 			if (this.defaultADCGainIndex > 0)
@@ -544,8 +545,10 @@ namespace Harry.LabMcuProject
 					{
 						this.defaultADCResult.defaultADCResult[i] = ((1 << this.defaultADCBitsNum) - this.defaultADCResult.defaultADCResult[i]);
 					}
-					this.defaultADCResult.Init(this.defaultADCResult.defaultADCResult, 2,true);
+					isNegative = true;
 				}
+				//---差分模式重新解析数据
+				this.defaultADCResult.Init(this.defaultADCResult.defaultADCResult.ToArray(), 2, isNegative);
 			}
 			return _return;
 		}

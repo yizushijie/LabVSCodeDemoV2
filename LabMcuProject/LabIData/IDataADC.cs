@@ -251,7 +251,7 @@ namespace Harry.LabMcuProject
 		/// <param name="adcResult"></param>
 		/// <param name="adcBitsGain"></param>
 		/// <param name="isNegative"></param>
-		public virtual void Init(List<int> adcResult, int adcBitsGain = 1,bool isNegative=false)
+		public virtual void Init(int[] adcResult, int adcBitsGain = 1,bool isNegative=false)
 		{
 			int i = 0;
 			float defaultTemp = 1.0f;
@@ -267,7 +267,7 @@ namespace Harry.LabMcuProject
 			{
 				this.defaultADCResult.Clear();
 			}
-			for (i = 0; i < adcResult.Count; i += 1)
+			for (i = 0; i < adcResult.Length; i += 1)
 			{
 				//---保存数据
 				this.defaultADCResult.Add(adcResult[i]);
@@ -286,6 +286,7 @@ namespace Harry.LabMcuProject
 			{
 				adcPower = (this.defaultVREF * this.defaultADCResult[i]*adcBitsGain) / (1 << this.defaultADCBits);
 				adcPower *= this.defaultGain;
+				adcPower=(float)Math.Round(adcPower, 4);
 				this.defaultPowerResult.Add(adcPower*defaultTemp);
 			}
 		}
