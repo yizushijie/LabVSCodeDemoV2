@@ -187,14 +187,14 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		protected override void OnLoad(EventArgs e)
 		{
-			//防止重入
+			//---防止重入
 			if (this._isShowDialogAgain)
 			{
 				return;
 			}
 
-			//需得减掉两层边框宽度，运行时尺寸才与设计时完全相符，原因不明
-			//确定与ControlBox、FormBorderStyle有关，但具体联系不明
+			//---需得减掉两层边框宽度，运行时尺寸才与设计时完全相符，原因不明
+			//---确定与ControlBox、FormBorderStyle有关，但具体联系不明
 			if (!this.DesignMode)
 			{
 				Size size = SystemInformation.FrameBorderSize;
@@ -209,13 +209,13 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		protected override void OnShown(EventArgs e)
 		{
-			//防止重入
+			//---防止重入
 			if (this._isShowDialogAgain)
 			{
 				return;
 			}
 
-			//在OnShown中为首次ShowDialog设标记
+			//---在OnShown中为首次ShowDialog设标记
 			if (this.Modal)
 			{
 				this._isShowDialogAgain = true;
@@ -223,7 +223,7 @@ namespace Harry.LabCOMMPort
 
 			if (!this.DesignMode)
 			{
-				//激活首控件
+				//---激活首控件
 				Control firstControl;
 				if ((firstControl = this.GetNextControl(this, true)) != null)
 				{
@@ -266,12 +266,12 @@ namespace Harry.LabCOMMPort
 		{
 			base.OnPaintBackground(e);
 
-			//绘制3D边框
+			//---绘制3D边框
 			if (this._borderType == BorderStyle.Fixed3D)
 			{
 				ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle);
 			}
-			//绘制线型边框
+			//---绘制线型边框
 			else if (this._borderType == BorderStyle.FixedSingle)
 			{
 				ControlPaint.DrawBorder(e.Graphics, ClientRectangle, BorderColor, BorderSingleStyle);
@@ -305,7 +305,7 @@ namespace Harry.LabCOMMPort
 		/// <param name="e"></param>
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
-			//让鼠标点击客户区时达到与点击标题栏一样的效果，以此实现客户区拖动
+			//---让鼠标点击客户区时达到与点击标题栏一样的效果，以此实现客户区拖动
 			NativeMethods.ReleaseCapture();
 			NativeMethods.SendMessage(Handle, 0xA1, (IntPtr)2, IntPtr.Zero);
 
@@ -437,7 +437,8 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		private DialogResult ShowDialogInternal(Component controlOrItem, Point offset)
 		{
-			//快速连续弹出本窗体将有可能遇到尚未Hide的情况下再次弹出，这会引发异常，故需做处理
+			
+			//---快速连续弹出本窗体将有可能遇到尚未Hide的情况下再次弹出，这会引发异常，故需做处理
 			if (this.Visible)
 			{
 				return System.Windows.Forms.DialogResult.None;
@@ -454,7 +455,22 @@ namespace Harry.LabCOMMPort
 			}
 
 			this.SetLocationAndOwner(controlOrItem, offset);
-			return base.ShowDialog();
+			DialogResult _return= DialogResult.None;
+			if (this.InvokeRequired)
+			{
+				this.Invoke((EventHandler)
+					(delegate
+					{
+						_return= base.ShowDialog();
+					}
+					)
+					);
+			}
+			else
+			{
+				_return =base.ShowDialog();
+			}
+			return _return;
 		}
 
 		/// <summary>
@@ -484,9 +500,8 @@ namespace Harry.LabCOMMPort
 		{
 			Point pt = Point.Empty;
 
-			if (controlOrItem is ToolStripItem)
+			if (controlOrItem is ToolStripItem item)
 			{
-				ToolStripItem item = (ToolStripItem)controlOrItem;
 				pt.Offset(item.Bounds.Location);
 				controlOrItem = item.Owner;
 			}
@@ -496,7 +511,7 @@ namespace Harry.LabCOMMPort
 			pt.Offset(offset);
 			this.Location = pt;
 
-			//设置Owner属性与Show[Dialog](Owner)有不同，当Owner是MDIChild时，后者会改Owner为MDIParent
+			//---设置Owner属性与Show[Dialog](Owner)有不同，当Owner是MDIChild时，后者会改Owner为MDIParent
 			this.Owner = c.FindForm();
 		}
 
@@ -799,6 +814,9 @@ namespace Harry.LabCOMMPort
 			[DllImport("user32.dll", SetLastError = true)]
 			private static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
+			[DllImport("user32.dll", ExactSpelling = true)]
+			public static extern IntPtr GetAncestor(IntPtr hwnd, uint flags);
+
 			[StructLayout(LayoutKind.Sequential)]
 			private struct RECT
 			{
@@ -828,9 +846,6 @@ namespace Harry.LabCOMMPort
 				GetWindowRect(hwnd, out rect);
 				return (Rectangle)rect;
 			}
-
-			//[DllImport("user32.dll", ExactSpelling = true)]
-			//public static extern IntPtr GetAncestor(IntPtr hwnd, uint flags);
 		}
 		
 	}

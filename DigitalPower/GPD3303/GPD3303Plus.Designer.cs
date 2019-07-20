@@ -69,7 +69,7 @@
 			this.panel_COMMName.Controls.Add(this.groupBox_PowerCH1);
 			this.panel_COMMName.Size = new System.Drawing.Size(284, 172);
 			this.panel_COMMName.Controls.SetChildIndex(this.groupBox_PowerCH1, 0);
-			this.panel_COMMName.Controls.SetChildIndex(this.comboBox_COMM, 0);
+			this.panel_COMMName.Controls.SetChildIndex(this.m_COMMComboBox, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.button_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.pictureBox_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.groupBox_CH2, 0);

@@ -55,7 +55,7 @@
 			this.panel_COMMName.Location = new System.Drawing.Point(5, 23);
 			this.panel_COMMName.Margin = new System.Windows.Forms.Padding(5);
 			this.panel_COMMName.Size = new System.Drawing.Size(189, 199);
-			this.panel_COMMName.Controls.SetChildIndex(this.comboBox_COMM, 0);
+			this.panel_COMMName.Controls.SetChildIndex(this.m_COMMComboBox, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.button_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.pictureBox_COMM, 0);
 			this.panel_COMMName.Controls.SetChildIndex(this.label_COMMPortBaudRate, 0);

@@ -32,20 +32,19 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 端口参数信息
 		/// </summary>
-		public virtual new COMMUSBPortParam m_COMMParam
+		public override COMMPortParam m_COMMParam
 		{
 			get
 			{
-				COMMUSBPortParam _return = base.m_COMMParam as COMMUSBPortParam;
-				if (_return == null)
+				if (base.m_COMMParam == null)
 				{
-					_return = new COMMUSBPortParam();
+					base.m_COMMParam = new COMMUSBPortParam();
 				}
 				else
 				{
-					_return.Init(0x2013,0x03EB);
+					base.m_COMMParam.Init(0x2013, 0x03EB);
 				}
-				return _return;
+				return base.m_COMMParam;
 			}
 			set
 			{

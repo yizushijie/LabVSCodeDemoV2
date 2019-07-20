@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoResize\AutoResize.cs" />
     <Compile Include="PanelPlus\PanelPlus.cs">
       <SubType>Component</SubType>
     </Compile>

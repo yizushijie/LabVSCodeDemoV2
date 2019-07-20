@@ -53,11 +53,6 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public int defaultPID = 0;
 
-		/// <summary>
-		/// 设备在当前设备集合中的索引号
-		/// </summary>
-		public int defaultIndex = -1;
-
 		#endregion
 
 		#endregion

@@ -499,62 +499,9 @@ namespace Harry.LabCOMMPort
 		/// <param name="argForm"></param>
 		public COMMBasePort(Form argForm)
 		{
-
+			this.defaultForm = argForm;
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="argForm"></param>
-		public COMMBasePort(Form argForm, ComboBox cbb, RichTextBox msg)
-		{
-
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
-		/// <param name="msg"></param>
-		public COMMBasePort(bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
-		{
-
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="argForm"></param>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
-		/// <param name="msg"></param>
-		public COMMBasePort(Form argForm, bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
-		{
-
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="bandRate"></param>
-		/// <param name="msg"></param>
-		public COMMBasePort(COMMPortParam commPortParam, RichTextBox msg)
-		{
-
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="commSerialPortParam"></param>
-		/// <param name="msg"></param>
-		public COMMBasePort(Form argForm, COMMPortParam commSerialPortParam, RichTextBox msg)
-		{
-
-		}
-
-
+		
 		#endregion
 
 		#region 析构函数
@@ -566,10 +513,7 @@ namespace Harry.LabCOMMPort
 		{
 			GC.SuppressFinalize(this);
 		}
-
-
-		#region IDisposable Support
-
+		
 		private bool disposedValue = false; // 要检测冗余调用
 
 		/// <summary>
@@ -610,9 +554,7 @@ namespace Harry.LabCOMMPort
 			// TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
 			GC.SuppressFinalize(this);
 		}
-		#endregion
-
-
+		
 		#endregion
 
 		#region 函数定义
@@ -1172,42 +1114,42 @@ namespace Harry.LabCOMMPort
 
 
 		/// <summary>
-		/// 委托事件
+		/// 通讯委托事件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public delegate void COMMEventHandler(object sender, EventArgs e);
+		public delegate void EventCOMM(object sender, EventArgs e);
+
+		/// <summary>
+		/// 通讯端口同步委托事件
+		/// </summary>
+		public delegate void EventCOMMSYNC();
 
 		/// <summary>
 		/// 同步事件
 		/// </summary>
-		public delegate void COMMSYNCEventHandler();
-
-		/// <summary>
-		/// 接收事件
-		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		[Description("通讯端口同步事件"), Category("自定义事件")]
-		private event COMMSYNCEventHandler OnCOMMSYNCEvent = null;
+		private event EventCOMMSYNC OnEventCOMMSync = null;
 
 		/// <summary>
-		/// 事件的属性为读写
+		/// 端口同步事件
 		/// </summary>
-		public virtual COMMSYNCEventHandler m_OnCOMMSYNCEvent
+		public virtual EventCOMMSYNC m_OnEventCOMMSync
 		{
 			get
 			{
-				return this.OnCOMMSYNCEvent;
+				return this.OnEventCOMMSync;
 			}
 			set
 			{
 				//---判断事件是否为空，避免多次进入
-				if (this.OnCOMMSYNCEvent != null)
+				if (this.OnEventCOMMSync != null)
 				{
-					this.OnCOMMSYNCEvent = null;
+					this.OnEventCOMMSync = null;
 				}
-				this.OnCOMMSYNCEvent = value;
+				this.OnEventCOMMSync = value;
 			}
 		}
 
@@ -1217,53 +1159,53 @@ namespace Harry.LabCOMMPort
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		[Description("数据接收事件"), Category("自定义事件")]
-		private event COMMEventHandler OnReceivedEvent = null;
+		private event EventCOMM OnEventDataReceived = null;
 
 		/// <summary>
 		/// 事件的属性为读写
 		/// </summary>
-		public virtual COMMEventHandler m_OnReceivedEvent
+		public virtual EventCOMM m_OnEventDataReceived
 		{
 			get
 			{
-				return this.OnReceivedEvent;
+				return this.OnEventDataReceived;
 			}
 			set
 			{
 				//---判断事件是否为空，避免多次进入
-				if (this.OnReceivedEvent != null)
+				if (this.OnEventDataReceived != null)
 				{
-					this.OnReceivedEvent = null;
+					this.OnEventDataReceived = null;
 				}
-				this.OnReceivedEvent = value;
+				this.OnEventDataReceived = value;
 			}
 		}
 
 		/// <summary>
-		/// 接收事件
+		/// 设备一处
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		[Description("设备移除事件"), Category("自定义事件")]
-		private event COMMEventHandler OnRemoveDeviceEvent = null;
+		private event EventCOMM OnEventDeviceRemoved = null;
 
 		/// <summary>
 		/// 事件的属性为读写
 		/// </summary>
-		public virtual COMMEventHandler m_OnRemoveDeviceEvent
+		public virtual EventCOMM m_OnEventDeviceRemoved
 		{
 			get
 			{
-				return this.OnRemoveDeviceEvent;
+				return this.OnEventDeviceRemoved;
 			}
 			set
 			{
 				//---判断事件是否为空，避免多次进入
-				if (this.OnRemoveDeviceEvent != null)
+				if (this.OnEventDeviceRemoved != null)
 				{
-					this.OnRemoveDeviceEvent = null;
+					this.OnEventDeviceRemoved = null;
 				}
-				this.OnRemoveDeviceEvent = value;
+				this.OnEventDeviceRemoved = value;
 			}
 		}
 
@@ -1272,7 +1214,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public virtual void OnReceivedEventHandler(object sender, EventArgs e)
+		public virtual void OnEventDataReceivedHandler(object sender, EventArgs e)
 		{
 
 		}

@@ -65,7 +65,5 @@ namespace Harry.LabMcuForm
 			this.Init();
 		}
 		#endregion
-
-
 	}
 }

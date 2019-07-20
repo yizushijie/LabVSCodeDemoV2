@@ -12,8 +12,6 @@ using System.Windows.Forms;
 
 namespace Harry.LabCOMMPort
 {
-	
-	#region 串口通讯
 	/// <summary>
 	/// 串口通讯
 	/// </summary>
@@ -423,7 +421,7 @@ namespace Harry.LabCOMMPort
 		/// 传递使用的窗体
 		/// </summary>
 		/// <param name="argForm"></param>
-		public COMMSerialPort(Form argForm)
+		public COMMSerialPort(Form argForm):base(argForm)
 		{
 			this.m_COMMForm = argForm;
 		}
@@ -432,13 +430,18 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="argForm"></param>
-		public COMMSerialPort(Form argForm, ComboBox cbb, RichTextBox msg)
+		public COMMSerialPort(Form argForm, ComboBox cbb, RichTextBox msg,bool isAddWatcherPort= true)
 		{
 			this.m_COMMForm = argForm;
 			this.m_COMMComboBox = cbb;
 			this.m_COMMRichTextBox = msg;
 			this.GetPortNames(cbb, msg);
+			if (isAddWatcherPort==true)
+			{
+				this.AddWatcherPort(cbb, msg);
+			}
 		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -1059,11 +1062,16 @@ namespace Harry.LabCOMMPort
 				}
 
 				//---判断接收到的数据
-				if ((_return == 0) && (taskStep == 3) && (cmd != null) && (cmd.Count > 2) && ((cmd.Count - 2) == cmd[1]))
+				if ((_return == 0) && (taskStep == 3) && (cmd != null) && (cmd.Count > 2))
 				{
-					//---退出当前while循环
-					isWork = false;
-					break;
+					int length = cmd[1];
+					length = (length << 8) + cmd[2];
+					if (length==(cmd.Count-3))
+					{
+						//---退出当前while循环
+						isWork = false;
+						break;
+					}
 				}
 				//---响应其他应用
 				Application.DoEvents();
@@ -1137,7 +1145,17 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int Init()
 		{
-			return 1;
+			if (this.defaultSerialPort == null)
+			{
+				this.defaultSerialPort = new SerialPort();
+			}
+			if (this.defaultSerialPort.IsOpen)
+			{
+				this.defaultSerialPort.Close();
+			}
+			this.m_COMMIndex = 0;
+			this.m_COMMName = null;
+			return -1;
 		}
 		
 		/// <summary>
@@ -2365,7 +2383,7 @@ namespace Harry.LabCOMMPort
 						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
 
 						//---注册事件接收函数
-						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 					}
 				}
 				else
@@ -2485,7 +2503,7 @@ namespace Harry.LabCOMMPort
 						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
 
 						//---注册事件接收函数
-						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 					}
 				}
 				else
@@ -2607,7 +2625,7 @@ namespace Harry.LabCOMMPort
 						this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
 
 						//---注册事件接收函数
-						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 					}
 				}
 				else
@@ -2716,7 +2734,7 @@ namespace Harry.LabCOMMPort
 							this.m_COMMErrMsg = "端口：" + this.m_COMMName + "打开成功!\r\n";
 
 							//---注册事件接收函数
-							this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+							this.defaultSerialPort.DataReceived += new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 						}
 					}
 					catch 
@@ -2759,7 +2777,7 @@ namespace Harry.LabCOMMPort
 						Application.DoEvents();
 					}
 					//---注销事件接收函数
-					this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+					this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 					//---端口状态，空闲
 					this.m_COMMSTATE = USE_STATE.IDLE;
 					//---关闭端口
@@ -2835,7 +2853,7 @@ namespace Harry.LabCOMMPort
 							Application.DoEvents();
 						}
 						//---注销事件接收函数
-						this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 						//---端口状态，空闲
 						this.m_COMMSTATE = USE_STATE.IDLE;
 						//---关闭端口
@@ -2901,7 +2919,7 @@ namespace Harry.LabCOMMPort
 							Application.DoEvents();
 						}
 						//---注销事件接收函数
-						this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnReceivedEventHandler);
+						this.defaultSerialPort.DataReceived -= new SerialDataReceivedEventHandler(this.OnEventDataReceivedHandler);
 						//---端口状态，空闲
 						this.m_COMMSTATE = USE_STATE.IDLE;
 						//---关闭端口
@@ -2984,34 +3002,50 @@ namespace Harry.LabCOMMPort
 		#endregion
 
 		#region 事件定义
+
 		/// <summary>
-		/// 事件的属性为读写
+		/// 数据接收事件
 		/// </summary>
-		public override COMMEventHandler m_OnReceivedEvent
+		public override EventCOMM m_OnEventDataReceived
 		{
 			get
 			{
-				return base.m_OnReceivedEvent;
+				return base.m_OnEventDataReceived;
 			}
 			set
 			{
-				base.m_OnReceivedEvent = value;
+				base.m_OnEventDataReceived = value;
 			}
 		}
 
 		/// <summary>
 		/// 设备移除事件
 		/// </summary>
-		public override COMMEventHandler m_OnRemoveDeviceEvent
+		public override EventCOMM m_OnEventDeviceRemoved
 		{
 			get
 			{
-				return base.m_OnRemoveDeviceEvent;
+				return base.m_OnEventDeviceRemoved;
 			}
 
 			set
 			{
-				base.m_OnRemoveDeviceEvent = value;
+				base.m_OnEventDeviceRemoved = value;
+			}
+		}
+
+		/// <summary>
+		/// 通讯端口同步事件
+		/// </summary>
+		public override EventCOMMSYNC m_OnEventCOMMSync
+		{
+			get
+			{
+				return base.m_OnEventCOMMSync;
+			}
+			set
+			{
+				base.m_OnEventCOMMSync = value;
 			}
 		}
 
@@ -3020,7 +3054,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public override void OnReceivedEventHandler(object sender, EventArgs e)
+		public override void OnEventDataReceivedHandler(object sender, EventArgs e)
 		{
 			string str = e.ToString();
 			//---判断事件的类型
@@ -3032,7 +3066,7 @@ namespace Harry.LabCOMMPort
 					//---设置状态为事件读取
 					this.m_COMMSTATE = USE_STATE.EVENT_READ;
 					//---执行委托函数
-					this.m_OnReceivedEvent?.Invoke(sender, e);
+					this.m_OnEventDataReceived?.Invoke(sender, e);
 					//---设置状态为空闲模式
 					this.m_COMMSTATE = USE_STATE.IDLE;
 				}
@@ -3059,13 +3093,10 @@ namespace Harry.LabCOMMPort
 				//---设备减少处理函数
 				this.RemoveDevice(this.m_COMMComboBox, this.m_COMMRichTextBox);
 				//---执行设备移除函数
-				this.m_OnRemoveDeviceEvent?.Invoke(sender, e);
+				this.m_OnEventDeviceRemoved?.Invoke(sender, e);
 			}
 		}
 		#endregion
 
 	}
-
-	#endregion
-
 }

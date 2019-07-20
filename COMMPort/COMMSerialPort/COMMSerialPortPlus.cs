@@ -162,6 +162,8 @@ namespace Harry.LabCOMMPort
 					base.m_COMMParam = new COMMSerialPortParam();
 				}
 				base.m_COMMParam = value;
+				//---刷新端口
+				this.m_COMMComboBox.Text = value.defaultName;
 			}
 		}
 		/// <summary>
@@ -261,6 +263,21 @@ namespace Harry.LabCOMMPort
 			this.AddEventHandler();
 
 			//this.AddWatcherPortRemoveEvent();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argForm"></param>
+		/// <param name="argCOMM"></param>
+		/// <param name="argRichTextBox"></param>
+		/// <param name="isRefreshDevice"></param>
+		/// <param name="isAddWatcherPort"></param>
+		public COMMSerialPortPlus(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice=true, bool isAddWatcherPort = true)
+		{
+			InitializeComponent();
+			this.Init(argForm, argCOMM, argRichTextBox, isRefreshDevice, isAddWatcherPort);
+			this.AddEventHandler();
 		}
 
 		#endregion
@@ -419,17 +436,17 @@ namespace Harry.LabCOMMPort
 						//---鼠标右键配置通信端口的参数
 						this.ConfigCOMMSerialPortParam();
 						//---判断是否端口发生了变化
-						if (((this.comboBox_COMM.Text!=string.Empty)||this.comboBox_COMM.Text!="")&&((this.m_COMMParam.defaultName != string.Empty)||(this.m_COMMParam.defaultName!=""))&&(this.m_COMMParam.defaultName!=this.comboBox_COMM.Text))
+						if (((this.m_COMMComboBox.Text!=string.Empty)||this.m_COMMComboBox.Text!="")&&((this.m_COMMParam.defaultName != string.Empty)||(this.m_COMMParam.defaultName!=""))&&(this.m_COMMParam.defaultName!=this.m_COMMComboBox.Text))
 						{
 							//---数据位
-							index = this.comboBox_COMM.Items.IndexOf(this.m_COMMParam.defaultName);
+							index = this.m_COMMComboBox.Items.IndexOf(this.m_COMMParam.defaultName);
 							if (index < 0)
 							{
-								this.comboBox_COMM.SelectedIndex = 0;
+								this.m_COMMComboBox.SelectedIndex = 0;
 							}
 							else
 							{
-								this.comboBox_COMM.SelectedIndex = index;
+								this.m_COMMComboBox.SelectedIndex = index;
 							}
 						}
 					}
@@ -456,14 +473,14 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
 						Color.Black, false);
 				}
-				this.m_COMM.m_OnCOMMSYNCEvent?.Invoke();
+				this.m_COMM.m_OnEventCOMMSync?.Invoke();
 
 				this.COMMControl(false);
 
 				//---加载设备移除处理
-				if (this.m_COMM.m_OnRemoveDeviceEvent == null)
+				if (this.m_COMM.m_OnEventDeviceRemoved == null)
 				{
-					this.m_COMM.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
+					this.m_COMM.m_OnEventDeviceRemoved = this.AddWatcherPortRemove;
 				}
 			}
 			else
@@ -494,7 +511,7 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
 						Color.Black, false);
 				}
-				this.m_COMM.m_OnCOMMSYNCEvent?.Invoke();
+				this.m_COMM.m_OnEventCOMMSync?.Invoke();
 				this.COMMControl(true);
 			}
 		}
@@ -520,19 +537,22 @@ namespace Harry.LabCOMMPort
 		{
 			if ((this.m_COMMComboBox.Text != null) && (this.m_COMMComboBox.Items.Count > 0))
 			{
-				COMMSerialPortParamForm p =new COMMSerialPortParamForm(this.m_COMMComboBox,this.m_COMMParam);// new COMMSerialPortParamForm(this.m_COMMComboBox.Text,this.m_COMMPortParam);
+				COMMSerialParamForm p =new COMMSerialParamForm(this.m_COMMComboBox,this.m_COMMParam);
 
-				if (p.ShowDialog(this.m_COMMComboBox) != System.Windows.Forms.DialogResult.OK)
+				if (p.ShowDialog(this.m_COMMComboBox,0,this.m_COMMComboBox.Height) != System.Windows.Forms.DialogResult.OK)
 				{
+					//---消息显示
 					if (this.m_COMMRichTextBox != null)
 					{
 						RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "通信端口参数配置失败。\r\n", Color.Red, false);
 					}
+					p.CloseForm();
 				}
 				else
 				{
-					this.m_COMMParam = ((COMMSerialPortParamForm)p).m_COMMPortParam;
-
+					//---同步端口
+					this.m_COMMParam = p.m_COMMParam;
+					//---消息显示
 					if (this.m_COMMRichTextBox != null)
 					{
 						RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "通信端口参数配置成功。\r\n", Color.Black, false);

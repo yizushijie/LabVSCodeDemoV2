@@ -276,6 +276,21 @@ namespace Harry.LabCOMMPort
 			this.Init(argForm, argCOMM, argRichTextBox);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argForm"></param>
+		/// <param name="argCOMM"></param>
+		/// <param name="argRichTextBox"></param>
+		/// <param name="isRefreshDevice"></param>
+		/// <param name="isAddWatcherPort"></param>
+		public COMMSerialPortPlusFull(Form argForm, COMMBasePort argCOMM, RichTextBox argRichTextBox, bool isRefreshDevice = true, bool isAddWatcherPort = true)
+		{
+			InitializeComponent();
+			this.InitControl();
+			this.Init(argForm, argCOMM, argRichTextBox, isRefreshDevice, isAddWatcherPort);
+		}
+
 		#endregion
 
 		#region 函数定义
@@ -460,9 +475,9 @@ namespace Harry.LabCOMMPort
 
 				this.COMMControl(false);
 				//---加载设备移除处理
-				if (this.m_COMM.m_OnRemoveDeviceEvent == null)
+				if (this.m_COMM.m_OnEventDeviceRemoved == null)
 				{
-					this.m_COMM.m_OnRemoveDeviceEvent = this.AddWatcherPortRemove;
+					this.m_COMM.m_OnEventDeviceRemoved = this.AddWatcherPortRemove;
 				}
 			}
 			else

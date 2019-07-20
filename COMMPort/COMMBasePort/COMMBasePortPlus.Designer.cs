@@ -110,7 +110,7 @@
 		public System.Windows.Forms.PictureBox pictureBox_COMM;
 		public System.Windows.Forms.Button button_COMM;
 		public System.Windows.Forms.Panel panel_COMM;
-		public System.Windows.Forms.ComboBox comboBox_COMM;
 		public System.Windows.Forms.GroupBox groupBox_COMM;
+		private System.Windows.Forms.ComboBox comboBox_COMM;
 	}
 }

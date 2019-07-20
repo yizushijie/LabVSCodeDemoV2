@@ -364,7 +364,7 @@ namespace Harry.LabCOMMPort
 				}
 
 				//---执行端口同步函数
-				this.defaultCOMM.m_OnCOMMSYNCEvent?.Invoke();
+				this.defaultCOMM.m_OnEventCOMMSync?.Invoke();
 
 				this.RefreshComboBox(this.comboBox_COMM);
 			}
@@ -377,7 +377,7 @@ namespace Harry.LabCOMMPort
 		{
 			if (this.defaultCOMM != null)
 			{
-				this.defaultCOMM.m_OnRemoveDeviceEvent = AddWatcherPortRemove;
+				this.defaultCOMM.m_OnEventDeviceRemoved = AddWatcherPortRemove;
 			}
 		}
 		

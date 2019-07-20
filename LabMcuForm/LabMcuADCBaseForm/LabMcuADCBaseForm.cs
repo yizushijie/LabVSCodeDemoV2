@@ -1,4 +1,5 @@
 ﻿using Harry.LabCOMMPort;
+using Harry.LabExcelFile;
 using Harry.LabMcuProject;
 using Harry.LabUserControlPlus;
 using Harry.LabUserGenFunc;
@@ -34,9 +35,24 @@ namespace Harry.LabMcuForm
 		private LabMcuBase defaultLabMcuDevice = null;
 
 		/// <summary>
+		/// 使用的Excel
+		/// </summary>
+		private ExcelFile defaultExcel = null;
+
+		/// <summary>
+		/// Excel的状态
+		/// </summary>
+		private bool defaultExcelFlag = false;
+
+		/// <summary>
 		/// 
 		/// </summary>
 		private bool defaultSTOP = false;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		private ControlAutoSize defaultSutoSize = null;
 
 		#endregion
 
@@ -308,6 +324,24 @@ namespace Harry.LabMcuForm
 				case "button_STOPFunc":
 					this.defaultSTOP = true;
 					break;
+				case "button_OpenExcel":
+					if (this.defaultExcel==null)
+					{
+						this.defaultExcel = new ExcelFile();
+					}
+					this.defaultExcel.OpenExcel();
+					break;
+				case "button_SelectExcel":
+					if (this.defaultExcel!=null)
+					{
+						this.textBox_ExcelPath.Text = this.defaultExcel.SelectWorkBook();
+						this.defaultExcelFlag = true;
+					}
+					else
+					{
+						this.defaultExcelFlag = false;
+					}
+					break;
 				default:
 					break;
 			}
@@ -378,6 +412,7 @@ namespace Harry.LabMcuForm
 			int stopMV = (int)this.numericUpDownPlus_StopPower.Value;
 			int i;//= 0;
 			this.defaultSTOP = false;
+			int excelIndex = 0;
 			float setVoltage;
 			//---通道电压归零
 			this.GPD3303Plus_DigitalPower.m_GPD3303.SetChannelDefaultVoltage((int)this.numericUpDownPlus_DigitalPowerChannel.Value, 0);
@@ -408,6 +443,14 @@ namespace Harry.LabMcuForm
 				RichTextBoxPlus.AppendTextInfoWithoutDataTime(this.richTextBoxEx_Msg,	setVoltage.ToString("f4")+
 																					";" + this.defaultLabMcuDevice.m_ADCResult.defaultADCResult[0].ToString() +
 																					";" + this.defaultLabMcuDevice.m_ADCResult.defaultPowerResult[0].ToString("f4") + "\r\n", Color.Black, false);
+
+				if ((this.defaultExcel!=null)&&(this.defaultExcelFlag==true))
+				{
+					this.defaultExcel.SaveResult(excelIndex, 0, setVoltage);
+					this.defaultExcel.SaveResult(excelIndex, 1, this.defaultLabMcuDevice.m_ADCResult.defaultADCResult[0]);
+					this.defaultExcel.SaveResult(excelIndex, 2, this.defaultLabMcuDevice.m_ADCResult.defaultPowerResult[0]);
+				}
+				excelIndex++;
 				//---检查退出操作指令
 				if (this.defaultSTOP==true)
 				{
@@ -433,7 +476,7 @@ namespace Harry.LabMcuForm
 			this.commSerialPortPlus_Device.m_COMMBaudRate = 9600;
 
 			//---注册端口同步事件
-			this.defaultDeviceCOMMPort.m_OnCOMMSYNCEvent = new COMMBasePort.COMMSYNCEventHandler(this.SYNCCOMMPortEvent);
+			this.defaultDeviceCOMMPort.m_OnEventCOMMSync = new COMMBasePort.EventCOMMSYNC(this.SYNCCOMMPortEvent);
 
 			this.commSerialPortPlus_Device.Init(this, this.defaultDeviceCOMMPort, this.richTextBoxEx_Msg, true, true);
 			this.GPD3303Plus_DigitalPower.Init(this, this.defaultDigitalPowerCOMMPort, this.richTextBoxEx_Msg, true, true);
@@ -467,13 +510,23 @@ namespace Harry.LabMcuForm
 			this.button_DoADCFunc.Click += new EventHandler(this.Button_Click);
 			this.button_STOPFunc.Click += new EventHandler(this.Button_Click);
 
+			this.button_OpenExcel.Click += new EventHandler(this.Button_Click);
+			this.button_SelectExcel.Click += new EventHandler(this.Button_Click);
+
 			this.numericUpDownPlus_DigitalPowerChannel.ValueChanged += new EventHandler(this.NumericUpDown_ValueChanged);
 
 			//---注册窗体关闭事件
 			this.FormClosing += new FormClosingEventHandler(this.Form_FormClosing);
 
-
-			this.ControlInit();
+			if (this.defaultSutoSize==null)
+			{
+				this.defaultSutoSize = new ControlAutoSize(this);
+			}
+			else
+			{
+				this.defaultSutoSize.ControlInit(this);
+			}
+			//this.ControlInit();
 
 			this.SizeChanged += new EventHandler(this.Form_SizeChanged);
 
@@ -576,65 +629,6 @@ namespace Harry.LabMcuForm
 
 		#region 窗体自适应大小
 
-		private float defaultWidth=0.0F;
-		private float defaultHeight=0.0F;
-		private bool defaultSize = false;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		private void ControlInit()
-		{
-			this.defaultWidth = this.Width;
-			this.defaultHeight = this.Height;
-			this.defaultSize = false;
-			this.ControlTag(this);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cons"></param>
-		private void ControlTag(Control cons)
-		{
-			foreach (Control con in cons.Controls)
-			{
-				con.Tag = con.Width + ":" + con.Height + ":" + con.Left + ":" + con.Top + ":" + con.Font.Size;
-				if (con.Controls.Count > 0)
-				{
-					ControlTag(con);
-				}
-			}
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="newWidth"></param>
-		/// <param name="newHeight"></param>
-		/// <param name="cons"></param>
-		private void ControlResize(float newWidth, float newHeight, Control cons)
-		{
-			foreach (Control con in cons.Controls)
-			{
-				string[] myControlTag = con.Tag.ToString().Split(new char[] { ':' });
-				float a = Convert.ToSingle(myControlTag[0]) * newWidth;
-				con.Width = (int)a;
-				a = Convert.ToSingle(myControlTag[1]) * newHeight;
-				con.Height = (int)a;
-				a = Convert.ToSingle(myControlTag[2]) * newWidth;
-				con.Left = (int)a;
-				a = Convert.ToSingle(myControlTag[3]) * newHeight;
-				con.Top = (int)a;
-				Single currentsize = Convert.ToSingle(myControlTag[4]) * Math.Min(newWidth, newHeight);
-				con.Font = new Font(con.Font.Name, currentsize, con.Font.Style, con.Font.Unit);
-				if (con.Controls.Count > 0)
-				{
-					this.ControlResize(newWidth, newHeight, con);
-				}
-			}
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -642,15 +636,10 @@ namespace Harry.LabMcuForm
 		/// <param name="e"></param>
 		private void Form_SizeChanged(object sender, EventArgs e)
 		{
-			if (this.defaultSize==false)
+			if (this.defaultSutoSize!=null)
 			{
-				this.defaultSize = true;
-				return;
+				this.defaultSutoSize.AutoResize(this);
 			}
-			float newWidth = (this.Width) / this.defaultWidth;
-			float newHeight = (this.Height) / this.defaultHeight;
-			this.ControlResize(newWidth, newHeight, this);
-			//this.Text = this.Width.ToString() + "" + this.Height.ToString();
 		}
 
 		#endregion

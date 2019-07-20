@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Harry.LabWinAPI
 {
@@ -60,7 +62,7 @@ namespace Harry.LabWinAPI
 		public const int SW_SHOWDEFAULT = 10;
 
 		//{同 SW_SHOWNORMAL}    
-		public const int SW_MAX = 10; 
+		public const int SW_MAX = 10;
 
 
 		[DllImport("user32.dll", EntryPoint = "GetWindowThreadProcessId", SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
@@ -141,5 +143,39 @@ namespace Harry.LabWinAPI
 			FormatMessage(0x1300, ref tempptr, errCode, 0, ref msg, 255, ref tempptr);
 			return msg;
 		}
+
+		/// <summary>
+		/// 获取鼠标的位置
+		/// </summary>
+		/// <param name="pt"></param>
+		/// <returns></returns>
+		[DllImport("user32.dll")]
+		public static extern bool GetCursorPos(out Point pt);
+
+		[StructLayout(LayoutKind.Sequential)]
+		struct CURSORINFO
+		{
+			public int cbSize;
+			public int flags;
+			public IntPtr hCursor;
+			public Point ptScreenPos;
+		}
+		[DllImport("user32.dll")]
+		static extern bool GetCursorInfo(out CURSORINFO pci);
+		private const int CURSOR_SHOWING = 0x00000001;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public static Cursor GetMouseCursor()
+		{
+			CURSORINFO vCurosrInfo;
+			vCurosrInfo.cbSize = Marshal.SizeOf(typeof(CURSORINFO));
+            GetCursorInfo(out vCurosrInfo);
+			Cursor vCursor = new Cursor(vCurosrInfo.hCursor);
+			return vCursor;
+		}
+
 	}
 }

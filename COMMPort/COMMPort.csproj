@@ -58,11 +58,11 @@
     <Compile Include="COMMPortForm\COMMBaseForm.Designer.cs">
       <DependentUpon>COMMBaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="COMMPortForm\COMMSerialPortParamForm.cs">
+    <Compile Include="COMMPortForm\COMMSerialParamForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="COMMPortForm\COMMSerialPortParamForm.Designer.cs">
-      <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>
+    <Compile Include="COMMPortForm\COMMSerialParamForm.Designer.cs">
+      <DependentUpon>COMMSerialParamForm.cs</DependentUpon>
     </Compile>
     <Compile Include="COMMPortParam\COMMPortParam.cs" />
     <Compile Include="COMMPortParam\COMMSerialPortParam.cs" />
@@ -110,8 +110,8 @@
     <EmbeddedResource Include="COMMPortForm\COMMBaseForm.resx">
       <DependentUpon>COMMBaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="COMMPortForm\COMMSerialPortParamForm.resx">
-      <DependentUpon>COMMSerialPortParamForm.cs</DependentUpon>
+    <EmbeddedResource Include="COMMPortForm\COMMSerialParamForm.resx">
+      <DependentUpon>COMMSerialParamForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="COMMSerialPort\COMMSerialPortPlus.resx">
       <DependentUpon>COMMSerialPortPlus.cs</DependentUpon>
@@ -141,6 +141,10 @@
     <ProjectReference Include="..\UserGenFunc\UserGenFunc.csproj">
       <Project>{C64AEEA0-7A08-4786-9F1E-BD66608E190E}</Project>
       <Name>UserGenFunc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinAPI\WinAPI.csproj">
+      <Project>{B928595D-A068-47D0-9D31-89D592258D32}</Project>
+      <Name>WinAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -57,11 +57,11 @@
     <Compile Include="LabMcuADCBaseForm\LabMcuADCBaseForm.Designer.cs">
       <DependentUpon>LabMcuADCBaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LabMcuRCBaseForm\LabMcuRCBaseForm.cs">
+    <Compile Include="LabMcuOSCBaseForm\LabMcuOSCBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LabMcuRCBaseForm\LabMcuRCBaseForm.Designer.cs">
-      <DependentUpon>LabMcuRCBaseForm.cs</DependentUpon>
+    <Compile Include="LabMcuOSCBaseForm\LabMcuOSCBaseForm.Designer.cs">
+      <DependentUpon>LabMcuOSCBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="LabMcuADCFMD9009Form\LabMcuADCFMD9009Form.cs">
@@ -77,8 +77,8 @@
     <EmbeddedResource Include="LabMcuADCFMD9009Form\LabMcuADCFMD9009Form.resx">
       <DependentUpon>LabMcuADCFMD9009Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LabMcuRCBaseForm\LabMcuRCBaseForm.resx">
-      <DependentUpon>LabMcuRCBaseForm.cs</DependentUpon>
+    <EmbeddedResource Include="LabMcuOSCBaseForm\LabMcuOSCBaseForm.resx">
+      <DependentUpon>LabMcuOSCBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -108,6 +108,10 @@
     <ProjectReference Include="..\DigitalPower\DigitalPower.csproj">
       <Project>{E647A5EA-1C09-4EC7-82CC-B0BF6CC55B15}</Project>
       <Name>DigitalPower</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExcelFile\ExcelFile.csproj">
+      <Project>{F708C820-BA4E-4F3D-8078-D107412D8D56}</Project>
+      <Name>ExcelFile</Name>
     </ProjectReference>
     <ProjectReference Include="..\LabMcuProject\LabMcuProject.csproj">
       <Project>{08D243AD-3A8C-45D9-83F2-09859479817D}</Project>

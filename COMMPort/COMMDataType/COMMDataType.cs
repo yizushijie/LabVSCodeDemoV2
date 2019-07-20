@@ -5,13 +5,10 @@ using System.Text;
 
 namespace Harry.LabCOMMPort
 {
-
-	#region 通讯数据格式
-
 	/// <summary>
 	/// 数据通讯类型
 	/// </summary>
-	public class COMMDataType
+	public partial class COMMDataType
 	{
 		#region 变量定义
 
@@ -554,8 +551,5 @@ namespace Harry.LabCOMMPort
 			return this.GetCOMMByte(bufferSize, ref isChildCMD);
 		}
 		#endregion
-	};
-
-	#endregion
-
+	}
 }

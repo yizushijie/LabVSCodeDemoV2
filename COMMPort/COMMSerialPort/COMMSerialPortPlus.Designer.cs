@@ -36,7 +36,7 @@
 			// 
 			// comboBox_COMMName
 			// 
-			this.comboBox_COMM.IntegralHeight = false;
+			this.m_COMMComboBox.IntegralHeight = false;
 			// 
 			// COMMSerialPortPlus
 			// 

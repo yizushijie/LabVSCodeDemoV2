@@ -39,24 +39,30 @@ namespace Harry.LabUserControlPlus
 			   //rtBox.Invoke((EventHandler)
                          (delegate
                          {
-                             rtBox.SelectionStart = rtBox.TextLength;
-                             rtBox.SelectionLength = 0;
-                             rtBox.SelectionColor = textColor;
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 rtBox.SelectionStart = rtBox.TextLength;
+								 rtBox.SelectionLength = 0;
+								 rtBox.SelectionColor = textColor;
 
-                             //在当前窗体中追加文本
-                             rtBox.AppendText(text);
-                             rtBox.SelectionColor = rtBox.ForeColor;
-                         }));
+								 //在当前窗体中追加文本
+								 rtBox.AppendText(text);
+								 rtBox.SelectionColor = rtBox.ForeColor;
+							 }
+						 }));
             }
             else
             {
-                rtBox.SelectionStart = rtBox.TextLength;
-                rtBox.SelectionLength = 0;
-                rtBox.SelectionColor = textColor;
+				if ((rtBox.Text!="")||(rtBox.Text!=string.Empty))
+				{
+					rtBox.SelectionStart = rtBox.TextLength;
+					rtBox.SelectionLength = 0;
+					rtBox.SelectionColor = textColor;
 
-                //在当前窗体中追加文本
-                rtBox.AppendText(text);
-                rtBox.SelectionColor = rtBox.ForeColor;
+					//在当前窗体中追加文本
+					rtBox.AppendText(text);
+					rtBox.SelectionColor = rtBox.ForeColor;
+				}
             }
         }
 
@@ -86,32 +92,38 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             rtBox.SelectionStart = rtBox.TextLength;
-                             rtBox.SelectionLength = 0;
-                             rtBox.SelectionColor = textColor;
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 rtBox.SelectionStart = rtBox.TextLength;
+								 rtBox.SelectionLength = 0;
+								 rtBox.SelectionColor = textColor;
 
-                             //在当前窗体中追加文本
-                             rtBox.AppendText(text);
-                             rtBox.SelectionColor = rtBox.ForeColor;
+								 //在当前窗体中追加文本
+								 rtBox.AppendText(text);
+								 rtBox.SelectionColor = rtBox.ForeColor;
 
-                             rtBox.SelectionStart = rtBox.Text.Length;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 rtBox.SelectionStart = rtBox.Text.Length;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                rtBox.SelectionStart = rtBox.TextLength;
-                rtBox.SelectionLength = 0;
-                rtBox.SelectionColor = textColor;
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					rtBox.SelectionStart = rtBox.TextLength;
+					rtBox.SelectionLength = 0;
+					rtBox.SelectionColor = textColor;
 
-                //在当前窗体中追加文本
-                rtBox.AppendText(text);
-                rtBox.SelectionColor = rtBox.ForeColor;
+					//在当前窗体中追加文本
+					rtBox.AppendText(text);
+					rtBox.SelectionColor = rtBox.ForeColor;
 
-                rtBox.SelectionStart = rtBox.Text.Length;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					rtBox.SelectionStart = rtBox.Text.Length;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
@@ -142,44 +154,50 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             temp = rtBox.Text;
-                             rtBox.Clear();
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 temp = rtBox.Text;
+								 rtBox.Clear();
 
-                             rtBox.SelectionStart = rtBox.TextLength;
-                             rtBox.SelectionLength = 0;
-                             rtBox.SelectionColor = textColor;
+								 rtBox.SelectionStart = rtBox.TextLength;
+								 rtBox.SelectionLength = 0;
+								 rtBox.SelectionColor = textColor;
 
-                             //在当前窗体中追加文本
-                             rtBox.AppendText(text);
-                             rtBox.SelectionColor = rtBox.ForeColor;
+								 //在当前窗体中追加文本
+								 rtBox.AppendText(text);
+								 rtBox.SelectionColor = rtBox.ForeColor;
 
-                             rtBox.AppendText(temp);
+								 rtBox.AppendText(temp);
 
-                             //指向顶部
-                             rtBox.SelectionStart = 0;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 //指向顶部
+								 rtBox.SelectionStart = 0;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                temp = rtBox.Text;
-                rtBox.Clear();
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					temp = rtBox.Text;
+					rtBox.Clear();
 
-                rtBox.SelectionStart = rtBox.TextLength;
-                rtBox.SelectionLength = 0;
-                rtBox.SelectionColor = textColor;
+					rtBox.SelectionStart = rtBox.TextLength;
+					rtBox.SelectionLength = 0;
+					rtBox.SelectionColor = textColor;
 
-                //在当前窗体中追加文本
-                rtBox.AppendText(text);
-                rtBox.SelectionColor = rtBox.ForeColor;
+					//在当前窗体中追加文本
+					rtBox.AppendText(text);
+					rtBox.SelectionColor = rtBox.ForeColor;
 
-                rtBox.AppendText(temp);
+					rtBox.AppendText(temp);
 
-                //指向顶部
-                rtBox.SelectionStart = 0;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					//指向顶部
+					rtBox.SelectionStart = 0;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
@@ -210,34 +228,40 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             rtBox.SelectionStart = rtBox.TextLength;
-                             rtBox.SelectionLength = 0;
-                             rtBox.SelectionColor = textColor;
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 rtBox.SelectionStart = rtBox.TextLength;
+								 rtBox.SelectionLength = 0;
+								 rtBox.SelectionColor = textColor;
 
-                             //在当前窗体中追加文本
-                             rtBox.AppendText(str);
-                             rtBox.SelectionColor = rtBox.ForeColor;
+								 //在当前窗体中追加文本
+								 rtBox.AppendText(str);
+								 rtBox.SelectionColor = rtBox.ForeColor;
 
-                             //直线底部
-                             rtBox.SelectionStart = rtBox.Text.Length;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 //直线底部
+								 rtBox.SelectionStart = rtBox.Text.Length;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                rtBox.SelectionStart = rtBox.TextLength;
-                rtBox.SelectionLength = 0;
-                rtBox.SelectionColor = textColor;
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					rtBox.SelectionStart = rtBox.TextLength;
+					rtBox.SelectionLength = 0;
+					rtBox.SelectionColor = textColor;
 
-                //在当前窗体中追加文本
-                rtBox.AppendText(str);
-                rtBox.SelectionColor = rtBox.ForeColor;
+					//在当前窗体中追加文本
+					rtBox.AppendText(str);
+					rtBox.SelectionColor = rtBox.ForeColor;
 
-                //直线底部
-                rtBox.SelectionStart = rtBox.Text.Length;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					//直线底部
+					rtBox.SelectionStart = rtBox.Text.Length;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
@@ -267,34 +291,40 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             rtBox.SelectionStart = rtBox.TextLength;
-                             rtBox.SelectionLength = 0;
-                             rtBox.SelectionColor = textColor;
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 rtBox.SelectionStart = rtBox.TextLength;
+								 rtBox.SelectionLength = 0;
+								 rtBox.SelectionColor = textColor;
 
-                             //在当前窗体中追加文本
-                             rtBox.AppendText(text);
-                             rtBox.SelectionColor = rtBox.ForeColor;
+								 //在当前窗体中追加文本
+								 rtBox.AppendText(text);
+								 rtBox.SelectionColor = rtBox.ForeColor;
 
-                             //直线底部
-                             rtBox.SelectionStart = rtBox.Text.Length;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 //直线底部
+								 rtBox.SelectionStart = rtBox.Text.Length;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                rtBox.SelectionStart = rtBox.TextLength;
-                rtBox.SelectionLength = 0;
-                rtBox.SelectionColor = textColor;
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					rtBox.SelectionStart = rtBox.TextLength;
+					rtBox.SelectionLength = 0;
+					rtBox.SelectionColor = textColor;
 
-                //在当前窗体中追加文本
-                rtBox.AppendText(text);
-                rtBox.SelectionColor = rtBox.ForeColor;
+					//在当前窗体中追加文本
+					rtBox.AppendText(text);
+					rtBox.SelectionColor = rtBox.ForeColor;
 
-                //直线底部
-                rtBox.SelectionStart = rtBox.Text.Length;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					//直线底部
+					rtBox.SelectionStart = rtBox.Text.Length;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
@@ -322,30 +352,36 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             temp = rtBox.Text;
-                             rtBox.Clear();
-                             str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
-                             AppendTextColorFull(rtBox, str, textColor, newLine);
-                             rtBox.AppendText(temp);
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 temp = rtBox.Text;
+								 rtBox.Clear();
+								 str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
+								 AppendTextColorFull(rtBox, str, textColor, newLine);
+								 rtBox.AppendText(temp);
 
-                             //指向顶部
-                             rtBox.SelectionStart = 0;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 //指向顶部
+								 rtBox.SelectionStart = 0;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                temp = rtBox.Text;
-                rtBox.Clear();
-                str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
-                AppendTextColorFull(rtBox, str, textColor, newLine);
-                rtBox.AppendText(temp);
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					temp = rtBox.Text;
+					rtBox.Clear();
+					str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
+					AppendTextColorFull(rtBox, str, textColor, newLine);
+					rtBox.AppendText(temp);
 
-                //指向顶部
-                rtBox.SelectionStart = 0;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					//指向顶部
+					rtBox.SelectionStart = 0;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
@@ -373,28 +409,34 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-                             temp = rtBox.Text;
-                             rtBox.Clear();
-                             AppendTextColorFull(rtBox, text, textColor, newLine);
-                             rtBox.AppendText(temp);
+							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 {
+								 temp = rtBox.Text;
+								 rtBox.Clear();
+								 AppendTextColorFull(rtBox, text, textColor, newLine);
+								 rtBox.AppendText(temp);
 
-                             //指向顶部
-                             rtBox.SelectionStart = 0;
-                             rtBox.ScrollToCaret();
-                             rtBox.Focus();
+								 //指向顶部
+								 rtBox.SelectionStart = 0;
+								 rtBox.ScrollToCaret();
+								 rtBox.Focus();
+							 }
                          }));
             }
             else
             {
-                temp = rtBox.Text;
-                rtBox.Clear();
-                AppendTextColorFull(rtBox, text, textColor, newLine);
-                rtBox.AppendText(temp);
+				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				{
+					temp = rtBox.Text;
+					rtBox.Clear();
+					AppendTextColorFull(rtBox, text, textColor, newLine);
+					rtBox.AppendText(temp);
 
-                //指向顶部
-                rtBox.SelectionStart = 0;
-                rtBox.ScrollToCaret();
-                rtBox.Focus();
+					//指向顶部
+					rtBox.SelectionStart = 0;
+					rtBox.ScrollToCaret();
+					rtBox.Focus();
+				}
             }
         }
 
