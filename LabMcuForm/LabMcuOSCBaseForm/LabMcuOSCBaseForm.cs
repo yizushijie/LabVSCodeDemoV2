@@ -248,7 +248,7 @@ namespace Harry.LabMcuForm
 			//this.commSerialPortPlus_Device.m_COMMBaudRate = 115200;
 
 			//---注册端口同步事件
-			this.defaultDeviceCOMMPort.m_OnEventCOMMSync = new COMMBasePort.EventCOMMSYNC(this.SYNCCOMMPortEvent);
+			this.defaultDeviceCOMMPort.m_OnEventCOMMYNC = new COMMBasePort.EventCOMMSYNC(this.SYNCCOMMPortEvent);
 
 			this.commSerialPortPlus_Device.Init(this, this.defaultDeviceCOMMPort, this.richTextBoxEx_Msg, true, true);
 			this.GPD3303Plus_DigitalPower.Init(this, this.defaultDigitalPowerCOMMPort, this.richTextBoxEx_Msg, true, true);

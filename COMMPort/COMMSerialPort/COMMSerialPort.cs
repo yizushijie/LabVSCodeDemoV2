@@ -298,30 +298,30 @@ namespace Harry.LabCOMMPort
         /// <summary>
         /// 多设备通信是否使能
         /// </summary>
-        public override bool m_COMMIsMultiDevice
+        public override bool m_COMMMultiDevice
         {
             get
             {
-                return base.m_COMMIsMultiDevice;
+                return base.m_COMMMultiDevice;
             }
             set
             {
-                base.m_COMMIsMultiDevice = value;
+                base.m_COMMMultiDevice = value;
             }
         }
 	    
         /// <summary>
         /// 多设备通讯过程中的设备id号
         /// </summary>
-        public override byte m_COMMMultiDeviceID
+        public override byte m_COMMMultiID
         {
             get
             {
-                return base.m_COMMMultiDeviceID;
+                return base.m_COMMMultiID;
             }
             set
             {
-                base.m_COMMMultiDeviceID = value;
+                base.m_COMMMultiID = value;
             }
         }
 
@@ -395,7 +395,7 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 端口开启状态
 		/// </summary>
-		public override bool m_COMMIsOpen
+		public override bool m_COMMConnected
 		{
 			get
 			{
@@ -456,12 +456,12 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiID"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
+		public COMMSerialPort(bool isMultiDevice, byte multiID, RichTextBox msg)
 		{
-			this.m_COMMIsMultiDevice = isMultiDevice;
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.m_COMMMultiDevice = isMultiDevice;
+			this.m_COMMMultiID = multiID;
 			this.m_COMMRichTextBox = msg;
 		}
 
@@ -470,13 +470,13 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="argForm"></param>
 		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiID"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(Form argForm, bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
+		public COMMSerialPort(Form argForm, bool isMultiDevice, byte multiID, RichTextBox msg)
 		{
 			this.m_COMMForm = argForm;
-			this.m_COMMIsMultiDevice = isMultiDevice;
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.m_COMMMultiDevice = isMultiDevice;
+			this.m_COMMMultiID = multiID;
 			this.m_COMMRichTextBox = msg;
 		}
 
@@ -486,49 +486,49 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		/// <param name="bandRate"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(COMMPortParam commSerialPortParam, RichTextBox msg)
+		public COMMSerialPort(COMMPortParam commPortParam, RichTextBox msg)
 		{
-			this.Init(commSerialPortParam, msg);
+			this.Init(commPortParam, msg);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="commSerialPortParam"></param>
+		/// <param name="commPortParam"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(Form argForm, COMMPortParam commSerialPortParam, RichTextBox msg)
+		public COMMSerialPort(Form argForm, COMMPortParam commPortParam, RichTextBox msg)
 		{
 			this.m_COMMForm = argForm;
-			this.Init(commSerialPortParam, msg);
+			this.Init(commPortParam, msg);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="argForm"></param>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiDevice"></param>
+		/// <param name="multiID"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(COMMPortParam commSerialPortParam, bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
+		public COMMSerialPort(COMMPortParam commPortParam, bool multiDevice, byte multiID, RichTextBox msg)
 		{
-			this.Init(commSerialPortParam, msg);
-			this.m_COMMIsMultiDevice = isMultiDevice;
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.Init(commPortParam, msg);
+			this.m_COMMMultiDevice = multiDevice;
+			this.m_COMMMultiID = multiID;
 		}
 		
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="argForm"></param>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiDevice"></param>
+		/// <param name="multiID"></param>
 		/// <param name="msg"></param>
-		public COMMSerialPort(Form argForm, COMMPortParam commSerialPortParam, bool isMultiDevice, byte multiDeviceID, RichTextBox msg)
+		public COMMSerialPort(Form argForm, COMMPortParam commPortParam, bool multiDevice, byte multiID, RichTextBox msg)
 		{
 			this.m_COMMForm = argForm;
-			this.Init(commSerialPortParam, msg);
-			this.m_COMMIsMultiDevice = isMultiDevice;
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.Init(commPortParam, msg);
+			this.m_COMMMultiDevice = multiDevice;
+			this.m_COMMMultiID = multiID;
 		}
 		
 		#endregion
@@ -891,15 +891,17 @@ namespace Harry.LabCOMMPort
 			//---判断接收的数据
 			if ((_return == 0) && (taskStep == 2) && (isWork == false) && (cmd.Count > 2))
 			{
+				bool myChildCMD = false;
 				//---数据整理
 				if (this.m_COMMReadData==null)
 				{
-					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize,this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
+					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize,this.m_COMMReadCRC, cmd, ref myChildCMD);
 				}
 				else
 				{
-					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd,ref this.defaultIsChildCMD);
+					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd,ref myChildCMD);
 				}
+				this.m_COMMChildCMD = myChildCMD;
 				//---计算CRC的值
 				if (this.m_COMMReadCRC==USE_CRC.CRC_CHECKSUM)
 				{
@@ -1079,15 +1081,17 @@ namespace Harry.LabCOMMPort
 			//---判断接收的数据
 			if ((_return == 0) && (taskStep == 3) && (isWork == false) && (cmd.Count > 2))
 			{
+				bool myChildCMD = false;
 				//---数据整理
 				if (this.m_COMMReadData == null)
 				{
-					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
+					this.m_COMMReadData = new COMMDataType(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref myChildCMD);
 				}
 				else
 				{
-					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref this.defaultIsChildCMD);
+					this.m_COMMReadData.Init(this.m_COMMReadBufferSize, this.m_COMMReadCRC, cmd, ref myChildCMD);
 				}
+				this.m_COMMChildCMD = myChildCMD;
 				//---计算CRC的值
 				if (this.m_COMMReadCRC == USE_CRC.CRC_CHECKSUM)
 				{
@@ -1145,6 +1149,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int Init()
 		{
+			base.Init();
 			if (this.defaultSerialPort == null)
 			{
 				this.defaultSerialPort = new SerialPort();
@@ -1227,10 +1232,10 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="argName"></param>
-		/// <param name="commSerialPortParam"></param>
+		/// <param name="commPortParam"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
-		public override int Init(COMMPortParam commSerialPortParam, RichTextBox msg = null)
+		public override int Init(COMMPortParam commPortParam, RichTextBox msg = null)
 		{
 			if (this.defaultSerialPort == null)
 			{
@@ -1242,21 +1247,21 @@ namespace Harry.LabCOMMPort
 			}
 
 			//---配置串口参数
-			this.defaultSerialPort.PortName = commSerialPortParam.defaultName;
-			this.defaultSerialPort.BaudRate = int.Parse(commSerialPortParam.defaultBaudRate);
-			this.defaultSerialPort.Parity = this.GetParityBits(commSerialPortParam.defaultParity);
-			this.defaultSerialPort.StopBits = this.GetStopBits(commSerialPortParam.defaultStopBits);
-			this.defaultSerialPort.DataBits = int.Parse(commSerialPortParam.defaultDataBits);
+			this.defaultSerialPort.PortName = commPortParam.defaultName;
+			this.defaultSerialPort.BaudRate = int.Parse(commPortParam.defaultBaudRate);
+			this.defaultSerialPort.Parity = this.GetParityBits(commPortParam.defaultParity);
+			this.defaultSerialPort.StopBits = this.GetStopBits(commPortParam.defaultStopBits);
+			this.defaultSerialPort.DataBits = int.Parse(commPortParam.defaultDataBits);
 
 			if (this.m_COMMParam==null)
 			{
 				this.m_COMMParam = new COMMSerialPortParam();
 			}
 			//---保存串口参数
-			this.m_COMMParam =commSerialPortParam;
+			this.m_COMMParam =commPortParam;
 
 			//---端口名称
-			this.m_COMMName = commSerialPortParam.defaultName;
+			this.m_COMMName = commPortParam.defaultName;
 			//---获取端口序号
 			this.m_COMMIndex = Convert.ToInt16(this.m_COMMName.Replace("COM", ""), 10);
 
@@ -1337,30 +1342,30 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 设置多设备通信
 		/// </summary>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiDevice"></param>
+		/// <param name="multiID"></param>
 		/// <returns></returns>
-		public override void SetMultiDevice(bool isMultiDevice, byte multiDeviceID)
+		public override void SetMultiDevice(bool multiDevice, byte multiID)
 		{
-			this.m_COMMIsMultiDevice = isMultiDevice;
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.m_COMMMultiDevice = multiDevice;
+			this.m_COMMMultiID = multiID;
 		}
 
 		/// <summary>
 		/// 设备从设备的ID信息
 		/// </summary>
-		/// <param name="multiDeviceID"></param>
-		public override void SetMultiDeviceID(byte multiDeviceID)
+		/// <param name="multiID"></param>
+		public override void SetMultiID(byte multiID)
 		{
-			this.m_COMMMultiDeviceID = multiDeviceID;
+			this.m_COMMMultiID = multiID;
 		}
 		/// <summary>
 		/// 清除多设备模式
 		/// </summary>
 		public override void ClearMultiDevice()
 		{
-			this.m_COMMIsMultiDevice = false;
-			this.m_COMMMultiDeviceID = 0;
+			this.m_COMMMultiDevice = false;
+			this.m_COMMMultiID = 0;
 		}
 
 		/// <summary>
@@ -1867,14 +1872,97 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int WriteToDevice(string cmd, RichTextBox msg = null)
+		{
+			int _return = 0;
+			if ((this.defaultSerialPort != null) && (this.defaultSerialPort.IsOpen))
+			{
+				//---等待发送完成
+				while (this.defaultSerialPort.BytesToWrite > 0)
+				{
+					//---响应窗体函数
+					Application.DoEvents();
+				}
+				if (this.m_COMMWriteData==null)
+				{
+					this.m_COMMWriteData = new COMMDataType();
+				}
+				this.m_COMMWriteData.Init();
+				this.m_COMMWriteData.defaultString = cmd;
+				//---发送数据
+				this.defaultSerialPort.Write(cmd);
+				//---发送消息
+				this.m_COMMErrMsg = "数据发送成功\r\n";
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Black, false);
+				}
+			}
+			else
+			{
+				_return = 1;
+				MessageBoxPlus.Show(this.m_COMMForm, "端口初始化失败或则端口为打开！！！", "错误提示");
+			}
+			return _return;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="argName"></param>
 		/// <param name="cmd"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
 		public override int WriteToDevice(string argName, byte cmd, RichTextBox msg = null)
 		{
-			return 1;
+			int _return = 1;
+			if (argName != this.m_COMMName)
+			{
+				//---发送消息
+				this.m_COMMErrMsg = "发送：通信端口不匹配！\r\n";
+				//---消息提示
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Red, false);
+				}
+			}
+			else
+			{
+				_return = this.WriteToDevice(cmd, msg);
+			}
+			return _return;
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int WriteToDevice(string argName, string cmd, RichTextBox msg = null)
+		{
+			int _return = 1;
+			if (argName != this.m_COMMName)
+			{
+				//---发送消息
+				this.m_COMMErrMsg = "发送：通信端口不匹配！\r\n";
+				//---消息提示
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Red, false);
+				}
+			}
+			else
+			{
+				_return = this.WriteToDevice(cmd, msg);
+			}
+			return _return;
+		}
+
 
 		/// <summary>
 		/// 
@@ -1989,7 +2077,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int WriteToDevice(string argName, byte[] cmd, RichTextBox msg = null)
 		{
-			int _return = 0;
+			int _return = 1;
 			if (argName!=this.m_COMMName)
 			{
 				//---发送消息
@@ -2069,19 +2157,98 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int ReadFromDevice(ref byte[] cmd, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;// = 0;
-			if (this.m_COMMReadBufferSize<250)
+			int _return=1;
+			if ((this.defaultSerialPort == null) || (this.defaultSerialPort.PortName != this.m_COMMName) || (this.defaultSerialPort.IsOpen == false))
 			{
-				_return = this.ProcesseReceivedData8BitsLength(timeout, msg);
+				//---发送消息
+				this.m_COMMErrMsg = "接收：通信端口异常！\r\n";
+				//---消息提示
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Red, false);
+				}
 			}
 			else
 			{
-				_return = this.ProcesseReceivedData16BitsLength(timeout, msg);
+				if (this.m_COMMReadBufferSize < 250)
+				{
+					_return = this.ProcesseReceivedData8BitsLength(timeout, msg);
+				}
+				else
+				{
+					_return = this.ProcesseReceivedData16BitsLength(timeout, msg);
+				}
+				if ((this.m_COMMReadData.defaultOriginalByte != null) && (this.m_COMMReadData.defaultOriginalByte.Count > 0))
+				{
+					cmd = new byte[this.m_COMMReadData.defaultOriginalByte.Count];
+					this.m_COMMReadData.defaultOriginalByte.CopyTo(cmd);
+				}
 			}
-			if ((this.m_COMMReadData.defaultOriginalByte!=null)&&(this.m_COMMReadData.defaultOriginalByte.Count>0))
+			return _return;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int ReadFromDevice(ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			int _return = 1;
+			//---时间计数器
+			DateTime startTime = DateTime.Now;
+			//---计算时间
+			TimeSpan endTime = DateTime.Now - startTime;
+			List<string> res = new List<string>();
+			bool isWork = true;
+
+			if ((this.defaultSerialPort == null) || (this.defaultSerialPort.PortName != this.m_COMMName) || (this.defaultSerialPort.IsOpen == false))
 			{
-				cmd = new byte[this.m_COMMReadData.defaultOriginalByte.Count];
-				this.m_COMMReadData.defaultOriginalByte.CopyTo(cmd);
+				//---发送消息
+				this.m_COMMErrMsg = "接收：通信端口异常！\r\n";
+				//---消息提示
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Red, false);
+				}
+			}
+			else
+			{
+				while (isWork)
+				{
+					//---读取数据流
+					if (this.defaultSerialPort.BytesToRead > 0)
+					{
+						res.Add(this.defaultSerialPort.ReadExisting());
+					}
+					else
+					{
+						isWork = false;
+						_return = 0;
+						break;
+					}
+					//---判断是否发生超时错误
+					if (endTime.TotalMilliseconds > timeout)
+					{
+						//---退出while循环
+						isWork = false;
+						this.m_COMMErrMsg = "接收数据发生超市错误!\r\n";
+						_return = 2;
+						break;
+					}
+					Application.DoEvents();
+				}
+				//---判断接收数据的结果
+				if (_return == 0)
+				{
+					cmd = res.ToString();
+				}
+				else
+				{
+					cmd = string.Empty;
+				}
 			}
 			return _return;
 		}
@@ -2094,14 +2261,27 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int ReadFromDevice(int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;// = 0;
-			if (this.m_COMMReadBufferSize < 250)
+			int _return= 1;
+			if ((this.defaultSerialPort == null) || (this.defaultSerialPort.PortName != this.m_COMMName) || (this.defaultSerialPort.IsOpen == false))
 			{
-				_return = this.ProcesseReceivedData8BitsLength(timeout, msg);
+				//---发送消息
+				this.m_COMMErrMsg = "接收：通信端口异常！\r\n";
+				//---消息提示
+				if (msg != null)
+				{
+					RichTextBoxPlus.AppendTextInfoTopWithDataTime(msg, this.m_COMMErrMsg, Color.Red, false);
+				}
 			}
 			else
 			{
-				_return = this.ProcesseReceivedData16BitsLength(timeout, msg);
+				if (this.m_COMMReadBufferSize < 250)
+				{
+					_return = this.ProcesseReceivedData8BitsLength(timeout, msg);
+				}
+				else
+				{
+					_return = this.ProcesseReceivedData16BitsLength(timeout, msg);
+				}
 			}
 			return _return;
 		}
@@ -2173,7 +2353,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;//= 0;
+			int _return=1;
 			_return = this.WriteToDevice(cmd, msg);
 			if (_return==0)
 			{
@@ -2192,7 +2372,26 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(byte[] cmd,int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;//= 0;
+			int _return=1;
+			_return = this.WriteToDevice(cmd, msg);
+			if (_return == 0)
+			{
+				_return = this.ReadFromDevice(timeout, msg);
+			}
+			return _return;
+		}
+
+		/// <summary>
+		/// 发送并读取响应函数
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public override int SendCmdAndReadResponse(string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			int _return = 1;
 			_return = this.WriteToDevice(cmd, msg);
 			if (_return == 0)
 			{
@@ -2212,7 +2411,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(ref byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;//= 0;
+			int _return = 1;
 			_return = this.WriteToDevice(ref cmd, msg);
 			if (_return == 0)
 			{
@@ -2232,7 +2431,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(string argName, byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;// = 0;
+			int _return = 1;
 			_return = this.WriteToDevice(argName,cmd, msg);
 			if (_return == 0)
 			{
@@ -2252,7 +2451,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(string argName,ref byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return; ;// = 0;
+			int _return = 1;
 			_return = this.WriteToDevice(argName,ref cmd, msg);
 			if (_return == 0)
 			{
@@ -2272,7 +2471,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(int argIndex, byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return;//= 0;
+			int _return = 1;
 			_return = this.WriteToDevice(argIndex, cmd, msg);
 			if (_return == 0)
 			{
@@ -2292,7 +2491,7 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public override int SendCmdAndReadResponse(int argIndex, ref byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
 		{
-			int _return; //= 0;
+			int _return = 1;
 			_return = this.WriteToDevice(argIndex, ref cmd, msg);
 			if (_return == 0)
 			{
@@ -2658,14 +2857,14 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="commSerialPortParam"></param>
+		/// <param name="commPortParam"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
-		public override int OpenDevice(COMMPortParam commSerialPortParam, RichTextBox msg = null)
+		public override int OpenDevice(COMMPortParam commPortParam, RichTextBox msg = null)
 		{
 			int _return = 0;
-			if (!Regex.IsMatch(commSerialPortParam.defaultBaudRate, @"^\d+$" )||!Regex.IsMatch(commSerialPortParam.defaultDataBits, @"^\d+$")
-				||(commSerialPortParam.defaultName==null)|| (commSerialPortParam.defaultName == ""))
+			if (!Regex.IsMatch(commPortParam.defaultBaudRate, @"^\d+$" )||!Regex.IsMatch(commPortParam.defaultDataBits, @"^\d+$")
+				||(commPortParam.defaultName==null)|| (commPortParam.defaultName == ""))
 			{
 				_return=1;
 				this.m_COMMErrMsg = "端口参数错误!\r\n";
@@ -2697,13 +2896,13 @@ namespace Harry.LabCOMMPort
 				}
 				else
 				{
-					this.defaultSerialPort.PortName = commSerialPortParam.defaultName;
-					this.defaultSerialPort.BaudRate = int.Parse(commSerialPortParam.defaultBaudRate);
-					this.defaultSerialPort.Parity = this.GetParityBits(commSerialPortParam.defaultParity);
-					this.defaultSerialPort.StopBits = this.GetStopBits(commSerialPortParam.defaultStopBits);
-					this.defaultSerialPort.DataBits = int.Parse(commSerialPortParam.defaultDataBits);
+					this.defaultSerialPort.PortName = commPortParam.defaultName;
+					this.defaultSerialPort.BaudRate = int.Parse(commPortParam.defaultBaudRate);
+					this.defaultSerialPort.Parity = this.GetParityBits(commPortParam.defaultParity);
+					this.defaultSerialPort.StopBits = this.GetStopBits(commPortParam.defaultStopBits);
+					this.defaultSerialPort.DataBits = int.Parse(commPortParam.defaultDataBits);
 					//---端口名称
-					this.m_COMMName = commSerialPortParam.defaultName;
+					this.m_COMMName = commPortParam.defaultName;
 					//---获取端口序号
 					this.m_COMMIndex = Convert.ToInt16(this.m_COMMName.Replace("COM", ""), 10);
 
@@ -2714,7 +2913,7 @@ namespace Harry.LabCOMMPort
 					}
 
 					//---更新端口参数
-					this.m_COMMParam = commSerialPortParam;
+					this.m_COMMParam = commPortParam;
 
 					try
 					{
@@ -3037,15 +3236,15 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 通讯端口同步事件
 		/// </summary>
-		public override EventCOMMSYNC m_OnEventCOMMSync
+		public override EventCOMMSYNC m_OnEventCOMMYNC
 		{
 			get
 			{
-				return base.m_OnEventCOMMSync;
+				return base.m_OnEventCOMMYNC;
 			}
 			set
 			{
-				base.m_OnEventCOMMSync = value;
+				base.m_OnEventCOMMYNC = value;
 			}
 		}
 

@@ -285,12 +285,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCVREFMode(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD,0x01};
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd,ref res);
 				if(this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -312,12 +312,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCVREFMode(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00 };
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -340,12 +340,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCChannel(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x01 };
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -367,12 +367,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCChannel(int childCMD, RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00 };
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				_return = this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -394,12 +394,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCSampleNum(int childCMD,RichTextBox msg=null)
 		{
 			int _return = 0;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD,0x01 };
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				_return =this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -423,12 +423,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_WriteADCSampleNum(int childCMD, int num,RichTextBox msg= null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)childCMD, 0x00,(byte)num };
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)
@@ -453,12 +453,12 @@ namespace Harry.LabMcuProject
 		public virtual int ADC_ReadADCResult(RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				byte[] cmd = new byte[] { 0x55, 0x00, DEFAULT_ADC_CMD_PARENT, (byte)(this.defaultADCVREFMode.Length+this.defaultADCChannel.Length+1)};
 				cmd[1] = (byte)(cmd.Length - 2);
 				byte[] res = null;
-				this.defaultCOMMPort.m_COMMIsChildCMD = true;
+				this.defaultCOMMPort.m_COMMChildCMD = true;
 
 				this.defaultCOMMPort.SendCmdAndReadResponse(cmd, ref res);
 				if (this.defaultCOMMPort.m_COMMReceVerifyPass)

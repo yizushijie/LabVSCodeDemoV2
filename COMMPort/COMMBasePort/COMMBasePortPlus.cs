@@ -364,7 +364,7 @@ namespace Harry.LabCOMMPort
 				}
 
 				//---执行端口同步函数
-				this.defaultCOMM.m_OnEventCOMMSync?.Invoke();
+				this.defaultCOMM.m_OnEventCOMMYNC?.Invoke();
 
 				this.RefreshComboBox(this.comboBox_COMM);
 			}

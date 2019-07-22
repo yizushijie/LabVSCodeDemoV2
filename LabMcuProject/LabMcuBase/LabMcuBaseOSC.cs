@@ -72,7 +72,7 @@ namespace Harry.LabMcuProject
 		public virtual int OSC_ReadOSCResult(RichTextBox msg = null)
 		{
 			int _return = -1;
-			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMIsOpen))
+			if ((this.defaultCOMMPort != null) && (this.defaultCOMMPort.m_COMMConnected))
 			{
 				int readBufferSize = this.defaultCOMMPort.m_COMMReadBufferSize;
 				int writeBufferSize = this.defaultCOMMPort.m_COMMWriteBufferSize;

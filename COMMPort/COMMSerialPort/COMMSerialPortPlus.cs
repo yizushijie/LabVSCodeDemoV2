@@ -473,7 +473,7 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备打开成功!\r\n",
 						Color.Black, false);
 				}
-				this.m_COMM.m_OnEventCOMMSync?.Invoke();
+				this.m_COMM.m_OnEventCOMMYNC?.Invoke();
 
 				this.COMMControl(false);
 
@@ -511,7 +511,7 @@ namespace Harry.LabCOMMPort
 					RichTextBoxPlus.AppendTextInfoTopWithDataTime(this.m_COMMRichTextBox, "设备关闭成功!\r\n",
 						Color.Black, false);
 				}
-				this.m_COMM.m_OnEventCOMMSync?.Invoke();
+				this.m_COMM.m_OnEventCOMMYNC?.Invoke();
 				this.COMMControl(true);
 			}
 		}
@@ -526,7 +526,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		private void AddEventHandler()
 		{
-			//---增加鼠标移动时间
+			//---增加鼠标移动事件
 			this.m_COMMComboBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ComboBoxMouseDown_Click);
 		}
 

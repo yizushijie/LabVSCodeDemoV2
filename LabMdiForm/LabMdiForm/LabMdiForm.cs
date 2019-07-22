@@ -13,7 +13,10 @@ namespace Harry.LabMainForm
 
 		#region 属性定义
 
-		//private string 
+		/// <summary>
+		/// 控件自适应大小
+		/// </summary>
+		private ControlAutoSize defaultSutoSize = null;
 
 		#endregion
 
@@ -48,11 +51,13 @@ namespace Harry.LabMainForm
         /// </summary>
         private void StartUpInit()
         {
-            //---事件注册
+            //---窗体关闭事件
             this.FormClosing += new FormClosingEventHandler(this.MdiForm_FormClosing);
+			//---窗体大小发生改变事件
+			this.SizeChanged += new EventHandler(this.Form_SizeChanged);
 
-            //---退出操作
-            this.ToolStripMenuItem_Exit.Click += new EventHandler(this.ToolStripMenuItem_Click);
+			//---退出操作
+			this.ToolStripMenuItem_Exit.Click += new EventHandler(this.ToolStripMenuItem_Click);
 
 			//---滴答定时
 			this.timer_MdiFormSysTime.Tick += new EventHandler(this.Timer_Tick);
@@ -61,6 +66,8 @@ namespace Harry.LabMainForm
 			this.ToolStripMenuItem_Calc.Click += new EventHandler(this.ToolStripMenuItem_Click);
 			//---调用并嵌套记事本应用
 			this.ToolStripMenuItem_TXT.Click += new EventHandler(this.ToolStripMenuItem_Click);
+
+
 
 		}
 
@@ -271,6 +278,23 @@ namespace Harry.LabMainForm
 			this.Controls.Clear();
 			InitializeComponent();
 			this.StartUpInit();
+		}
+
+		#endregion
+
+		#region 私有函数
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Form_SizeChanged(object sender, EventArgs e)
+		{
+			if (this.defaultSutoSize != null)
+			{
+				this.defaultSutoSize.AutoResize(this);
+			}
 		}
 
 		#endregion

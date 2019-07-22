@@ -18,8 +18,14 @@ namespace Harry.LabCOMMPort
 
 		#region 变量定义
 
+		/// <summary>
+		/// 定时器
+		/// </summary>
 		private System.Windows.Forms.Timer defaultTimer = new System.Windows.Forms.Timer();
 
+		/// <summary>
+		/// 定时计数器
+		/// </summary>
 		private int defaultTimerCount = 0;
 
 		#endregion

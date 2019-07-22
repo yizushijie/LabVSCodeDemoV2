@@ -39,7 +39,7 @@ namespace Harry.LabUserControlPlus
 			   //rtBox.Invoke((EventHandler)
                          (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 if ((rtBox.TextLength >= 0))
 							 {
 								 rtBox.SelectionStart = rtBox.TextLength;
 								 rtBox.SelectionLength = 0;
@@ -53,7 +53,7 @@ namespace Harry.LabUserControlPlus
             }
             else
             {
-				if ((rtBox.Text!="")||(rtBox.Text!=string.Empty))
+				if ((rtBox.TextLength >= 0))
 				{
 					rtBox.SelectionStart = rtBox.TextLength;
 					rtBox.SelectionLength = 0;
@@ -92,7 +92,7 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 if ((rtBox.TextLength >= 0))
 							 {
 								 rtBox.SelectionStart = rtBox.TextLength;
 								 rtBox.SelectionLength = 0;
@@ -110,7 +110,7 @@ namespace Harry.LabUserControlPlus
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				if ((rtBox.TextLength >= 0))
 				{
 					rtBox.SelectionStart = rtBox.TextLength;
 					rtBox.SelectionLength = 0;
@@ -154,7 +154,7 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 if ((rtBox.TextLength >= 0))
 							 {
 								 temp = rtBox.Text;
 								 rtBox.Clear();
@@ -178,7 +178,7 @@ namespace Harry.LabUserControlPlus
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				if ((rtBox.TextLength >= 0))
 				{
 					temp = rtBox.Text;
 					rtBox.Clear();
@@ -228,7 +228,7 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 if ((rtBox.TextLength >= 0))
 							 {
 								 rtBox.SelectionStart = rtBox.TextLength;
 								 rtBox.SelectionLength = 0;
@@ -247,7 +247,7 @@ namespace Harry.LabUserControlPlus
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				if ((rtBox.TextLength >= 0))
 				{
 					rtBox.SelectionStart = rtBox.TextLength;
 					rtBox.SelectionLength = 0;
@@ -291,7 +291,7 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+							 if ((rtBox.TextLength >= 0))
 							 {
 								 rtBox.SelectionStart = rtBox.TextLength;
 								 rtBox.SelectionLength = 0;
@@ -310,7 +310,7 @@ namespace Harry.LabUserControlPlus
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
+				if((rtBox.TextLength >= 0))
 				{
 					rtBox.SelectionStart = rtBox.TextLength;
 					rtBox.SelectionLength = 0;
@@ -352,37 +352,31 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
-							 {
-								 temp = rtBox.Text;
-								 rtBox.Clear();
-								 str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
-								 AppendTextColorFull(rtBox, str, textColor, newLine);
-								 rtBox.AppendText(temp);
+							 temp = rtBox.Text;
+							 rtBox.Clear();
+							 str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
+							 AppendTextColorFull(rtBox, str, textColor, newLine);
+							 rtBox.AppendText(temp);
 
-								 //指向顶部
-								 rtBox.SelectionStart = 0;
-								 rtBox.ScrollToCaret();
-								 rtBox.Focus();
-							 }
-                         }));
+							 //指向顶部
+							 rtBox.SelectionStart = 0;
+							 rtBox.ScrollToCaret();
+							 rtBox.Focus();
+						 }));
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
-				{
-					temp = rtBox.Text;
-					rtBox.Clear();
-					str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
-					AppendTextColorFull(rtBox, str, textColor, newLine);
-					rtBox.AppendText(temp);
+				temp = rtBox.Text;
+				rtBox.Clear();
+				str = string.Format("{0} {1} {2}", System.DateTime.Now.ToString(), "：", text);
+				AppendTextColorFull(rtBox, str, textColor, newLine);
+				rtBox.AppendText(temp);
 
-					//指向顶部
-					rtBox.SelectionStart = 0;
-					rtBox.ScrollToCaret();
-					rtBox.Focus();
-				}
-            }
+				//指向顶部
+				rtBox.SelectionStart = 0;
+				rtBox.ScrollToCaret();
+				rtBox.Focus();
+			}
         }
 
         /// <summary>
@@ -409,35 +403,29 @@ namespace Harry.LabUserControlPlus
 						 //rtBox.Invoke((EventHandler)
 						 (delegate
                          {
-							 if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
-							 {
-								 temp = rtBox.Text;
-								 rtBox.Clear();
-								 AppendTextColorFull(rtBox, text, textColor, newLine);
-								 rtBox.AppendText(temp);
+							 temp = rtBox.Text;
+							 rtBox.Clear();
+							 AppendTextColorFull(rtBox, text, textColor, newLine);
+							 rtBox.AppendText(temp);
 
-								 //指向顶部
-								 rtBox.SelectionStart = 0;
-								 rtBox.ScrollToCaret();
-								 rtBox.Focus();
-							 }
-                         }));
+							 //指向顶部
+							 rtBox.SelectionStart = 0;
+							 rtBox.ScrollToCaret();
+							 rtBox.Focus();
+						 }));
             }
             else
             {
-				if ((rtBox.Text != "") || (rtBox.Text != string.Empty))
-				{
-					temp = rtBox.Text;
-					rtBox.Clear();
-					AppendTextColorFull(rtBox, text, textColor, newLine);
-					rtBox.AppendText(temp);
+				temp = rtBox.Text;
+				rtBox.Clear();
+				AppendTextColorFull(rtBox, text, textColor, newLine);
+				rtBox.AppendText(temp);
 
-					//指向顶部
-					rtBox.SelectionStart = 0;
-					rtBox.ScrollToCaret();
-					rtBox.Focus();
-				}
-            }
+				//指向顶部
+				rtBox.SelectionStart = 0;
+				rtBox.ScrollToCaret();
+				rtBox.Focus();
+			}
         }
 
         /// <summary>

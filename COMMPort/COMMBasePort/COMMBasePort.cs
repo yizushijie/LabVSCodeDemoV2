@@ -112,12 +112,12 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 多设备通信是否使能
 		/// </summary>
-		private bool defaultIsMultiDevice = false;
+		private bool defaultMultiDevice = false;
 
 		/// <summary>
 		/// 多设备通讯过程中的设备id号
 		/// </summary>
-		private byte ddefaultMultiDeviceID = 0;
+		private byte ddefaultMultiID = 0;
 
 		/// <summary>
 		/// 消息显示窗口
@@ -137,7 +137,17 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 是否主命令加子命令结构
 		/// </summary>
-		public bool defaultIsChildCMD = false;
+		private bool defaultChildCMD = false;
+
+		/// <summary>
+		/// 心跳检测是否运行
+		/// </summary>
+		private bool defaultHeartBeatRun = false;
+
+		/// <summary>
+		/// 定时器,用于心跳检测
+		/// </summary>
+		private System.Windows.Forms.Timer defaultTimer = new System.Windows.Forms.Timer();
 
 		#endregion
 
@@ -360,30 +370,30 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 多设备通信是否使能
 		/// </summary>
-		public virtual bool m_COMMIsMultiDevice
+		public virtual bool m_COMMMultiDevice
 		{
 			get
 			{
-				return this.defaultIsMultiDevice;
+				return this.defaultMultiDevice;
 			}
 			set
 			{
-				this.defaultIsMultiDevice = value;
+				this.defaultMultiDevice = value;
 			}
 		}
 
 		/// <summary>
 		/// 多设备通讯过程中的设备id号
 		/// </summary>
-		public virtual byte m_COMMMultiDeviceID
+		public virtual byte m_COMMMultiID
 		{
 			get
 			{
-				return this.ddefaultMultiDeviceID;
+				return this.ddefaultMultiID;
 			}
 			set
 			{
-				this.ddefaultMultiDeviceID = value;
+				this.ddefaultMultiID = value;
 			}
 		}
 
@@ -447,15 +457,15 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 复合命令的属性为读写
 		/// </summary>
-		public virtual bool m_COMMIsChildCMD
+		public virtual bool m_COMMChildCMD
 		{
 			get
 			{
-				return this.defaultIsChildCMD;
+				return this.defaultChildCMD;
 			}
 			set
 			{
-				this.defaultIsChildCMD = value;
+				this.defaultChildCMD = value;
 			}
 		}
 
@@ -473,11 +483,26 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 通讯端口状态是否可用，true---可用，false---不可用
 		/// </summary>
-		public virtual bool m_COMMIsOpen
+		public virtual bool m_COMMConnected
 		{
 			get
 			{
 				return false;
+			}
+		}
+
+		/// <summary>
+		/// 心跳检测的周期，时间单位是ms
+		/// </summary>
+		public virtual int m_HeartBeatRunCycle
+		{
+			get
+			{
+				return this.defaultTimer.Interval;
+			}
+			set
+			{
+				this.defaultTimer.Interval = value;
 			}
 		}
 
@@ -490,7 +515,7 @@ namespace Harry.LabCOMMPort
 		/// </summary>
 		public COMMBasePort()
 		{
-
+			this.Init();
 		}
 
 		/// <summary>
@@ -565,7 +590,11 @@ namespace Harry.LabCOMMPort
 		/// <returns></returns>
 		public virtual int Init()
 		{
-			return 1;
+			this.defaultTimer.Enabled = true;
+			this.defaultTimer.Interval = 1000;
+			this.defaultTimer.Tick += new EventHandler(this.Timer_Tick);
+
+			return 0;
 		}
 
 		/// <summary>
@@ -604,10 +633,10 @@ namespace Harry.LabCOMMPort
 		/// 
 		/// </summary>
 		/// <param name="argName"></param>
-		/// <param name="commSerialPortParam"></param>
+		/// <param name="commPortParam"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
-		public virtual int Init(COMMPortParam commSerialPortParam, RichTextBox msg = null)
+		public virtual int Init(COMMPortParam commPortParam, RichTextBox msg = null)
 		{
 			return 1;
 		}
@@ -636,10 +665,10 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 设置多设备通信
 		/// </summary>
-		/// <param name="isMultiDevice"></param>
-		/// <param name="multiDeviceID"></param>
+		/// <param name="multiDevice"></param>
+		/// <param name="multiID"></param>
 		/// <returns></returns>
-		public virtual void SetMultiDevice(bool isMultiDevice, byte multiDeviceID)
+		public virtual void SetMultiDevice(bool multiDevice, byte multiID)
 		{
 
 		}
@@ -647,8 +676,8 @@ namespace Harry.LabCOMMPort
 		/// <summary>
 		/// 设备从设备的ID
 		/// </summary>
-		/// <param name="multiDeviceID"></param>
-		public virtual void SetMultiDeviceID(byte multiDeviceID)
+		/// <param name="multiID"></param>
+		public virtual void SetMultiID(byte multiID)
 		{
 
 		}
@@ -851,6 +880,253 @@ namespace Harry.LabCOMMPort
 			return 1;
 		}
 
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(ref string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(int argIndex, string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(string argName, string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(int argIndex, ref string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int WriteToDevice(string argName, ref string cmd, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(byte cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(cmd,msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(int argIndex, byte cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argIndex,cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string argName, byte cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argName,cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(ref byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(ref cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(int argIndex, byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argIndex,cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string argName, byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argName, cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(int argIndex, ref byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argIndex, ref cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string argName, ref byte[] cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argName, ref cmd, msg);
+		}
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice( cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(ref string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(ref cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(int argIndex, string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argIndex,cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string argName, string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argName, cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(int argIndex, ref string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argIndex,ref cmd, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmd(string argName, ref string cmd, RichTextBox msg = null)
+		{
+			return this.WriteToDevice(argName,ref cmd, msg);
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -908,7 +1184,145 @@ namespace Harry.LabCOMMPort
 		/// <param name="timeout"></param>
 		/// <param name="msg"></param>
 		/// <returns></returns>
+		public virtual int ReadFromDevice(ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadFromDevice(int argIndex, ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadFromDevice(string argName, ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(ref byte[] cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(ref cmd,timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(int argIndex, ref byte[] cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(argIndex,ref cmd, timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(string argName, ref byte[] cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(argName, ref cmd, timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(ref cmd, timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argIndex"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(int argIndex, ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(argIndex, ref cmd, timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int ReadResponse(string argName, ref string cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return this.ReadFromDevice(argName, ref cmd, timeout, msg);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
 		public virtual int SendCmdAndReadResponse(byte[] cmd, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(string cmd, int timeout = 200, RichTextBox msg = null)
 		{
 			return 1;
 		}
@@ -991,6 +1405,88 @@ namespace Harry.LabCOMMPort
 		/// <param name="msg"></param>
 		/// <returns></returns>
 		public virtual int SendCmdAndReadResponse(int argIndex, ref byte[] cmd, ref byte[] res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(ref string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(string argName, string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(string argName, ref string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(int argIndex, string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
+		{
+			return 1;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="argName"></param>
+		/// <param name="cmd"></param>
+		/// <param name="res"></param>
+		/// <param name="timeout"></param>
+		/// <param name="msg"></param>
+		/// <returns></returns>
+		public virtual int SendCmdAndReadResponse(int argIndex, ref string cmd, ref string res, int timeout = 200, RichTextBox msg = null)
 		{
 			return 1;
 		}
@@ -1113,17 +1609,52 @@ namespace Harry.LabCOMMPort
 		#region 事件定义
 
 
+
+
 		/// <summary>
 		/// 通讯委托事件
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		public delegate void EventCOMM(object sender, EventArgs e);
-
+		
 		/// <summary>
 		/// 通讯端口同步委托事件
 		/// </summary>
 		public delegate void EventCOMMSYNC();
+
+		/// <summary>
+		/// 通讯心跳检测事件
+		/// </summary>
+		public delegate void EventCOMMHeartBeatRun();
+
+		/// <summary>
+		/// 同步事件
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		[Description("心跳检测事件事件"), Category("自定义事件")]
+		private event EventCOMMHeartBeatRun OnEventCOMMHeartBeatRun = null;
+
+		/// <summary>
+		/// 端口同步事件
+		/// </summary>
+		public virtual EventCOMMHeartBeatRun m_OnEventCOMMHeartBeatRun
+		{
+			get
+			{
+				return this.OnEventCOMMHeartBeatRun;
+			}
+			set
+			{
+				//---判断事件是否为空，避免多次进入
+				if (this.OnEventCOMMHeartBeatRun != null)
+				{
+					this.OnEventCOMMHeartBeatRun = null;
+				}
+				this.OnEventCOMMHeartBeatRun = value;
+			}
+		}
 
 		/// <summary>
 		/// 同步事件
@@ -1131,25 +1662,25 @@ namespace Harry.LabCOMMPort
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		[Description("通讯端口同步事件"), Category("自定义事件")]
-		private event EventCOMMSYNC OnEventCOMMSync = null;
+		private event EventCOMMSYNC OnEventCOMMSYNC = null;
 
 		/// <summary>
 		/// 端口同步事件
 		/// </summary>
-		public virtual EventCOMMSYNC m_OnEventCOMMSync
+		public virtual EventCOMMSYNC m_OnEventCOMMYNC
 		{
 			get
 			{
-				return this.OnEventCOMMSync;
+				return this.OnEventCOMMSYNC;
 			}
 			set
 			{
 				//---判断事件是否为空，避免多次进入
-				if (this.OnEventCOMMSync != null)
+				if (this.OnEventCOMMSYNC != null)
 				{
-					this.OnEventCOMMSync = null;
+					this.OnEventCOMMSYNC = null;
 				}
-				this.OnEventCOMMSync = value;
+				this.OnEventCOMMSYNC = value;
 			}
 		}
 
@@ -1218,6 +1749,22 @@ namespace Harry.LabCOMMPort
 		{
 
 		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		public virtual void Timer_Tick(object sender, EventArgs e)
+		{
+			//---使能心跳检测且工作在空闲状态
+			if ((this.defaultHeartBeatRun==true)&&(this.defaultSTATE== USE_STATE.IDLE))
+			{
+				//---执行心跳检测事件
+				this.OnEventCOMMHeartBeatRun?.Invoke();
+			}
+		}
+
 		#endregion
 	}
 

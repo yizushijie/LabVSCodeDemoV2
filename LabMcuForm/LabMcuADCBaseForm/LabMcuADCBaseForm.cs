@@ -50,7 +50,7 @@ namespace Harry.LabMcuForm
 		private bool defaultSTOP = false;
 
 		/// <summary>
-		/// 
+		/// 控件自适应大小
 		/// </summary>
 		private ControlAutoSize defaultSutoSize = null;
 
@@ -476,7 +476,7 @@ namespace Harry.LabMcuForm
 			this.commSerialPortPlus_Device.m_COMMBaudRate = 9600;
 
 			//---注册端口同步事件
-			this.defaultDeviceCOMMPort.m_OnEventCOMMSync = new COMMBasePort.EventCOMMSYNC(this.SYNCCOMMPortEvent);
+			this.defaultDeviceCOMMPort.m_OnEventCOMMYNC = new COMMBasePort.EventCOMMSYNC(this.SYNCCOMMPortEvent);
 
 			this.commSerialPortPlus_Device.Init(this, this.defaultDeviceCOMMPort, this.richTextBoxEx_Msg, true, true);
 			this.GPD3303Plus_DigitalPower.Init(this, this.defaultDigitalPowerCOMMPort, this.richTextBoxEx_Msg, true, true);

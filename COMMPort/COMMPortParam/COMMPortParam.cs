@@ -55,6 +55,15 @@ namespace Harry.LabCOMMPort
 
 		#endregion
 
+		#region 公共参数定义
+
+		/// <summary>
+		/// 超时时间
+		/// </summary>
+		public int defaultTimeOut = 0;
+
+		#endregion
+
 		#endregion
 
 		#region 属性定义

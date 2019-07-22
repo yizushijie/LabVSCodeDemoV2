@@ -46,6 +46,11 @@ namespace Harry.LabCOMMPort
 		/// 字节数据命令
 		/// </summary>
 		public List<byte> defaultDataByte = null;
+
+		/// <summary>
+		/// 字符串数据
+		/// </summary>
+		public string defaultString = null;
 		
 		/// <summary>
 		/// 主命令
@@ -401,9 +406,24 @@ namespace Harry.LabCOMMPort
 			this.defaultCRCVal = 0;
 			this.defaultCRCMode = USE_CRC.CRC_NONE;
 			this.defaultOriginalLength = 0;
-			this.defaultOriginalByte = null;
-			this.defaultRealityByte = null;
-
+			this.defaultRealityLength = 0;
+			if (this.defaultOriginalByte!=null)
+			{
+				this.defaultOriginalByte.Clear();
+			}
+			if(this.defaultRealityByte != null)
+			{
+				this.defaultRealityByte.Clear();
+			}
+			if(this.defaultDataByte!=null)
+			{
+				this.defaultDataByte.Clear();
+			}
+			this.defaultString = null;
+			this.defaultParentCMD = 0;
+			this.defaultChildCMD = 0;
+			this.defaultResultFlag = 0;
+			this.defaultRealityIndex = 0;
 			return 0;
 		}
 
